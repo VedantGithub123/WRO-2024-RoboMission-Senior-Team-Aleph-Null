@@ -21,21 +21,25 @@
 #define WHITE 6									// Defines the value representing each color
 #define BROWN 7                                 // Defines the value representing each color
 
-const int black1 = 8; 							// Globally defines the black value for the color sensor in port 1
-const int white1 = 52; 							// Globally defines the white value for the color sensor in port 1
-const int black2 = 7; 							// Globally defines the black value for the color sensor in port 2
-const int white2 = 45; 							// Globally defines the white value for the color sensor in port 2
-const int black3 = 7; 							// Globally defines the black value for the color sensor in port 3
-const int white3 = 44; 							// Globally defines the white value for the color sensor in port 3
-const int black4 = 0; 							// Globally defines the black value for the color sensor in port 4
-const int white4 = 100; 						// Globally defines the white value for the color sensor in port 4
+const float black1 = 9; 						// Globally defines the black value for the color sensor in port 1
+const float white1 = 80; 						// Globally defines the white value for the color sensor in port 1
+const float mid1 = (black1+white1)/2.0;         // Globally defines the midpoint for the color sensor in port 1
+const float black2 = 8; 						// Globally defines the black value for the color sensor in port 2
+const float white2 = 68; 						// Globally defines the white value for the color sensor in port 2
+const float mid2 = (black2+white2)/2.0;         // Globally defines the midpoint for the color sensor in port 1
+const float black3 = 7; 						// Globally defines the black value for the color sensor in port 3
+const float white3 = 60; 						// Globally defines the white value for the color sensor in port 3
+const float mid3 = (black3+white3)/2.0;         // Globally defines the midpoint for the color sensor in port 1
+const float black4 = 0; 						// Globally defines the black value for the color sensor in port 4
+const float white4 = 100; 						// Globally defines the white value for the color sensor in port 4
+const float mid4 = (black4+white4)/2.0;         // Globally defines the midpoint for the color sensor in port 1
 
-const float wheelDiam = 6.3;					// Defines the diameter of the wheel for absolute positioning
-const float wheelDist = 16.8;					// Defines the distance between the wheels for the angle measurement
+const float wheelDiam = 6.24;					// Defines the diameter of the wheel for absolute positioning
+const float wheelDist = 17.48;					// Defines the distance between the wheels for the angle measurement
 
 const int LEFT = 0;								// Defines the left port for the encoder functions
 const int RIGHT = 1;							// Defines the right port for the encoder functions
-const int LIFT = 2;                            // Defines a value for
+const int LIFT = 2;                             // Defines a value for
 const int CLAW = 3;
 
 float relativeBaseLeft = 0;						// Defines the baseline for relative movement left motor
@@ -46,6 +50,8 @@ float relativeBaseA = 0;                        // Defines the baseline for rela
 float relativeBaseD = 0;                        // Defines the baseline for relative movement port d
 // No baseline for true movement for odometry since that is the built-in baseline
 
+
+// Odometry Variables 
 float xPos = 0;									// Defines the x position of the robot in centimeters
 float yPos = 0;									// Defines the y position of the robot in centimeters
 float angle = 0;								// Defines the angle of the robot in degrees

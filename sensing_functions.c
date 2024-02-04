@@ -1,22 +1,22 @@
 float getReflection(int portNumber)
-{ // Function to get color reflection by sensor
+{ // Function to get calibrated reflection by sensor
 	switch(portNumber)
 	{
 		case 1:
-			return 100*(getColorReflected(CS1)-black1)/white1;
+			return 100.0*(getColorReflected(CS1)-black1)/(white1-black1);
 		case 2:
-			return 100*(getColorReflected(CS2)-black2)/white2;
+			return 100.0*(getColorReflected(CS2)-black2)/(white2-black2);
 		case 3:
-			return 100*(getColorReflected(CS3)-black3)/white3;
+			return 100.0*(getColorReflected(CS3)-black3)/(white3-black3);
 		case 4:
-			return 100*(getColorReflected(CS4)-black4)/white4;
+			return 100.0*(getColorReflected(CS4)-black4)/(white4-black4);
 		default:
 			return 0;
 	}
 }
 
 float getTrueReflection(int portNumber)
-{
+{ // Function to get the true reflection from each sensor
     switch(portNumber)
 	{
 		case 1:
@@ -33,7 +33,7 @@ float getTrueReflection(int portNumber)
 }
 
 int getTrueColor(int portNumber)
-{
+{ // Function to get the true color from each sensor
 	switch(portNumber)
 	{
 		case 1:
@@ -50,12 +50,12 @@ int getTrueColor(int portNumber)
 }
 
 int getColor(int portNumber)
-{
+{ // Function to get the color based on our own criteria
 	return getTrueColor(portNumber);
 }
 
 float getAmbient(int portNumber)
-{
+{ // Function to get the ambient value of each sensor
 	switch(portNumber)
 	{
 		case 1:
@@ -72,7 +72,7 @@ float getAmbient(int portNumber)
 }
 
 float getHue(int portNumber)
-{
+{ // Function to get the hue value from each sensor
 	switch(portNumber)
 	{
 		case 1:
@@ -89,7 +89,7 @@ float getHue(int portNumber)
 }
 
 float getSaturation(int portNumber)
-{
+{ // Function to get the saturation value of each sensor
 	switch(portNumber)
 	{
 		case 1:
@@ -106,7 +106,7 @@ float getSaturation(int portNumber)
 }
 
 float getRed(int portNumber)
-{
+{ // Function to get the red value from each sensor
 	int red;
 	int blue;
 	int green;
@@ -130,7 +130,7 @@ float getRed(int portNumber)
 }
 
 float getGreen(int portNumber)
-{
+{ // Function to get the green value from each sensor
 	int red;
 	int blue;
 	int green;
@@ -154,7 +154,7 @@ float getGreen(int portNumber)
 }
 
 float getBlue(int portNumber)
-{
+{ // Function to get the blue value from each sensor
 	int red;
 	int blue;
 	int green;
@@ -172,34 +172,6 @@ float getBlue(int portNumber)
 		case 4:
 			getColorRGB(CS4, red, green, blue);
 			return blue;
-		default:
-			return 0;
-	}
-}
-
-const string getName[8] = {
-	"NONE",
-	"BLACK",
-	"BLUE",
-	"GREEN",
-	"YELLOW",
-	"RED",
-	"WHITE",
-	"BROWN"
-};
-
-float getReflFromTrue(int refl, int portNumber)
-{
-	switch(portNumber)
-	{
-		case 1:
-			return 100*(refl-black1)/white1;
-		case 2:
-			return 100*(refl-black2)/white2;
-		case 3:
-			return 100*(refl-black3)/white3;
-		case 4:
-			return 100*(refl-black4)/white4;
 		default:
 			return 0;
 	}

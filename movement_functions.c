@@ -209,8 +209,8 @@ void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distanc
         rightDegrees = rightMaxSpeed/leftMaxSpeed*leftDegrees;
         leftMaxSpeed = fabs(leftMaxSpeed);
         rightMaxSpeed = fabs(rightMaxSpeed);
-        leftMinSpeed = max2(15, fabs(minSpeed));
-        rightMinSpeed = max2(15, fabs(rightMaxSpeed/leftMaxSpeed*leftMinSpeed));
+        leftMinSpeed = max2(5, fabs(minSpeed));
+        rightMinSpeed = max2(5, fabs(rightMaxSpeed/leftMaxSpeed*leftMinSpeed));
         leftAcc = fabs(acc);
         rightAcc = fabs(rightMaxSpeed/leftMaxSpeed*leftAcc);
     }
@@ -220,8 +220,8 @@ void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distanc
         leftDegrees = leftMaxSpeed/rightMaxSpeed*rightDegrees;
         leftMaxSpeed = fabs(leftMaxSpeed);
         rightMaxSpeed = fabs(rightMaxSpeed);
-        rightMinSpeed = max2(15, fabs(minSpeed));
-        leftMinSpeed = max2(15, fabs(leftMaxSpeed/rightMaxSpeed*rightMinSpeed));
+        rightMinSpeed = max2(5, fabs(minSpeed));
+        leftMinSpeed = max2(5, fabs(leftMaxSpeed/rightMaxSpeed*rightMinSpeed));
         rightAcc = fabs(acc);
         leftAcc = fabs(leftMaxSpeed/rightMaxSpeed*rightAcc);
     }
@@ -265,12 +265,12 @@ void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distanc
         {
             if (fabs(leftMaxSpeed)>fabs(rightMaxSpeed))
             {
-                leftSpeed = motionProfiling(leftMinSpeed, leftMaxSpeed, leftAcc, leftDegrees, time1(T2));
+                leftSpeed = motionProfiling(leftMinSpeed, leftMaxSpeed, leftAcc, leftDegrees, time1(T2)*sgn(leftDegrees));
                 rightSpeed = leftSpeed*rightDegrees/leftDegrees;
             }
             else
             {
-                rightSpeed = motionProfiling(rightMinSpeed, rightMaxSpeed, rightAcc, rightDegrees, time1(T2));
+                rightSpeed = motionProfiling(rightMinSpeed, rightMaxSpeed, rightAcc, rightDegrees, time1(T2)*sgn(rightDegrees));
                 leftSpeed = rightSpeed*leftDegrees/rightDegrees;
             }
         }
@@ -321,7 +321,6 @@ void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distanc
         prevTime = time1(T2);
         setSpeed(leftSpeed, rightSpeed);
         sleep(1);
-        displayCenteredBigTextLine(4, "%0.2f  %0.2f \n",getRelDegrees(LEFT), getRelDegrees(RIGHT));
     }
 
     setSpeed(0, 0);
@@ -340,6 +339,7 @@ void moveAbs(float maxSpeed, float minSpeed, float lDeg, float rDeg, float acc, 
     float lSpeed;
     float rSpeed;
     float target = (fabs(lDeg)>fabs(rDeg)) ? lDeg : rDeg;
+    if (target == 0){return;}
     if (fabs(lDeg)>fabs(rDeg))
     {
         lSpeed = fabs(maxSpeed)*sgn(lDeg);
@@ -356,6 +356,8 @@ void moveAbs(float maxSpeed, float minSpeed, float lDeg, float rDeg, float acc, 
 // Moves the drivetrain to a certain sensing
 void moveSense(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float targetRefl, float acc, float turnkP, float turnkD, int port, int state)
 {
+    acc *= 0.002;
+
     // Sets all the variables to the right values and signs
     float leftDegrees = 0;
     float rightDegrees = 0;
@@ -426,12 +428,12 @@ void moveSense(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float ta
 
         if (fabs(leftMaxSpeed)>fabs(rightMaxSpeed))
         {
-            leftSpeed = motionProfiling(leftMinSpeed, leftMaxSpeed, leftAcc, leftDegrees, time1(T2));
+            leftSpeed = motionProfiling(leftMinSpeed, leftMaxSpeed, leftAcc, leftDegrees, time1(T2)*sgn(leftDegrees));
             rightSpeed = leftSpeed*rightDegrees/leftDegrees;
         }
         else
         {
-            rightSpeed = motionProfiling(rightMinSpeed, rightMaxSpeed, rightAcc, rightDegrees, time1(T2));
+            rightSpeed = motionProfiling(rightMinSpeed, rightMaxSpeed, rightAcc, rightDegrees, time1(T2)*sgn(rightDegrees));
             leftSpeed = rightSpeed*leftDegrees/rightDegrees;
         }
 
@@ -447,17 +449,21 @@ void moveSense(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float ta
         {
             turnErr = -1.0*fabs(turnErr);
         }
+        if (sgn(leftDegrees)!=sgn(rightDegrees))
+        {
+            turnErr*=-1.0;
+        }
 
         // PD Implementation
         steer = turnErr*turnkP+(turnErr-prevTurnErr)/(time1(T2)-prevTime)*turnkD;
 
         if (steer > 0)
         {
-            leftSpeed -= ((sgn(leftDegrees)!=0) ? sgn(leftDegrees) : -1*sgn(leftDegrees))*fabs(steer);
+            leftSpeed -= ((sgn(leftDegrees)!=0) ? sgn(leftDegrees) : 0)*fabs(steer);
         }
         else
         {
-            rightSpeed -= ((sgn(rightDegrees)!=0) ? sgn(rightDegrees) : -1*sgn(rightDegrees))*fabs(steer);
+            rightSpeed -= ((sgn(rightDegrees)!=0) ? sgn(rightDegrees) : 0)*fabs(steer);
         }
 
         prevTurnErr = turnErr;
@@ -472,13 +478,19 @@ void moveSense(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float ta
 // Function to keep default parameters in the move function
 void moveSimple(float leftMaxSpeed, float rightMaxSpeed, float distance, int state)
 {
-    move(leftMaxSpeed, rightMaxSpeed, 10, distance, 0.3, 3, 0, state);
+    move(leftMaxSpeed, rightMaxSpeed, 8, distance, 0.3, 2, 10, state);
 }
 
-// Function to keep default parameters in the maveAbs function
+// Function to keep default parameters in the moveAbs function
 void moreAbsSimple(float maxSpeed, float lDeg, float rDeg, int state)
 {
-    moveAbs(maxSpeed, 10, lDeg, rDeg, 0.3, 3, 0, state);
+    moveAbs(maxSpeed, 10, lDeg, rDeg, 0.3, 2, 10, state);
+}
+
+// Function to keep default parameters in the moveSense function
+void moveSenseSimple(float leftMaxSpeed, float rightMaxSpeed, float targetRefl, int port, int state)
+{
+    moveSense(leftMaxSpeed, rightMaxSpeed, 15, targetRefl, 0.3, 2, 10, port, state);
 }
 
 // Function to turn with 2 motors
@@ -512,7 +524,7 @@ void lineFollow(float maxSpeed, float minSpeed, float distance, float midpoint, 
     }
 
     maxSpeed = fabs(maxSpeed);
-    minSpeed = fabs(minSpeed);
+    minSpeed = max2(5, (minSpeed));
     distance = fabs(distance);
     acc = fabs(acc);
     kD = fabs(kD)*sgn(kP);
@@ -558,7 +570,7 @@ void lineFollow(float maxSpeed, float minSpeed, float distance, float midpoint, 
 
         err = getReflection(port)-midpoint;
         steer = err*kP+(err-prevErr)/(time1(T2)-prevTime)*kD;
-
+        // steer*=speed/100.0;
         prevErr = err;
         prevTime = time1(T2);
         setSpeed(speed+steer, speed-steer);
@@ -568,10 +580,10 @@ void lineFollow(float maxSpeed, float minSpeed, float distance, float midpoint, 
     setSpeed(0, 0);
 }
 
-// Function to line follow with one sensore with default parameters
-void lineFollowSimple(float maxSpeed, float distance, float midpoint, int port, int state)
+// Function to line follow with one sensor with default parameters
+void lineFollowSimple(float maxSpeed, float distance, float midpoint, float side, int port, int state)
 {
-    lineFollow(maxSpeed, 5, distance, midpoint, 0.1, 1, 1, port, state);
+    lineFollow(maxSpeed, 10, distance, midpoint, 0.02, side*0.4, side*25, port, state);
 }
 
 // Function to line follow with one sensor until another sensor sees something
@@ -605,7 +617,7 @@ void lineFollowSense(float maxSpeed, float minSpeed, float target, float midpoin
         {
             break;
         }
-        else if (state == COLOR && getColor(port) == target)
+        else if (state == COLOR && getColor(stopPort) == target)
         {
             break;
         }
@@ -697,7 +709,7 @@ void lineFollow2(float maxSpeed, float minSpeed, float distance, float bias, flo
     setSpeed(0, 0);
 }
 
-// Function to line square
+// Function to line square: kP: 0.5, kD: 10
 void lineSquare(int mid1, int mid2, int port1, int port2, float kP, float kD, int time)
 {
     clearTimer(T2);
@@ -726,13 +738,17 @@ void lineSquare(int mid1, int mid2, int port1, int port2, float kP, float kD, in
 
 }
 
-// Function to move arm relative to its current position
+// Function to move arm relative to its current position: acc: 0.05
 void moveArm(float maxSpeed, float minSpeed, float distance, float acc, int port, int state)
 {
     distance = fabs(distance)*sgn(maxSpeed);
-    minSpeed = fabs(minSpeed);
+    minSpeed = max2(fabs(minSpeed), 5);
     maxSpeed = fabs(maxSpeed);
     acc = fabs(acc);
+    if (state == TIME)
+    {
+        acc *= 0.02;
+    }
 
     clearTimer(T2);
     resetArm(port);
@@ -763,10 +779,11 @@ void moveArm(float maxSpeed, float minSpeed, float distance, float acc, int port
     setArmSpeed(port, 0);
 }
 
-// Function to move arm to an absolute position
+// Function to move arm to an absolute position: acc: 0.05
 void moveArmAbs(float maxSpeed, float minSpeed, float target, float acc, int port)
 {
     target = target-getArmDegreesAbs(port);
+    if (target == 0){return;}
     maxSpeed = fabs(maxSpeed)*sgn(target);
     moveArm(maxSpeed, minSpeed, target, acc, port, RELDEG);
 }
