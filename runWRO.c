@@ -26,7 +26,6 @@ task main()
 	//startTask(music);								// Starts the music playing
 
 	// Runs all the zones here
-
 	loop1CloseStart(); // If the side to start on is the close side, uncomment this and comment te next two lines
 
 	// If the side to start on is the far side, uncomment the next two lines and communt the previous line
@@ -34,7 +33,6 @@ task main()
 	// loop1FarStart();
 
 	loop2(); // This is the function to do the blue and green blocks
-
 
 	// Time display after the challenge is finished
 	displayCenteredBigTextLine(5, "%0.2f", (time100(T1)/10.0));
@@ -49,8 +47,10 @@ task main()
 		playSound(soundUpwardTones);				// PLay positive sound if the challenge was in time
 	}
 
+	sleep(10000);
+
 	stopAllTasks(); 								// Stops all the tasks (Music and odometry)
 
-	sleep(10000);
+
 
 }

@@ -21,7 +21,7 @@ float motionProfiling(float minSpeed, float maxSpeed, float acc, float dist, flo
     float y = (maxSpeed-minSpeed)/2.0;
 
 
-    if (err < 0)
+    if (err < 0.5)
     {
         if (err > -1.0*sqrt(y/acc))
         {
@@ -37,7 +37,7 @@ float motionProfiling(float minSpeed, float maxSpeed, float acc, float dist, flo
             speed = -1.0*maxSpeed;
         }
     }
-    else if (err > 0)
+    else if (err > 0.5)
     {
         if (err < sqrt(y/acc) && err < dist/2.0)
         {
@@ -108,7 +108,7 @@ float motionProfilingSynched(float minSpeed, float maxSpeed, float acc, float di
     float err = dist-curDegrees;
     float y = (maxSpeed-minSpeed)/2.0;
 
-    if (err < 0)
+    if (err < 0.5)
     {
         if (err > -1.0*sqrt(y/acc))
         {
@@ -124,7 +124,7 @@ float motionProfilingSynched(float minSpeed, float maxSpeed, float acc, float di
             speed = -1.0*maxSpeed;
         }
     }
-    else if (err > 0)
+    else if (err > 0.5)
     {
         if (err < sqrt(y/acc) && err < dist/2.0)
         {
@@ -250,7 +250,7 @@ void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distanc
         }
         else
         {
-            if (time1(T2)>=10000)
+            if (time1(T2)>=3000)
             {
                 break;
             }
@@ -478,19 +478,24 @@ void moveSense(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float ta
 // Function to keep default parameters in the move function
 void moveSimple(float leftMaxSpeed, float rightMaxSpeed, float distance, int state)
 {
-    move(leftMaxSpeed, rightMaxSpeed, 8, distance, 0.3, 2, 10, state);
+    move(leftMaxSpeed, rightMaxSpeed, 9, distance, 0.4, 2, 10, state);
+}
+
+void moveSimpleNone(float leftMaxSpeed, float rightMaxSpeed, float distance, int state)
+{
+    move(leftMaxSpeed, rightMaxSpeed, 9, distance, 0.4, 0, 0, state);
 }
 
 // Function to keep default parameters in the moveAbs function
 void moreAbsSimple(float maxSpeed, float lDeg, float rDeg, int state)
 {
-    moveAbs(maxSpeed, 10, lDeg, rDeg, 0.3, 2, 10, state);
+    moveAbs(maxSpeed, 9, lDeg, rDeg, 0.4, 2, 10, state);
 }
 
 // Function to keep default parameters in the moveSense function
 void moveSenseSimple(float leftMaxSpeed, float rightMaxSpeed, float targetRefl, int port, int state)
 {
-    moveSense(leftMaxSpeed, rightMaxSpeed, 15, targetRefl, 0.3, 2, 10, port, state);
+    moveSense(leftMaxSpeed, rightMaxSpeed, 9, targetRefl, 0.3, 2, 10, port, state);
 }
 
 // Function to turn with 2 motors
