@@ -11,7 +11,6 @@ task liftUp500Delayed()
 	stopTask(liftUp500Delayed);
 }
 
-
 task liftUp1000()
 {
 	moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
@@ -27,6 +26,12 @@ task liftDown()
 task readyLiftForPicking()
 {
 	moveArm(60, 20, 157, 0.3, LIFT, RELDEG);
+	stopTask(readyLiftForPicking);
+}
+
+task readyLiftForPicking2()
+{
+	moveArm(60, 20, 161, 0.3, LIFT, RELDEG);
 	stopTask(readyLiftForPicking);
 }
 
@@ -47,10 +52,11 @@ void code()
 
     }
 
-    // Collects the first 4 blocks and stack them
+	// ------------------------------------------------------------------------------//
+
+    // Goes to the first 4 blocks
     moveSimpleNone(-100, -100, 1000, TIME);
 	sleep(100);
-
 	moveSimpleAcc(100, 100, 300, 0.25, RELDEG);
 	turn1Motor(50, 90, LEFT);
 	moveSimpleAcc(100, 100, 300, 0.25, RELDEG);
@@ -59,7 +65,10 @@ void code()
 	turn2Motor(20, 90);
 	startTask(liftDown);
 	startTask(clawReady);
-
+	
+	// ------------------------------------------------------------------------------//
+	
+	// Collects the first 4 blocks
 	moveSenseSimple(15, 15, WHITE, 3, COLOR);
 	moveSenseSimple(15, 15, 55, 3, LESSREFL);
    	moveSimple(100, 100, 50, RELDEG);
@@ -72,11 +81,17 @@ void code()
    	moveSimple(100, 100, 70, RELDEG);
 	moveArm(-100, -100, 500, 0.01, LIFT, TIME);
 
+	// ------------------------------------------------------------------------------//
+	
+	// Goes to the yellow area
 	turn1Motor(100, -55, LEFT);
 	turn1Motor(100, -55, RIGHT);
 	lineSquare(50, 50, 2, 3, -0.5, -55, 700);
 	moveSimple(-70, -70, 700, RELDEG);
 
+	// ------------------------------------------------------------------------------//
+	
+	// Stacks the first 4 blocks
 	moveArm(60, 20, 161, 0.3, LIFT, RELDEG);
 	moveSimple(-15, -15, 83, RELDEG);
     sleep(200);
@@ -85,18 +100,21 @@ void code()
 	startTask(liftUp1000);
 	moveSenseSimple(-100, -100, BLACK, 3, COLOR);
 
-    // Collects the other 4 blocks and stack them
+	// ------------------------------------------------------------------------------//
+	
+    // Goes to the next 4 blocks
     turn1Motor(100, 125, RIGHT);
 	turn1Motor(100, 30, LEFT);
-
 	lineFollow(30, 30, 320, 50, 0.1, 0.6, 100, 2, RELDEG);
 	moveSenseSimple(20, 20, RED, 2, COLOR);
-
 	moveSimpleAcc(-50, -50, 460, 0.25, RELDEG);
 	turn2Motor(20, -91);
 	startTask(liftDown);
 	moveSimple(-50, -50, 50, RELDEG);
 
+	// ------------------------------------------------------------------------------//
+	
+	// Collects the next 4 blocks
 	moveSenseSimple(15, 15, WHITE, 3, COLOR);
 	moveSenseSimple(15, 15, 55, 3, LESSREFL);
     moveSimple(100, 100, 40, RELDEG);
@@ -108,7 +126,10 @@ void code()
     moveArm(100, 100, 50, 0.01, LIFT, RELDEG);
     moveSimple(100, 100, 70, RELDEG);
 	moveArm(-100, -100, 500, 0.01, LIFT, TIME);
-
+	
+	// ------------------------------------------------------------------------------//
+	
+	// Positions for stacking the next 4 blocks
 	moveSimple(-100, -100, 120, RELDEG);
 	turn1Motor(100, -90, RIGHT);
 	moveSenseSimple(-30, -30, BLACK, 3, COLOR);
@@ -117,7 +138,10 @@ void code()
 	turn2Motor(50, 90);
 	moveSimpleNone(-100, -100, 1000, TIME);
 	sleep(100);
-
+	
+	// ------------------------------------------------------------------------------//
+	
+	// Stacks the next 4 blocks
 	startTask(readyLiftForPicking)
 	moveSimpleAcc(50, 50, 280, 0.2, RELDEG);
 	moveSimple(-15, -15, 105, RELDEG);
@@ -128,7 +152,9 @@ void code()
 	setArmSpeed(CLAW, -100);
 	moveArm(-50, 20, 175, 0.1, LIFT, RELDEG);
 
-    // Make the red and yellow stacks of 4
+	// ------------------------------------------------------------------------------//
+	
+    // Goes to the first stack of blocks
     turn1Motor(100, 59, LEFT);
 	turn1Motor(100, 59, RIGHT);
     if (getReflection(2)<50){
@@ -138,6 +164,10 @@ void code()
     }
 	lineFollow(30, 30, 200, 50, 0.1, 0.6, 100, 2, RELDEG);
 	moveSenseSimple(25, 25, YELLOW, 3, COLOR);
+	
+	// ------------------------------------------------------------------------------//
+	
+	// Makes the stacks of 4
 	moveArm(-100, -100, 1000, 0.25, LIFT, TIME);
 	moveSimple(-13, -13, 85, RELDEG);
 	moveArm(50, 20, 114, 0.3, LIFT, RELDEG);
@@ -145,78 +175,155 @@ void code()
 	sleep(200);
 	moveArmAbs(100, 10, 300, 0.7, CLAW);
 	moveArm(-100, 100, 60, 0.3, LIFT, RELDEG);
-
 	startTask(liftUp500Delayed);
     moveSenseSimple(-80, -80, BLACK, 3, COLOR);
 
-    return;
-
+	// ------------------------------------------------------------------------------//
+	
     // Collects the green/blue blocks if they are there
     if (!startedClose)
     {
-        lineSquare(50, 50, 2, 3, 0.4, 25, 1000);
-
-        moveSimple(50, 50, 136, RELDEG);
-        turn1Motor(50, 170, LEFT);
-        turn1Motor(50, -10, RIGHT);
+        lineSquare(50, 50, 2, 3, 0.5, 55, 1000);
+        moveSimple(100, 100, 100, RELDEG);
+        turn1Motor(100, 167, LEFT);
+        turn1Motor(100, -10, RIGHT);
         moveArm(100, 100, 1000, 0.01, LIFT, TIME);
-        moveSenseSimple(20, 20, WHITE, 3, COLOR);
-	    moveSenseSimple(20, 20, 65, 3, LESSREFL);
-        moveSimple(50, 50, 30, RELDEG);
+        moveSenseSimple(15, 15, WHITE, 3, COLOR);
+	    moveSenseSimple(15, 15, 55, 3, LESSREFL);
+        moveSimple(100, 100, 30, RELDEG);
         moveArm(-100, 50, 18, 0.3, LIFT, RELDEG);
         moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
-        moveArm(-100, -100, 1500, 0.01, LIFT, TIME);
-        turn1Motor(50, -176, LEFT);
+		setArmSpeed(CLAW, -100);
+        moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
+        turn1Motor(100, -180, LEFT);
     }
+
+	// ------------------------------------------------------------------------------//
 
     // Collects the two debris on the left side
     moveSimpleNone(-100, -100, 1000, TIME);
 	sleep(100);
-	moveSimple(50, 50, 254, RELDEG);
-	turn1Motor(50, 90, LEFT);
+	moveSimple(100, 100, 254, RELDEG);
+	turn1Motor(100, 90, LEFT);
 	moveSenseSimple(-20, -20, BLACK, 2, COLOR);
-	moveSimple(50, 50, 613, RELDEG);
+	moveSimple(100, 100, 613, RELDEG);
 	turn2Motor(25, 60);
-	moveSimple(50, 50, 270, RELDEG);
-	moveSimple(100, -80, 690, RELDEG);
-
+	moveArm(100, 100, 34, 0.3, LIFT, RELDEG);
+	moveSimple(100, 100, 240, RELDEG);
+    moveArm(-100, -100, 500, 0.01, LIFT, TIME);
+	moveSimple(30, -24, 680, RELDEG);
 	moveSimpleNone(-100, -100, 1000, TIME);
 	sleep(100);
-
-	moveSimple(50, 50, 1550, RELDEG);
-	moveSimple(-50, -50, 470, RELDEG);
-	turn1Motor(50, -90, RIGHT);
-
+	
+	// ------------------------------------------------------------------------------//
+	
     // Moves the red stack over
-    moveSenseSimple(-20, -20, RED, 1, COLOR);
+	moveSimple(100, 100, 1550, RELDEG);
+	moveArm(100, 100, 94, 0.3, LIFT, RELDEG);
+	startTask(liftUp500Delayed);
+	moveSimple(-100, -100, 480, RELDEG);
+	turn1Motor(100, -89, RIGHT);
+    moveSenseSimple(-40, -40, RED, 1, COLOR);
     moveArm(100, 100, 1000, 0.01, LIFT, TIME);
     moveSimple(15, 15, 300, RELDEG);
-    moveArm(-100, -100, 1500, 0.01, LIFT, TIME);
-	turn1Motor(50, 153, RIGHT);
+    moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
+	turn1Motor(100, 158, RIGHT);
 
+	// ------------------------------------------------------------------------------//
+	
     // Goes to the the spot for the close green/blue blocks
-    moveSimple(50, 50, 734, RELDEG);
-	turn1Motor(50, 20, RIGHT);
-	lineFollow(30, 30, 820, 50, 0.1, -0.2, -30, 2, RELDEG);
+    moveSimple(100, 100, 400, RELDEG);
+	moveSenseSimple(50, 50, BLACK, 3, COLOR);
+    moveSimple(100, 100, 225, RELDEG);
+	moveSenseSimple(0, 100, BLACK, 2, COLOR);
+	lineFollow(30, 30, 820, 50, 0.1, -0.6, -100, 2, RELDEG);
 	moveSenseSimple(30, 30, BLACK, 3, COLOR);
     sleep(200);
-	moveSimple(-50, -50, 530, RELDEG);
-	turn2Motor(20, 90);
+	moveSimple(-100, -100, 400, RELDEG);
+	turn1Motor(50, -90.5, RIGHT);
 
+	// ------------------------------------------------------------------------------//
+	
     // Collects the green/blue blocks if they are there
-    if (startedClose)
+	if (startedClose)
     {
-
+		moveSimple(30, 30, 20, RELDEG);
+		moveArm(100, 100, 1000, 0.01, LIFT, TIME);
+        moveSenseSimple(15, 15, WHITE, 3, COLOR);
+	    moveSenseSimple(15, 15, 55, 3, LESSREFL);
+        moveSimple(100, 100, 30, RELDEG);
+        moveArm(-100, 50, 18, 0.3, LIFT, RELDEG);
+        moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
+		setArmSpeed(CLAW, -100);
+        moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
     }
-
+	
+	// ------------------------------------------------------------------------------//
+	
     // Collects the final green/blue blocks
+	moveSimple(-100, -100, 1500, TIME);
+	moveSimpleNone(-50, -50, 1000, TIME);
+	sleep(100);
+	moveSimple(100, 100, 60, RELDEG);
+	turn1Motor(100, 90, RIGHT);
+	moveSimpleAcc(100, 100, 180, 0.25, RELDEG);
+	moveSenseSimple(30, 30, RED, 2, COLOR);
+	moveArm(100, 100, 124, 0.3, LIFT, RELDEG);
+	moveSimpleAcc(100, 100, 410, 0.2, RELDEG);
+    moveArm(-100, -100, 500, 0.01, LIFT, TIME);
 
-    // Makes the stack in the blue area
+	// ------------------------------------------------------------------------------//
+	
+    // Makes 2 stacks of 2 in the blue area
+	moveSimpleAcc(-100, -100, 950, 0.2, RELDEG);
+	turn1Motor(100, -90, RIGHT);
+	moveSimpleNone(-100, -100, 500, TIME);
+	sleep(100);
+	startTask(readyLiftForPicking2)
+	moveSimpleAcc(50, 50, 510, 0.2, RELDEG);
+	moveSimple(-15, -15, 110, RELDEG);
+	sleep(200);
+	moveArmAbs(100, 100, 300, 0.7, CLAW);
+    moveArm(-100, 100, 70, 0.3, LIFT, RELDEG);
+	moveSimpleAcc(30, 30, 300, 0.2, RELDEG);
+	startTask(liftUp500Delayed);
+	moveSimpleNone(-100, -100, 1500, TIME);
+	sleep(100);
 
-    // Collects the debris and does the water connects
+	// ------------------------------------------------------------------------------//
+	
+    // Collects the debris and does the water connection
+	turn1Motor(100, 90, RIGHT);
+	moveSimple(100, 100, 698, RELDEG);
+	turn2Motor(50, 90);
+	moveSimpleNone(-100, -100, 1000, TIME);
+	sleep(100);
+	moveSimpleAcc(50, 50, 570, 0.2, RELDEG);
+	turn2Motor(20, -90);
+	startTask(liftDown);
+	moveSimpleAcc(50, 50, 324, 0.2, RELDEG);
+	moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
+	turn1Motor(100, 230, RIGHT);
+	moveSimple(100, 100, 1761, RELDEG);
+	
+	// ------------------------------------------------------------------------------//
+	
+	// Goes to the stacks of 2
+	moveSimpleNone(-30, -100, 2000, TIME);
+	moveSimpleAcc(50, 50, 905, 0.2, RELDEG);
+	turn2Motor(20, -90);
+    moveSenseSimple(15, 15, GREEN, 3, COLOR);
+
+	// ------------------------------------------------------------------------------//
+	
+	// Makes the stack of 4 in the blue area
+	
+	// ------------------------------------------------------------------------------//
 
     // Pulls the stack over to the green area if it the base is green
 
+	// ------------------------------------------------------------------------------//
+	
     // Brings the debris to the collection area
 
 }
