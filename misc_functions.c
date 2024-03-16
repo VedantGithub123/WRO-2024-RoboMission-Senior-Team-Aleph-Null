@@ -92,24 +92,6 @@ void setSpeed(float lSpeed, float rSpeed)
 	setMotorSpeed(right, rSpeed);
 }
 
-// Function to set the x value for odometry
-void resetX(float newX)
-{
-	xPos = newX;
-}
-
-// Function to set the y calue for odometry
-void resetY(float newY)
-{
-	yPos = newY;
-}
-
-// Function to set the angle for odometry
-void resetAngle(float newAngle)
-{
-	angle = newAngle;
-}
-
 // Function to convert the degrees of the motor into cm
 float cmFromDeg(float deg)
 {
@@ -122,16 +104,6 @@ float degFromCM(float cm)
 	return cm/wheelDiam/PI*360.0;
 }
 
-// Finds the different of two angles, different between 0 and 182 is -178
-float angleDiff(float angle1, float angle2)
-{
-	if (fabs(angle1-angle2)==180.0)
-	{
-		return 180.0;
-	}
-	return sgn(mod(angle1-angle2, 360)-180)*180-(mod(angle1-angle2, 360)-180);
-}
-
 // Function to convert the angle to turn into cm the robot has to turn
 float cmFromAngle(float turn)
 {
@@ -142,97 +114,6 @@ float cmFromAngle(float turn)
 float angleFromCM(float angle)
 {
 	return angle/wheelDist/PI*360.0;
-}
-
-// Function to find the distance between two points
-float pointDist(float x1, float y1, float x2, float y2)
-{
-	return sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
-}
-
-// Task to calculate where the robot is on the field
-task odometry()
-{
-	while (isRunning)
-	{
-		float dLeft = getTrueDegrees(LEFT)-prevLeft;
-		prevLeft = getTrueDegrees(LEFT);
-		float dRight = getTrueDegrees(RIGHT)-prevRight;
-		prevRight = getTrueDegrees(RIGHT);
-		float angleCopy = angle;
-
-		dLeft = (dLeft/360.0)*wheelDiam*PI;
-		dRight = (dRight/360.0)*wheelDiam*PI;
-
-		float dAngle = (dLeft-dRight)/(wheelDist*2.0*PI)*360.0;
-
-		float dX;
-		float dY;
-		float dMiddle = (dLeft+dRight)/2.0;
-
-		if (dAngle==0)
-		{
-			dX = 0;
-			dY = dMiddle;
-		}
-		else
-		{
-			dY = 180*dMiddle*sinDegrees(dAngle)/PI/dAngle;
-			dX = 180*dMiddle*(1-cosDegrees(dAngle))/PI/dAngle;
-		}
-
-		angleCopy = angleCopy-90;
-
-		float dY2 = dX*cosDegrees(angleCopy)-dY*sinDegrees(angleCopy);
-		float dX2 = dY*cosDegrees(angleCopy)+dX*sinDegrees(angleCopy);
-
-		xPos+=dX2;
-		yPos+=dY2;
-		angle+=dAngle;
-		angle = mod(angle, 360);
-
-		displayCenteredBigTextLine(3, "(%0.2f, %0.2f)", xPos, yPos);
-		displayCenteredBigTextLine(7, "Angle: %0.2f", angle);
-
-		sleep(1);
-	}
-}
-
-// Task to play music
-task music()
-{
-	drawBmpfile(0, 0, "BSOD.rgf");
-
-	playSoundFile("M1.rsf");
-	sleep(5000);
-	playSoundFile("M2.rsf");
-	sleep(5000);
-	playSoundFile("M3.rsf");
-	sleep(5000);
-	playSoundFile("M4.rsf");
-	sleep(5000);
-	playSoundFile("M5.rsf");
-	sleep(5000);
-	playSoundFile("M6.rsf");
-	sleep(5000);
-	playSoundFile("M7.rsf");
-	sleep(5000);
-	playSoundFile("M8.rsf");
-	sleep(5000);
-	playSoundFile("M9.rsf");
-	sleep(5000);
-	playSoundFile("M10.rsf");
-	sleep(5000);
-	playSoundFile("M11.rsf");
-	sleep(5000);
-	playSoundFile("M12.rsf");
-	sleep(5000);
-	playSoundFile("M13.rsf");
-	sleep(5000);
-	playSoundFile("M14.rsf");
-	sleep(5000);
-	playSoundFile("M15.rsf");
-	sleep(5000);
 }
 
 // Resets the arm degrees based on the relative baseline
@@ -253,9 +134,9 @@ float getArmDegrees(int port)
 {
     if (port==2)
     {
-        return getMotorEncoder(a)-relativeBaseA;
+        return -(getMotorEncoder(a)-relativeBaseA);
     }
-    return getMotorEncoder(d)-relativeBaseD;
+    return -(getMotorEncoder(d)-relativeBaseD);
 }
 
 // Gets the absolute degree value of the arm
@@ -263,9 +144,9 @@ float getArmDegreesAbs(int port)
 {
 	if (port==2)
     {
-        return getMotorEncoder(a);
+        return -(getMotorEncoder(a)-absoluteBaseA);
     }
-    return getMotorEncoder(d);
+    return -getMotorEncoder(d);
 }
 
 // Sets the speed of the arm
@@ -282,7 +163,7 @@ void setArmSpeed(int port, float speed)
 	}else{
 		speed = (speed-97.0)*5.0+85.0;
 	}
-    setMotorSpeed((port==2) ? a : d, speed);
+    setMotorSpeed((port==2) ? a : d, -speed);
 }
 
 // Converts the color number into a string

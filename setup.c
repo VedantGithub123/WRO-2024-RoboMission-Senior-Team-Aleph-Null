@@ -24,18 +24,18 @@
 const float black1 = 9; 						// Globally defines the black value for the color sensor in port 1
 const float white1 = 80; 						// Globally defines the white value for the color sensor in port 1
 const float mid1 = (black1+white1)/2.0;         // Globally defines the midpoint for the color sensor in port 1
-const float black2 = 8; 						// Globally defines the black value for the color sensor in port 2
-const float white2 = 68; 						// Globally defines the white value for the color sensor in port 2
+const float black2 = 9; 						// Globally defines the black value for the color sensor in port 2
+const float white2 = 77; 						// Globally defines the white value for the color sensor in port 2
 const float mid2 = (black2+white2)/2.0;         // Globally defines the midpoint for the color sensor in port 1
-const float black3 = 7; 						// Globally defines the black value for the color sensor in port 3
-const float white3 = 60; 						// Globally defines the white value for the color sensor in port 3
+const float black3 = 6; 						// Globally defines the black value for the color sensor in port 3
+const float white3 = 56; 						// Globally defines the white value for the color sensor in port 3
 const float mid3 = (black3+white3)/2.0;         // Globally defines the midpoint for the color sensor in port 1
 const float black4 = 0; 						// Globally defines the black value for the color sensor in port 4
 const float white4 = 100; 						// Globally defines the white value for the color sensor in port 4
 const float mid4 = (black4+white4)/2.0;         // Globally defines the midpoint for the color sensor in port 1
 
 const float wheelDiam = 6.24;					// Defines the diameter of the wheel for absolute positioning
-const float wheelDist = 17.48;					// Defines the distance between the wheels for the angle measurement
+const float wheelDist = 17.52;					// Defines the distance between the wheels for the angle measurement
 
 const int LEFT = 0;								// Defines the left port for the encoder functions
 const int RIGHT = 1;							// Defines the right port for the encoder functions
@@ -48,14 +48,4 @@ float absoluteLeft = 0;							// Defines the baseline for absolute movement left
 float absoluteRight = 0;						// Defines the baseline for absolute movement right motor
 float relativeBaseA = 0;                        // Defines the baseline for relative movement port a
 float relativeBaseD = 0;                        // Defines the baseline for relative movement port d
-// No baseline for true movement for odometry since that is the built-in baseline
-
-
-// Odometry Variables 
-float xPos = 0;									// Defines the x position of the robot in centimeters
-float yPos = 0;									// Defines the y position of the robot in centimeters
-float angle = 0;								// Defines the angle of the robot in degrees
-
-float prevLeft = 0;								// Used to store the previous true measurement for the left motor
-float prevRight = 0;							// Used to store the previous true measurement for the right motor
-bool isRunning = true;							// Used to stop the task after the run is done
+float absoluteBaseA = 0;

@@ -18,19 +18,12 @@ float motionProfiling(float minSpeed, float maxSpeed, float acc, float dist, flo
         curDegrees *= -1.0;
     }
     float err = dist-curDegrees;
-    float y = (maxSpeed-minSpeed)/2.0;
 
-
-    if (err < 0.5)
+    if (err < -0.5)
     {
-        if (err > -1.0*sqrt(y/acc))
+        if (fabs(err*acc-minSpeed) < maxSpeed)
         {
-            speed = -1.0*acc*err*err-minSpeed;
-        }
-        else if (err > -2.0*sqrt(y/acc))
-        {
-            err = err+2.0*sqrt(y/acc);
-            speed = acc*err*err-maxSpeed;
+            speed = acc*err-minSpeed;
         }
         else
         {
@@ -39,33 +32,9 @@ float motionProfiling(float minSpeed, float maxSpeed, float acc, float dist, flo
     }
     else if (err > 0.5)
     {
-        if (err < sqrt(y/acc) && err < dist/2.0)
+        if (fabs(err*acc+minSpeed) < maxSpeed)
         {
-            speed = acc*err*err+minSpeed;
-        }
-        else if (err < 2.0*sqrt(y/acc) && err<dist/2)
-        {
-            err = err-2.0*sqrt(y/acc);
-            speed = -1.0*acc*err*err+maxSpeed;
-        }
-        else if (err >= dist+2.0*sqrt(y/acc))
-        {
-            speed = maxSpeed;
-        }
-        else if (err > dist-sqrt(y/acc) && err < dist+sqrt(y/acc))
-        {
-            err = err-dist;
-            speed = acc*err*err+minSpeed;
-        }
-        else if (err > dist+sqrt(y/acc))
-        {
-            err = err-dist-2.0*sqrt(y/acc);
-            speed = -1*acc*err*err+maxSpeed;
-        }
-        else if (err > dist-2.0*sqrt(y/acc) && err<dist)
-        {
-            err = err-dist+2.0*sqrt(y/acc);
-            speed = -acc*err*err+maxSpeed;
+            speed = acc*err+minSpeed;
         }
         else
         {
@@ -82,8 +51,23 @@ float motionProfiling(float minSpeed, float maxSpeed, float acc, float dist, flo
         speed *= -1.0;
     }
 
-    return speed;
+    err = curDegrees;
+    float accSpeed;
 
+    if (acc*err+minSpeed < maxSpeed)
+    {
+        accSpeed = acc*err+minSpeed;
+    }
+    else
+    {
+        accSpeed = maxSpeed;
+    }
+
+    if (fabs(speed)>fabs(accSpeed)){
+        speed = fabs(accSpeed)*sgn(speed);
+    }
+
+    return speed;
 }
 
 // Function to develop a motion profile for any motor that is synced with another motor
@@ -92,7 +76,6 @@ float motionProfilingSynched(float minSpeed, float maxSpeed, float acc, float di
     {
         maxSpeed = minSpeed;
     }
-    acc = acc/fabs(maxSpeed);
     if (acc == 0)
     {
         acc = INFINITY;
@@ -106,18 +89,12 @@ float motionProfilingSynched(float minSpeed, float maxSpeed, float acc, float di
         curDegrees *= -1.0;
     }
     float err = dist-curDegrees;
-    float y = (maxSpeed-minSpeed)/2.0;
 
-    if (err < 0.5)
+    if (err < -0.5)
     {
-        if (err > -1.0*sqrt(y/acc))
+        if (fabs(err*acc-minSpeed) < maxSpeed)
         {
-            speed = -1.0*acc*err*err-minSpeed;
-        }
-        else if (err > -2.0*sqrt(y/acc))
-        {
-            err = err+2.0*sqrt(y/acc);
-            speed = acc*err*err-maxSpeed;
+            speed = acc*err-minSpeed;
         }
         else
         {
@@ -126,14 +103,9 @@ float motionProfilingSynched(float minSpeed, float maxSpeed, float acc, float di
     }
     else if (err > 0.5)
     {
-        if (err < sqrt(y/acc) && err < dist/2.0)
+        if (fabs(err*acc+minSpeed) < maxSpeed)
         {
-            speed = acc*err*err+minSpeed;
-        }
-        else if (err < 2.0*sqrt(y/acc) && err<dist/2)
-        {
-            err = err-2.0*sqrt(y/acc);
-            speed = -1.0*acc*err*err+maxSpeed;
+            speed = acc*err+minSpeed;
         }
         else
         {
@@ -152,18 +124,11 @@ float motionProfilingSynched(float minSpeed, float maxSpeed, float acc, float di
 
     err = time;
     float accSpeed;
-    acc /= 20.0;
-    minSpeed = 0;
-    y = maxSpeed/2.0;
+    acc /= 2.0;
 
-    if (err < sqrt(y/acc))
+    if (acc*err+minSpeed < maxSpeed)
     {
-        accSpeed = acc*err*err+minSpeed;
-    }
-    else if (err < 2.0*sqrt(y/acc))
-    {
-        err = err-2.0*sqrt(y/acc);
-        accSpeed = -1.0*acc*err*err+maxSpeed;
+        accSpeed = acc*err+minSpeed;
     }
     else
     {
@@ -189,7 +154,7 @@ void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distanc
     }
     else if (state == TIME)
     {
-        acc *= 0.002;
+        acc *= 0.5;
     }
 
     // Sets all the variables to the right values and signs
@@ -356,7 +321,16 @@ void moveAbs(float maxSpeed, float minSpeed, float lDeg, float rDeg, float acc, 
 // Moves the drivetrain to a certain sensing
 void moveSense(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float targetRefl, float acc, float turnkP, float turnkD, int port, int state)
 {
-    acc *= 0.002;
+    if (state == COLOR)
+    {
+        getColor(port);
+    }
+    else
+    {
+        getReflection(port);
+    }
+    sleep(50);
+    acc *= 0.5;
 
     // Sets all the variables to the right values and signs
     float leftDegrees = 0;
@@ -478,24 +452,31 @@ void moveSense(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float ta
 // Function to keep default parameters in the move function
 void moveSimple(float leftMaxSpeed, float rightMaxSpeed, float distance, int state)
 {
-    move(leftMaxSpeed, rightMaxSpeed, 9, distance, 0.4, 2, 10, state);
+    move(leftMaxSpeed, rightMaxSpeed, 12, distance, 0.35, 1.5, 15, state);
 }
 
+// Function to keep default parameters in the move function
+void moveSimpleAcc(float leftMaxSpeed, float rightMaxSpeed, float distance, float acc, int state)
+{
+    move(leftMaxSpeed, rightMaxSpeed, 12, distance, acc, 1.5, 10, state);
+}
+
+// Function to move without synced motors
 void moveSimpleNone(float leftMaxSpeed, float rightMaxSpeed, float distance, int state)
 {
-    move(leftMaxSpeed, rightMaxSpeed, 9, distance, 0.4, 0, 0, state);
+    move(leftMaxSpeed, rightMaxSpeed, 12, distance, 0.2, 0, 0, state);
 }
 
 // Function to keep default parameters in the moveAbs function
 void moreAbsSimple(float maxSpeed, float lDeg, float rDeg, int state)
 {
-    moveAbs(maxSpeed, 9, lDeg, rDeg, 0.4, 2, 10, state);
+    moveAbs(maxSpeed, 12, lDeg, rDeg, 0.2, 2, 10, state);
 }
 
 // Function to keep default parameters in the moveSense function
 void moveSenseSimple(float leftMaxSpeed, float rightMaxSpeed, float targetRefl, int port, int state)
 {
-    moveSense(leftMaxSpeed, rightMaxSpeed, 9, targetRefl, 0.3, 2, 10, port, state);
+    moveSense(leftMaxSpeed, rightMaxSpeed, 12, targetRefl, 0.2, 2, 10, port, state);
 }
 
 // Function to turn with 2 motors
@@ -752,7 +733,7 @@ void moveArm(float maxSpeed, float minSpeed, float distance, float acc, int port
     acc = fabs(acc);
     if (state == TIME)
     {
-        acc *= 0.02;
+        acc *= 0.5;
     }
 
     clearTimer(T2);

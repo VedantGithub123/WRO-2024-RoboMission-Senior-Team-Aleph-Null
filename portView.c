@@ -14,8 +14,7 @@ task main()
 	setMotorBrakeMode(right, motorCoast);
 	setMotorBrakeMode(a, motorCoast);
 	setMotorBrakeMode(d, motorBrake);
-	//moveArmAbs(100, 15, 600, 0.01, LIFT);
- //   moveArmAbs(70, 15, 450, 0.01, CLAW);
+
 	clearDebugStream();
 	writeDebugStreamLine("##################################################");
     int port = 0;
@@ -156,60 +155,11 @@ task main()
                     playImmediateTone(100, 10);
 		        	if (port==6)
 		        	{
-		        		// Lift Movement
-                        // Lift targets: 0, 490, 520, 740, 840, 920, 1300, 2250
-                        if (getArmDegreesAbs(port-4)<245){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 0, 0.01, LIFT);");
-                        }
-                        else if (getArmDegreesAbs(port-4)<505){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 490, 0.01, LIFT);");
-                        }
-                        else if (getArmDegreesAbs(port-4)<630){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 520, 0.01, LIFT);");
-                        }
-                        else if (getArmDegreesAbs(port-4)<790){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 740, 0.01, LIFT);");
-                        }
-                        else if (getArmDegreesAbs(port-4)<880){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 840, 0.01, LIFT);");
-                        }
-                        else if (getArmDegreesAbs(port-4)<1110){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 920, 0.01, LIFT);");
-                        }
-                        else if (getArmDegreesAbs(port-4)<1775){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 1300, 0.01, LIFT);");
-                        }
-                        else{
-                            writeDebugStreamLine("moveArmAbs(100, 15, 2250, 0.01, LIFT);");
-                        }
+                        writeDebugStreamLine("moveArmAbs(100, 15, %d, 0.01, LIFT);", getAbsDegrees(LIFT));
 		        	}
 		        	else
 		        	{
-		        		// Claw Movement
-		        		// Claw targets: 0, 200, 230, 450, 530, 590, 670
-		        		if (getArmDegreesAbs(port-4)<100){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 0, 0.01, CLAW);");
-                        }
-                        else if (getArmDegreesAbs(port-4)<215){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 200, 0.01, CLAW);");
-                        }
-                        else if (getArmDegreesAbs(port-4)<330){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 230, 0.01, CLAW);");
-                        }
-                        else if (getArmDegreesAbs(port-4)<490){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 450, 0.01, CLAW);");
-                        }
-                        else if (getArmDegreesAbs(port-4)<560){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 530, 0.01, CLAW);");
-                        }
-                        else if (getArmDegreesAbs(port-4)<630){
-                            writeDebugStreamLine("moveArmAbs(100, 15, 590, 0.01, CLAW);");
-                        }
-                        else{
-                            writeDebugStreamLine("moveArmAbs(100, 15, 670, 0.01, CLAW);");
-                        }
-
-
+		        		writeDebugStreamLine("moveArmAbs(100, 15, %d, 0.01, CLAW);", getAbsDegrees(CLAW));
 		        	}
 		        }
         		displayCenteredTextLine(6, "Relative Degrees: %0.2f", getArmDegrees(port-4));
