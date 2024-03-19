@@ -19,28 +19,8 @@ task main()
 	resetMotors();									// Resets motors
 	clearTimer(T1);									// Clears the timer for timing the run
 
-	moveSimpleNone(-100, -100, 1500, TIME);
-	sleep(100);
-
-	turn1Motor(100, 90, RIGHT);
-	moveSimple(100, 100, 698, RELDEG);
-	turn2Motor(50, 90);
-	moveSimpleNone(-100, -100, 1000, TIME);
-	sleep(100);
-	moveSimpleAcc(50, 50, 570, 0.2, RELDEG);
-	turn2Motor(20, -90);
-	startTask(liftDown);
-	moveSimpleAcc(50, 50, 324, 0.2, RELDEG);
-	moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
-	turn1Motor(100, 230, RIGHT);
-	moveSimple(100, 100, 1761, RELDEG);
-	moveSimpleNone(-30, -100, 2000, TIME);
-	moveSimpleAcc(50, 50, 905, 0.2, RELDEG);
-	turn2Motor(20, -90);
-    moveSenseSimple(15, 15, GREEN, 3, COLOR);
-
 	// Runs all the zones here
-	//code();
+	 code();
 
 	// Time display after the challenge is finished
 	displayCenteredBigTextLine(5, "%0.2f", (time100(T1)/10.0));
