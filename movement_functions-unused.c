@@ -1,5 +1,62 @@
-// Function to develop a motion profile for any motor that is not synced with another motor
-float motionProfiling(float minSpeed, float maxSpeed, float acc, float dist, float curDegrees)
+// Function to develop a motion profile for any motor
+float motionProfiling(float startMinSpeed, float endMinSpeed, float maxSpeed, float acc, float dist, bool isAcc, bool isDecc, bool isStop, float curDegrees)
+{
+    maxSpeed = max2(max2(startMinSpeed, maxSpeed), endMinSpeed);
+    if (acc == 0)
+    {
+        acc = INFINITY;
+    }
+    float speed = maxSpeed;
+    bool negative = false;
+    if (dist < 0)
+    {
+        dist *= -1.0;
+        negative = true;
+        curDegrees *= -1.0;
+    }
+    float err = dist-curDegrees;
+
+    if (curDegrees*curDegrees*acc+startMinSpeed<speed && isAcc)
+    {
+        speed = curDegrees*curDegrees*acc+startMinSpeed;
+    }
+
+    if (err*err*acc+endMinSpeed < speed && isDecc)
+    {
+        speed = err*err*acc+endMinSpeed;
+    }
+
+    if (isStop && err<0)
+    {
+        speed *= -1;
+    }
+    
+    if (!isStop && isDecc && err<0)
+    {
+        speed = endMinSpeed;
+    }
+    
+    if (!isStop && !isDecc && err<0)
+    {
+        speed = maxSpeed;
+    }
+
+    if (fabs(err)<0.5 && isStop)
+    {
+        speed = 0;
+    }
+
+    if (negative)
+    {
+        speed *= -1;
+    }
+
+    return speed;
+
+}
+
+// Function to develop a motion profile arms
+float motionProfilingArm(float minSpeed, float maxSpeed, float acc, float dist, float curDegrees)
 {
     if (maxSpeed < minSpeed)
     {
@@ -70,81 +127,8 @@ float motionProfiling(float minSpeed, float maxSpeed, float acc, float dist, flo
     return speed;
 }
 
-// Function to develop a motion profile for any motor that is synced with another motor
-float motionProfilingSynched(float minSpeed, float maxSpeed, float acc, float dist, float curDegrees, float time){
-    if (maxSpeed < minSpeed)
-    {
-        maxSpeed = minSpeed;
-    }
-    if (acc == 0)
-    {
-        acc = INFINITY;
-    }
-    float speed = minSpeed;
-    bool negative = false;
-    if (dist < 0)
-    {
-        dist *= -1.0;
-        negative = true;
-        curDegrees *= -1.0;
-    }
-    float err = dist-curDegrees;
-
-    if (err < -0.5)
-    {
-        if (fabs(err*acc-minSpeed) < maxSpeed)
-        {
-            speed = acc*err-minSpeed;
-        }
-        else
-        {
-            speed = -1.0*maxSpeed;
-        }
-    }
-    else if (err > 0.5)
-    {
-        if (fabs(err*acc+minSpeed) < maxSpeed)
-        {
-            speed = acc*err+minSpeed;
-        }
-        else
-        {
-            speed = maxSpeed;
-        }
-    }
-    else
-    {
-        speed = 0;
-    }
-
-    if (negative)
-    {
-        speed *= -1.0;
-    }
-
-    err = time;
-    float accSpeed;
-    acc /= 2.0;
-
-    if (acc*err+minSpeed < maxSpeed)
-    {
-        accSpeed = acc*err+minSpeed;
-    }
-    else
-    {
-        accSpeed = maxSpeed;
-    }
-
-    if (fabs(speed)>fabs(accSpeed)){
-        speed = fabs(accSpeed)*sgn(speed);
-    }
-
-    return speed;
-
-}
-
 // Moves the drivetrain to a certain target (CM, Degrees, Seconds)
-void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distance, float acc, float turnkP, float turnkD, int state)
+void move(float leftMaxSpeed, float rightMaxSpeed, float distance, float startMinSpeed, float endMinSpeed, float acc, float turnkP, float turnkD, bool isAcc, bool isDecc, bool isStop, int state)
 {
     // Switches based on the state
     if (state == RELCM)
@@ -157,48 +141,12 @@ void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distanc
         acc *= 0.5;
     }
 
-    // Sets all the variables to the right values and signs
-    float leftDegrees = 0;
-    float rightDegrees = 0;
-    float leftMinSpeed = 0;
-    float rightMinSpeed = 0;
-    float leftAcc = 0;
-    float rightAcc = 0;
-
     int prevTime = -1;
     float prevTurnErr = 0;
 
-    turnkP = fabs(turnkP);
-    turnkD = fabs(turnkD);
-    if (sgn(rightMaxSpeed)!=sgn(leftMaxSpeed))
-    {
-        turnkP*=0.5;
-        turnkD*=0.5;
-    }
+    // turnkP = fabs(turnkP);
+    // turnkD = fabs(turnkD);
 
-    if (fabs(leftMaxSpeed) > fabs(rightMaxSpeed))
-    {
-        leftDegrees = fabs(distance)*sgn(leftMaxSpeed);
-        rightDegrees = rightMaxSpeed/leftMaxSpeed*leftDegrees;
-        leftMaxSpeed = fabs(leftMaxSpeed);
-        rightMaxSpeed = fabs(rightMaxSpeed);
-        leftMinSpeed = max2(5, fabs(minSpeed));
-        rightMinSpeed = max2(5, fabs(rightMaxSpeed/leftMaxSpeed*leftMinSpeed));
-        leftAcc = fabs(acc);
-        rightAcc = fabs(rightMaxSpeed/leftMaxSpeed*leftAcc);
-    }
-    else
-    {
-        rightDegrees = fabs(distance)*sgn(rightMaxSpeed);
-        leftDegrees = leftMaxSpeed/rightMaxSpeed*rightDegrees;
-        leftMaxSpeed = fabs(leftMaxSpeed);
-        rightMaxSpeed = fabs(rightMaxSpeed);
-        rightMinSpeed = max2(5, fabs(minSpeed));
-        leftMinSpeed = max2(5, fabs(leftMaxSpeed/rightMaxSpeed*rightMinSpeed));
-        rightAcc = fabs(acc);
-        leftAcc = fabs(leftMaxSpeed/rightMaxSpeed*rightAcc);
-    }
-    
     // Variables for the main loop
     float leftSpeed;
     float rightSpeed;
@@ -224,53 +172,74 @@ void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distanc
             {
                 break;
             }
-            if (fabs(getRelDegrees(LEFT)-leftDegrees)<=0.5 && fabs(getRelDegrees(RIGHT)-rightDegrees)<=0.5)
+            if (isStop)
             {
-                break;
+                if (leftMaxSpeed>rightMaxSpeed)
+                {
+                    if (fabs(getRelDegrees(LEFT)-distance)<=0.5 && fabs(getRelDegrees(RIGHT)-distance*rightMaxSpeed/leftMaxSpeed)<=0.5)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    if (fabs(getRelDegrees(RIGHT)-distance)<=0.5 && fabs(getRelDegrees(LEFT)-distance*leftMaxSpeed/rightMaxSpeed)<=0.5)
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                if (leftMaxSpeed>rightMaxSpeed)
+                {
+                    if (fabs(getRelDegrees(LEFT))>=fabs(distance)-0.5 && fabs(getRelDegrees(RIGHT))>=fabs(distance*rightMaxSpeed/leftMaxSpeed)-0.5)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    if (fabs(getRelDegrees(RIGHT))>=fabs(distance)-0.5 && fabs(getRelDegrees(LEFT))>=fabs(distance*leftMaxSpeed/rightMaxSpeed)-0.5)
+                    {
+                        break;
+                    }
+                }
             }
         }
 
         // Motion Profiling Speed
         if (state == TIME)
         {
-            if (fabs(leftMaxSpeed)>fabs(rightMaxSpeed))
+            if (fabs(leftMaxSpeed)>=fabs(rightMaxSpeed))
             {
-                leftSpeed = motionProfiling(leftMinSpeed, leftMaxSpeed, leftAcc, leftDegrees, time1(T2)*sgn(leftDegrees));
-                rightSpeed = leftSpeed*rightDegrees/leftDegrees;
+                leftSpeed = motionProfiling(startMinSpeed, endMinSpeed, fabs(leftMaxSpeed), acc, fabs(distance)*sgn(leftMaxSpeed), isAcc, isDecc, isStop, time1(T2)*sgn(leftMaxSpeed));
+                rightSpeed = leftSpeed*rightMaxSpeed/leftMaxSpeed;
             }
             else
             {
-                rightSpeed = motionProfiling(rightMinSpeed, rightMaxSpeed, rightAcc, rightDegrees, time1(T2)*sgn(rightDegrees));
-                leftSpeed = rightSpeed*leftDegrees/rightDegrees;
+                rightSpeed = motionProfiling(startMinSpeed, endMinSpeed, fabs(rightMaxSpeed), acc, fabs(distance)*sgn(rightMaxSpeed), isAcc, isDecc, isStop, time1(T2)*sgn(rightMaxSpeed));
+                leftSpeed = rightSpeed*leftMaxSpeed/rightMaxSpeed;
             }
         }
         else
         {
-            if (fabs(leftMaxSpeed)>fabs(rightMaxSpeed))
+            if (fabs(leftMaxSpeed)>=fabs(rightMaxSpeed))
             {
-                leftSpeed = motionProfilingSynched(leftMinSpeed, leftMaxSpeed, leftAcc, leftDegrees, getRelDegrees(LEFT), time1(T2));
-                rightSpeed = motionProfilingSynched(rightMinSpeed, rightMaxSpeed, rightAcc, fabs(leftDegrees)*sgn(rightDegrees), getRelDegrees(RIGHT)*fabs((rightMaxSpeed!=0 ? (leftMaxSpeed/rightMaxSpeed) : INFINITY)), time1(T2));
+                leftSpeed = motionProfiling(startMinSpeed, endMinSpeed, fabs(leftMaxSpeed), acc, fabs(distance)*sgn(leftMaxSpeed), isAcc, isDecc, isStop, getRelDegrees(LEFT));
+                rightSpeed = leftSpeed*rightMaxSpeed/leftMaxSpeed;
             }
             else
             {
-                rightSpeed = motionProfilingSynched(rightMinSpeed, rightMaxSpeed, rightAcc, rightDegrees, getRelDegrees(RIGHT), time1(T2));
-                leftSpeed = motionProfilingSynched(leftMinSpeed, leftMaxSpeed, leftAcc, fabs(rightDegrees)*sgn(leftDegrees), getRelDegrees(LEFT)*fabs((leftMaxSpeed!=0 ? (rightMaxSpeed/leftMaxSpeed) : INFINITY)), time1(T2));
+                rightSpeed = motionProfiling(startMinSpeed, endMinSpeed, fabs(rightMaxSpeed), acc, fabs(distance)*sgn(rightMaxSpeed), isAcc, isDecc, isStop, getRelDegrees(RIGHT));
+                leftSpeed = rightSpeed*leftMaxSpeed/rightMaxSpeed;
             }
         }
 
         // Steering Correction
-        turnErr = getRelDegrees(LEFT)*rightDegrees-getRelDegrees(RIGHT)*leftDegrees;
-        turnErr /= fabs(rightDegrees)+fabs(leftDegrees);
+        turnErr = getRelDegrees(LEFT)*rightMaxSpeed-getRelDegrees(RIGHT)*leftMaxSpeed;
 
-        if (leftDegrees == 0)
-        {
-            turnErr = 0;
-        }
-        if (rightDegrees == 0)
-        {
-            turnErr = 0;
-        }
-        if (sgn(leftDegrees)!=sgn(rightDegrees))
+        if (sgn(leftMaxSpeed)!=sgn(rightMaxSpeed))
         {
             turnErr*=-1.0;
         }
@@ -278,23 +247,41 @@ void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distanc
         // PD Implementation
         steer = turnErr*turnkP+(turnErr-prevTurnErr)/(time1(T2)-prevTime)*turnkD;
 
-        if (steer > 0)
+        if (leftMaxSpeed == 0)
         {
-            leftSpeed -= ((sgn(leftDegrees)!=0) ? sgn(leftDegrees) : 0)*fabs(steer);
+            leftSpeed -= steer;
+        }
+        else if (rightMaxSpeed == 0)
+        {
+            rightSpeed += steer;
         }
         else
         {
-            rightSpeed -= ((sgn(rightDegrees)!=0) ? sgn(rightDegrees) : 0)*fabs(steer);
+            if (steer > 0)
+            {
+                leftSpeed -= sgn(leftMaxSpeed)*fabs(steer)*(fabs(leftSpeed)+fabs(rightSpeed));
+            }
+            else
+            {
+                rightSpeed -= sgn(rightMaxSpeed)*fabs(steer)*(fabs(leftSpeed)+fabs(rightSpeed));
+            }
         }
 
         prevTurnErr = turnErr;
         prevTime = time1(T2);
+        writeDebugStream("%0.2f, %0.2f\n", turnErr, steer);
+
         setSpeed(leftSpeed, rightSpeed);
         sleep(1);
     }
 
-    setSpeed(0, 0);
     resetRelative();
+
+    if (isStop)
+    {
+        setSpeed(0, 0);
+    }
+
 }
 
 // Moves the drivetrain to a certain absolute target (CM, Degrees)
@@ -321,11 +308,11 @@ void moveAbs(float maxSpeed, float minSpeed, float lDeg, float rDeg, float acc, 
         rSpeed = fabs(maxSpeed)*sgn(rDeg);
         lSpeed = lDeg/rDeg*rSpeed;
     }
-    move(lSpeed, rSpeed, minSpeed, target, acc, turnkP, turnkD, RELDEG);
+    move(lSpeed, rSpeed, target, minSpeed, minSpeed, acc, turnkP, turnkD, true, true, true, RELDEG);
 }
 
 // Moves the drivetrain to a certain sensing
-void moveSense(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float targetRefl, float acc, float turnkP, float turnkD, int port, int state)
+void moveSense(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float targetRefl, float acc, float turnkP, float turnkD, int port, bool isAcc, bool isDecc, bool isStop, int state)
 {
     if (state == COLOR)
     {
@@ -383,6 +370,7 @@ void moveSense(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float ta
 
     // Starts the main loop
     clearTimer(T2);
+    resetRelative();
 
     while (true)
     {
@@ -452,7 +440,6 @@ void moveSense(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float ta
     }
 
     setSpeed(0, 0);
-    resetRelative();
 }
 
 // Function to keep default parameters in the move function
@@ -562,7 +549,6 @@ void lineFollow(float maxSpeed, float minSpeed, float distance, float midpoint, 
 
         err = getReflection(port)-midpoint;
         steer = err*kP+(err-prevErr)/(time1(T2)-prevTime)*kD;
-        // steer*=speed/100.0;
         prevErr = err;
         prevTime = time1(T2);
         setSpeed(speed+steer, speed-steer);
@@ -766,7 +752,7 @@ void moveArm(float maxSpeed, float minSpeed, float distance, float acc, int port
             }
         }
 
-        setArmSpeed(port, motionProfiling(minSpeed, maxSpeed, acc, distance, ((state==TIME) ? time1(T2) : getArmDegrees(port))));
+        setArmSpeed(port, motionProfilingArm(minSpeed, maxSpeed, acc, distance, ((state==TIME) ? time1(T2) : getArmDegrees(port))));
     }
     setArmSpeed(port, 0);
 }
@@ -778,329 +764,4 @@ void moveArmAbs(float maxSpeed, float minSpeed, float target, float acc, int por
     if (target == 0){return;}
     maxSpeed = fabs(maxSpeed)*sgn(target);
     moveArm(maxSpeed, minSpeed, target, acc, port, RELDEG);
-}
-
-// Function for movement with flags
-float motionProfilingSuper(float startMinSpeed, float endMinSpeed, float maxSpeed, float acc, float dist, bool isAcc, bool isDecc, bool isStop, float curDegrees)
-{
-    maxSpeed = max2(max2(startMinSpeed, maxSpeed), endMinSpeed);
-    if (acc == 0)
-    {
-        acc = INFINITY;
-    }
-    float speed = maxSpeed;
-    bool negative = false;
-    if (dist < 0)
-    {
-        dist *= -1.0;
-        negative = true;
-        curDegrees *= -1.0;
-    }
-    float err = dist-curDegrees;
-
-    if (curDegrees*curDegrees*acc+startMinSpeed<speed && isAcc)
-    {
-        speed = curDegrees*curDegrees*acc+startMinSpeed;
-    }
-
-    if (err*err*acc+endMinSpeed < speed && isDecc)
-    {
-        speed = err*err*acc+endMinSpeed;
-    }
-
-    if (isStop && err<0)
-    {
-        speed *= -1;
-    }
-    
-    if (!isStop && isDecc && err<0)
-    {
-        speed = endMinSpeed;
-    }
-    
-    if (!isStop && !isDecc && err<0)
-    {
-        speed = maxSpeed;
-    }
-
-    // if (fabs(err)<0.5 && isStop)
-    // {
-    //     speed = 0;
-    // }
-
-    if (negative)
-    {
-        speed *= -1;
-    }
-
-    return speed;
-}
-
-// Moves the drivetrain to a certain sensing
-void moveSenseSuper(float leftMaxSpeed, float rightMaxSpeed, float startMinSpeed, float endMinSpeed, float targetRefl, float acc, float turnkP, float turnkD, int port, bool isAcc, bool isDecc, bool isStop, int state)
-{
-    if (state == COLOR)
-    {
-        getColor(port);
-    }
-    else
-    {
-        getReflection(port);
-    }
-    sleep(50);
-    acc *= 0.5;
-
-    int prevTime = -1;
-    float prevTurnErr = 0;
-
-    turnkP = fabs(turnkP);
-    turnkD = fabs(turnkD);
-
-    // Variables for the main loop
-    float leftSpeed;
-    float rightSpeed;
-    float turnErr;
-    float steer;
-
-    // Starts the main loop
-    clearTimer(T2);
-
-    while (true)
-    {
-        // Does the exit conditions
-        if (time1(T2)>=10000)
-        {
-            break;
-        }
-        if (state == GREATREFL && getReflection(port)>=targetRefl)
-        {
-            break;
-        }
-        else if (state == LESSREFL && getReflection(port)<=targetRefl)
-        {
-            break;
-        }
-        else if (state == COLOR && getColor(port) == targetRefl)
-        {
-            break;
-        }
-
-
-        // Motion Profiling Speed
-        if (fabs(leftMaxSpeed)>=fabs(rightMaxSpeed))
-        {
-            leftSpeed = motionProfilingSuper(startMinSpeed, endMinSpeed, fabs(leftMaxSpeed), acc, fabs(10000)*sgn(leftMaxSpeed), isAcc, isDecc, isStop, getRelDegrees(LEFT));
-            rightSpeed = leftSpeed*rightMaxSpeed/leftMaxSpeed;
-        }
-        else
-        {
-            rightSpeed = motionProfilingSuper(startMinSpeed, endMinSpeed, fabs(rightMaxSpeed), acc, fabs(10000)*sgn(rightMaxSpeed), isAcc, isDecc, isStop, getRelDegrees(RIGHT));
-            leftSpeed = rightSpeed*leftMaxSpeed/rightMaxSpeed;
-        }
-
-        // Steering Correction
-        turnErr = getRelDegrees(LEFT)*rightMaxSpeed-getRelDegrees(RIGHT)*leftMaxSpeed;
-
-        if (sgn(leftMaxSpeed)!=sgn(rightMaxSpeed))
-        {
-            turnErr*=-1.0;
-        }
-
-        // PD Implementation
-        steer = turnErr*turnkP+(turnErr-prevTurnErr)/(time1(T2)-prevTime)*turnkD;
-
-        if (leftMaxSpeed == 0)
-        {
-            leftSpeed -= steer;
-        }
-        else if (rightMaxSpeed == 0)
-        {
-            rightSpeed += steer;
-        }
-        else
-        {
-            if (steer > 0)
-            {
-                leftSpeed -= sgn(leftMaxSpeed)*fabs(steer)*(fabs(leftSpeed)+fabs(rightSpeed));
-            }
-            else
-            {
-                rightSpeed -= sgn(rightMaxSpeed)*fabs(steer)*(fabs(leftSpeed)+fabs(rightSpeed));
-            }
-        }
-
-        prevTurnErr = turnErr;
-        prevTime = time1(T2);
-
-        setSpeed(leftSpeed, rightSpeed);
-        sleep(1);
-    }
-    
-    resetRelative();
-
-    if (isStop)
-    {
-        setSpeed(0, 0);
-    }
-
-}
-
-// Moves the drivetrain to a certain target (CM, Degrees, Seconds)
-void moveSuper(float leftMaxSpeed, float rightMaxSpeed, float distance, float startMinSpeed, float endMinSpeed, float acc, float turnkP, float turnkD, bool isAcc, bool isDecc, bool isStop, int state)
-{
-    // Switches based on the state
-    if (state == RELCM)
-    {
-        distance = degFromCM(distance);
-        state = RELDEG;
-    }
-    else if (state == TIME)
-    {
-        acc *= 0.5;
-    }
-
-    int prevTime = -1;
-    float prevTurnErr = 0;
-
-    turnkP = fabs(turnkP);
-    turnkD = fabs(turnkD);
-
-    // Variables for the main loop
-    float leftSpeed;
-    float rightSpeed;
-    float turnErr;
-    float steer;
-
-    // Starts the main loop
-    clearTimer(T2);
-
-    while (true)
-    {
-        // Does the exit conditions
-        if (state == TIME)
-        {
-            if (time1(T2)>=fabs(distance))
-            {
-                break;
-            }
-        }
-        else
-        {
-            if (time1(T2)>=3000)
-            {
-                break;
-            }
-            if (isStop)
-            {
-                if (leftMaxSpeed>rightMaxSpeed)
-                {
-                    if (fabs(getRelDegrees(LEFT)-distance)<=1 && fabs(getRelDegrees(RIGHT)-distance*rightMaxSpeed/leftMaxSpeed)<=1)
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    if (fabs(getRelDegrees(RIGHT)-distance)<=1 && fabs(getRelDegrees(LEFT)-distance*leftMaxSpeed/rightMaxSpeed)<=1)
-                    {
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                if (leftMaxSpeed>rightMaxSpeed)
-                {
-                    if (fabs(getRelDegrees(LEFT))>=fabs(distance)-0.5 && fabs(getRelDegrees(RIGHT))>=fabs(distance*rightMaxSpeed/leftMaxSpeed)-0.5)
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    if (fabs(getRelDegrees(RIGHT))>=fabs(distance)-0.5 && fabs(getRelDegrees(LEFT))>=fabs(distance*leftMaxSpeed/rightMaxSpeed)-0.5)
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-
-        // Motion Profiling Speed
-        if (state == TIME)
-        {
-            if (fabs(leftMaxSpeed)>=fabs(rightMaxSpeed))
-            {
-                leftSpeed = motionProfilingSuper(startMinSpeed, endMinSpeed, fabs(leftMaxSpeed), acc, fabs(distance)*sgn(leftMaxSpeed), isAcc, isDecc, isStop, time1(T2)*sgn(leftMaxSpeed));
-                rightSpeed = motionProfilingSuper(startMinSpeed*rightMaxSpeed/leftMaxSpeed, endMinSpeed*rightMaxSpeed/leftMaxSpeed, fabs(rightMaxSpeed), fabs(acc*rightMaxSpeed/leftMaxSpeed), fabs(distance)*sgn(rightMaxSpeed), isAcc, isDecc, isStop, time1(T2)*sgn(rightMaxSpeed))
-                // rightSpeed = leftSpeed*rightMaxSpeed/leftMaxSpeed;
-            }
-            else
-            {
-                rightSpeed = motionProfilingSuper(startMinSpeed, endMinSpeed, fabs(rightMaxSpeed), acc, fabs(distance)*sgn(rightMaxSpeed), isAcc, isDecc, isStop, time1(T2)*sgn(rightMaxSpeed));
-                leftSpeed = motionProfilingSuper(startMinSpeed*leftMaxSpeed/rightMaxSpeed, endMinSpeed*leftMaxSpeed/rightMaxSpeed, fabs(leftMaxSpeed), fabs(acc*leftMaxSpeed/rightMaxSpeed), fabs(distance)*sgn(leftMaxSpeed), isAcc, isDecc, isStop, time1(T2)*sgn(leftMaxSpeed))
-                // leftSpeed = rightSpeed*leftMaxSpeed/rightMaxSpeed;
-            }
-        }
-        else
-        {
-            if (fabs(leftMaxSpeed)>=fabs(rightMaxSpeed))
-            {
-                leftSpeed = motionProfilingSuper(startMinSpeed, endMinSpeed, fabs(leftMaxSpeed), acc, fabs(distance)*sgn(leftMaxSpeed), isAcc, isDecc, isStop, getRelDegrees(LEFT));
-                rightSpeed = motionProfilingSuper(startMinSpeed*rightMaxSpeed/leftMaxSpeed, endMinSpeed*rightMaxSpeed/leftMaxSpeed, fabs(rightMaxSpeed), fabs(acc*rightMaxSpeed/leftMaxSpeed), fabs(distance*rightMaxSpeed/leftMaxSpeed)*sgn(rightMaxSpeed), isAcc, isDecc, isStop, getRelDegrees(RIGHT));
-                // rightSpeed = leftSpeed*rightMaxSpeed/leftMaxSpeed;
-            }
-            else
-            {
-                rightSpeed = motionProfilingSuper(startMinSpeed, endMinSpeed, fabs(rightMaxSpeed), acc, fabs(distance)*sgn(rightMaxSpeed), isAcc, isDecc, isStop, getRelDegrees(RIGHT));
-                leftSpeed = motionProfilingSuper(startMinSpeed*leftMaxSpeed/rightMaxSpeed, endMinSpeed*leftMaxSpeed/rightMaxSpeed, fabs(leftMaxSpeed), fabs(acc*leftMaxSpeed/rightMaxSpeed), fabs(distance*leftMaxSpeed/rightMaxSpeed)*sgn(leftMaxSpeed), isAcc, isDecc, isStop, getRelDegrees(LEFT));
-                // leftSpeed = rightSpeed*leftMaxSpeed/rightMaxSpeed;
-            }
-        }
-
-        // Steering Correction
-        turnErr = getRelDegrees(LEFT)*rightMaxSpeed-getRelDegrees(RIGHT)*leftMaxSpeed;
-
-        if (sgn(leftMaxSpeed)!=sgn(rightMaxSpeed))
-        {
-            turnErr*=-1.0;
-        }
-
-        // PD Implementation
-        steer = turnErr*turnkP+(turnErr-prevTurnErr)/(time1(T2)-prevTime)*turnkD;
-
-        if (leftMaxSpeed == 0)
-        {
-            leftSpeed -= steer;
-        }
-        else if (rightMaxSpeed == 0)
-        {
-            rightSpeed += steer;
-        }
-        else
-        {
-            if (steer > 0)
-            {
-                leftSpeed -= sgn(leftMaxSpeed)*fabs(steer)*(fabs(leftSpeed)+fabs(rightSpeed));
-            }
-            else
-            {
-                rightSpeed -= sgn(rightMaxSpeed)*fabs(steer)*(fabs(leftSpeed)+fabs(rightSpeed));
-            }
-        }
-
-        prevTurnErr = turnErr;
-        prevTime = time1(T2);
-
-        setSpeed(leftSpeed, rightSpeed);
-        sleep(1);
-    }
-
-    resetRelative();
-
-    if (isStop)
-    {
-        setSpeed(0, 0);
-    }
-
 }

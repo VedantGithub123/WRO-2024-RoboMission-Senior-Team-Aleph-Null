@@ -25,7 +25,7 @@ task liftDown()
 
 task readyLiftForPicking()
 {
-	moveArm(60, 20, 161, 0.3, LIFT, RELDEG);
+	moveArm(60, 20, 158, 0.3, LIFT, RELDEG);
 	stopTask(readyLiftForPicking);
 }
 
@@ -37,7 +37,7 @@ task readyLiftForPicking2()
 
 task clawReady()
 {
-	moveArmAbs(100, 50, 300, 0.7, CLAW);
+	moveArmAbs(100, 30, 300, 0.3, CLAW);
 	stopTask(clawReady);
 }
 
@@ -56,76 +56,75 @@ void code()
 
     // Goes to the first 4 blocks
     moveSimpleNone(-100, -100, 1000, TIME);
-	sleep(100);
-	moveSimpleAcc(100, 100, 280, 0.25, RELDEG);
-	turn1Motor(100, 90, LEFT);
-	moveSimpleAcc(100, 100, 300, 0.25, RELDEG);
-	moveSenseSimple(25, 25, BLACK, 2, COLOR);
-	moveSimpleAcc(100, 100, 192, 0.25, RELDEG);
-	turn2Motor(20, 90);
-	startTask(liftDown);
-	startTask(clawReady);
+    sleep(100);
+    moveSimpleAcc(100, 100, 290, 0.25, RELDEG);
+    turn1Motor(100, 90, LEFT);
+	resetRelative();
+	// moveSuper(100, 100, 300, 10, 100, 0.005, 0.0005, 0.001, true, false, false, RELDEG);
+	moveSenseSuper(100, 100, 30, 100, BLACK, 0.005, 0.0005, 0.001, 3, true, false, false, COLOR);
+	moveSuper(100, 100, 160, 100, 15, 0.004, 0.0005, 0.001, false, true, true, RELDEG);
+    // moveSimpleAcc(100, 100, 300, 0.25, RELDEG);
+    // moveSenseSimple(25, 25, BLACK, 2, COLOR);
+    // moveSimpleAcc(100, 100, 192, 0.25, RELDEG);
+    turn2Motor(20, 90);
+    startTask(liftDown);
+    startTask(clawReady);
 	
 	// ------------------------------------------------------------------------------//
 	
 	// Collects the first 4 blocks
-	moveSenseSimple(15, 15, WHITE, 3, COLOR);
-	moveSenseSimple(15, 15, 55, 3, LESSREFL);
-   	moveSimple(100, 100, 50, RELDEG);
-	moveArm(-100, 50, 25, 0.3, LIFT, RELDEG);
-   	moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
-	setArmSpeed(CLAW, -100);
-   	moveSimple(100, 100, 55, RELDEG);
-	moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
-   	moveArm(100, 100, 50, 0.01, LIFT, RELDEG);
-   	moveSimple(100, 100, 70, RELDEG);
-	moveArm(-100, -100, 500, 0.01, LIFT, TIME);
+	resetRelative();
+	moveSenseSuper(30, 30, 10, 30, WHITE, 0.005, 0.0005, 0.001, 3, true, false, false, COLOR);
+	moveSenseSuper(30, 30, 30, 30, 60, 0.005, 0.0005, 0.001, 3, false, false, false, LESSREFL);
+	moveSuper(50, 50, 50, 30, 15, 0.004, 0.0005, 0.001, true, true, true, RELDEG);
+	stopTask(clawReady);
+    moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
+    setArmSpeed(CLAW, -100);
+    moveSimple(100, 100, 55, RELDEG);
+    moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
+    moveArm(100, 100, 50, 0.01, LIFT, RELDEG);
+    moveSimple(100, 100, 70, RELDEG);
+    moveArm(-100, -100, 500, 0.01, LIFT, TIME);
 
 	// ------------------------------------------------------------------------------//
 	
 	// Goes to the yellow area
 	turn1Motor(100, -55, LEFT);
 	turn1Motor(100, -55, RIGHT);
-	lineSquare(50, 50, 2, 3, -0.5, -55, 700);
-	moveSimple(-70, -70, 700, RELDEG);
+	lineSquare(50, 50, 2, 3, -0.5, -55, 670);
+	moveSimple(-70, -70, 680, RELDEG);
 
 	// ------------------------------------------------------------------------------//
 	
 	// Stacks the first 4 blocks
-	moveArm(60, 20, 161, 0.3, LIFT, RELDEG);
+	moveArm(60, 20, 162, 0.3, LIFT, RELDEG);
 	moveSimple(-15, -15, 83, RELDEG);
     sleep(200);
 	moveArmAbs(100, 100, 300, 0.7, CLAW);
-	moveSimple(-100, -100, 110, RELDEG);
+	moveSimple(-100, -100, 100, RELDEG);
 	startTask(liftUp1000);
 
 	// ------------------------------------------------------------------------------//
 	
     // Goes to the next 4 blocks
-	// moveSenseSimple(-100, -100, BLACK, 3, COLOR);
-    // turn1Motor(100, 120, RIGHT);
-	// turn1Motor(100, 30, LEFT);
-	// lineFollow(30, 30, 320, 50, 0.1, 0.6, 100, 2, RELDEG);
-	// moveSenseSimple(20, 20, RED, 2, COLOR);
-	// moveSimpleAcc(-50, -50, 460, 0.25, RELDEG);
-	// turn2Motor(20, -91);
 	turn2Motor(50, -90);
-	// moveSenseSimple(-30, -30, BLACK, 3, COLOR);
-	lineSquare(50, 50, 2, 3, -0.5, -55, 700);
-	moveSimple(100, 100, 110, RELDEG);
-	turn1Motor(100, 90, RIGHT);
-	startTask(liftDown);
-	moveSimple(-50, -50, 50, RELDEG);
+    lineSquare(50, 50, 2, 3, -0.5, -55, 700);
+    moveSimpleAcc(100, 100, 130, 0.2, RELDEG);
+    turn1Motor(100, 90, RIGHT);
+	stopTask(liftUp1000);
+    startTask(liftDown);
+    moveSimple(-50, -50, 50, RELDEG);
+	sleep(300);
 
 	// ------------------------------------------------------------------------------//
 	
 	// Collects the next 4 blocks
-	moveSenseSimple(15, 15, WHITE, 3, COLOR);
-	moveSenseSimple(15, 15, 55, 3, LESSREFL);
-    moveSimple(100, 100, 40, RELDEG);
-	moveArm(-100, 50, 28, 0.3, LIFT, RELDEG);
-    moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
-	setArmSpeed(CLAW, -100);
+	moveSenseSuper(30, 30, 10, 30, WHITE, 0.005, 0.0005, 0.001, 3, true, false, false, COLOR);
+	moveSenseSuper(30, 30, 30, 30, 65, 0.005, 0.0005, 0.001, 3, false, false, false, LESSREFL);
+	moveSuper(50, 50, 25, 30, 15, 0.004, 0.0005, 0.001, true, true, true, RELDEG);
+	stopTask(liftDown);
+    moveArm(-100, -100, 1000, 0.7, CLAW, TIME);
+    setArmSpeed(CLAW, -100);
     moveSimple(100, 100, 52, RELDEG);
 	moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
     moveArm(100, 100, 50, 0.01, LIFT, RELDEG);
@@ -141,7 +140,7 @@ void code()
 	lineSquare(50, 50, 2, 3, -0.5, -55, 1000);
 	moveSimple(100, 100, 165, RELDEG);
 	turn2Motor(50, 90);
-	moveSimpleNone(-100, -100, 1000, TIME);
+	moveSimpleNone(-100, -100, 1500, TIME);
 	sleep(100);
 	
 	// ------------------------------------------------------------------------------//
@@ -182,6 +181,7 @@ void code()
 	moveArm(-100, 100, 60, 0.3, LIFT, RELDEG);
 	startTask(liftUp500Delayed);
     moveSenseSimple(-80, -80, BLACK, 3, COLOR);
+	return;
 
 	// ------------------------------------------------------------------------------//
 	
