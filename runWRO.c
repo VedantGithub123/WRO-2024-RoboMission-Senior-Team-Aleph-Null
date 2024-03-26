@@ -20,7 +20,6 @@ task main()
 	clearTimer(T1);									// Clears the timer for timing the run
 
 	// Runs all the zones here
-	moveArmAbs(100, 100, 280, 0.7, CLAW);
 	code();
 
 	// Time display after the challenge is finished

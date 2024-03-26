@@ -1115,7 +1115,7 @@ void moveSuperSimple(float leftMaxSpeed, float rightMaxSpeed, float distance, in
 // Function to keep default parameters in the move function
 void moveSuperSimpleAcc(float leftMaxSpeed, float rightMaxSpeed, float distance, float acc, int state)
 {
-    moveSuper(leftMaxSpeed, rightMaxSpeed, distance, 12, 12, acc, 0.0005, 0.001, true, true, true, state);
+    moveSuper(leftMaxSpeed, rightMaxSpeed, distance, 12, 12, acc/70.0, 0.0005, 0.001, true, true, true, state);
 }
 
 // Function to turn with 2 motors
