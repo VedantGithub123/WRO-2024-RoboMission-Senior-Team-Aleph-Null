@@ -86,17 +86,17 @@ task main()
                     if (fabs(getRelDegrees(LEFT))<10 && fabs(getRelDegrees(RIGHT))>10){
                         float val = cmFromDeg(getRelDegrees(RIGHT)/2.0);
                         if (mod(angleFromCM(fabs(val)), 90)<5 || mod(angleFromCM(fabs(val)), 90)>85){
-                            writeDebugStreamLine("turn1Motor(50, %d, RIGHT);", 90*round(angleFromCM(val)/90.0));
+                            writeDebugStreamLine("turn1Motor(%d, %d, RIGHT);", sgn(val)*50, 90*round(angleFromCM(val)/90.0));
                         }else{
-                            writeDebugStreamLine("turn1Motor(50, %d, RIGHT);", angleFromCM(val));
+                            writeDebugStreamLine("turn1Motor(%d, %d, RIGHT);", sgn(val)*50, angleFromCM(val));
                         }
                     }
                     else if (fabs(getRelDegrees(RIGHT))<10 && fabs(getRelDegrees(LEFT))>10){
                         float val = cmFromDeg(getRelDegrees(LEFT)/2.0);
                         if (mod(angleFromCM(fabs(val)), 90)<5 || mod(angleFromCM(fabs(val)), 90)>85){
-                            writeDebugStreamLine("turn1Motor(50, %d, LEFT);", 90*round(angleFromCM(val)/90.0));
+                            writeDebugStreamLine("turn1Motor(%d, %d, LEFT);", sgn(val)*50, 90*round(angleFromCM(val)/90.0));
                         }else{
-                            writeDebugStreamLine("turn1Motor(50, %d, LEFT);", angleFromCM(val));
+                            writeDebugStreamLine("turn1Motor(%d, %d, LEFT);", sgn(val)*50, angleFromCM(val));
                         }
                     }
                     else if (fabs(getRelDegrees(RIGHT))/fabs(getRelDegrees(LEFT))<1.15 && fabs(getRelDegrees(RIGHT))/fabs(getRelDegrees(LEFT))>0.85){

@@ -198,7 +198,7 @@ void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distanc
         rightAcc = fabs(acc);
         leftAcc = fabs(leftMaxSpeed/rightMaxSpeed*rightAcc);
     }
-    
+
     // Variables for the main loop
     float leftSpeed;
     float rightSpeed;
@@ -726,6 +726,7 @@ void lineSquare(int mid1, int mid2, int port1, int port2, float kP, float kD, in
         sleep(1);
     }
 
+    resetRelative();
     setSpeed(0, 0);
 
 }
@@ -812,12 +813,12 @@ float motionProfilingSuper(float startMinSpeed, float endMinSpeed, float maxSpee
     {
         speed *= -1;
     }
-    
+
     if (!isStop && isDecc && err<0)
     {
         speed = endMinSpeed;
     }
-    
+
     if (!isStop && !isDecc && err<0)
     {
         speed = maxSpeed;
@@ -935,7 +936,7 @@ void moveSenseSuper(float leftMaxSpeed, float rightMaxSpeed, float startMinSpeed
         setSpeed(leftSpeed, rightSpeed);
         sleep(1);
     }
-    
+
     resetRelative();
 
     if (isStop)
@@ -1032,13 +1033,13 @@ void moveSuper(float leftMaxSpeed, float rightMaxSpeed, float distance, float st
             if (fabs(leftMaxSpeed)>=fabs(rightMaxSpeed))
             {
                 leftSpeed = motionProfilingSuper(startMinSpeed, endMinSpeed, fabs(leftMaxSpeed), acc, fabs(distance)*sgn(leftMaxSpeed), isAcc, isDecc, isStop, time1(T2)*sgn(leftMaxSpeed));
-                rightSpeed = motionProfilingSuper(startMinSpeed*rightMaxSpeed/leftMaxSpeed, endMinSpeed*rightMaxSpeed/leftMaxSpeed, fabs(rightMaxSpeed), fabs(acc*rightMaxSpeed/leftMaxSpeed), fabs(distance)*sgn(rightMaxSpeed), isAcc, isDecc, isStop, time1(T2)*sgn(rightMaxSpeed))
+                rightSpeed = motionProfilingSuper(startMinSpeed*rightMaxSpeed/leftMaxSpeed, endMinSpeed*rightMaxSpeed/leftMaxSpeed, fabs(rightMaxSpeed), fabs(acc*rightMaxSpeed/leftMaxSpeed), fabs(distance)*sgn(rightMaxSpeed), isAcc, isDecc, isStop, time1(T2)*sgn(rightMaxSpeed));
                 // rightSpeed = leftSpeed*rightMaxSpeed/leftMaxSpeed;
             }
             else
             {
                 rightSpeed = motionProfilingSuper(startMinSpeed, endMinSpeed, fabs(rightMaxSpeed), acc, fabs(distance)*sgn(rightMaxSpeed), isAcc, isDecc, isStop, time1(T2)*sgn(rightMaxSpeed));
-                leftSpeed = motionProfilingSuper(startMinSpeed*leftMaxSpeed/rightMaxSpeed, endMinSpeed*leftMaxSpeed/rightMaxSpeed, fabs(leftMaxSpeed), fabs(acc*leftMaxSpeed/rightMaxSpeed), fabs(distance)*sgn(leftMaxSpeed), isAcc, isDecc, isStop, time1(T2)*sgn(leftMaxSpeed))
+                leftSpeed = motionProfilingSuper(startMinSpeed*leftMaxSpeed/rightMaxSpeed, endMinSpeed*leftMaxSpeed/rightMaxSpeed, fabs(leftMaxSpeed), fabs(acc*leftMaxSpeed/rightMaxSpeed), fabs(distance)*sgn(leftMaxSpeed), isAcc, isDecc, isStop, time1(T2)*sgn(leftMaxSpeed));
                 // leftSpeed = rightSpeed*leftMaxSpeed/rightMaxSpeed;
             }
         }
@@ -1103,4 +1104,37 @@ void moveSuper(float leftMaxSpeed, float rightMaxSpeed, float distance, float st
         setSpeed(0, 0);
     }
 
+}
+
+// Function to keep default parameters in the move function
+void moveSuperSimple(float leftMaxSpeed, float rightMaxSpeed, float distance, int state)
+{
+    moveSuper(leftMaxSpeed, rightMaxSpeed, distance, 12, 12, 0.005, 0.0005, 0.001, true, true, true, state);
+}
+
+// Function to keep default parameters in the move function
+void moveSuperSimpleAcc(float leftMaxSpeed, float rightMaxSpeed, float distance, float acc, int state)
+{
+    moveSuper(leftMaxSpeed, rightMaxSpeed, distance, 12, 12, acc, 0.0005, 0.001, true, true, true, state);
+}
+
+// Function to turn with 2 motors
+void turn2MotorSuper(float speed, float angle)
+{
+    speed = fabs(speed);
+    moveSuperSimple(speed*sgn(angle), speed*sgn(angle)*-1.0, angle/360.0*wheelDist*PI, RELCM);
+}
+
+// Function to turn with 1 motor
+void turn1MotorSuper(float speed, float angle, int port)
+{
+    speed = fabs(speed);
+    if (port == LEFT)
+    {
+        moveSuperSimple(speed*sgn(angle), 0, angle/360.0*2.0*wheelDist*PI, RELCM);
+    }
+    else
+    {
+        moveSuperSimple(0, speed*sgn(angle), angle/360.0*2.0*wheelDist*PI, RELCM);
+    }
 }
