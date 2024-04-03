@@ -562,9 +562,8 @@ void lineFollow(float maxSpeed, float minSpeed, float distance, float midpoint, 
 
         err = getReflection(port)-midpoint;
         steer = err*kP+(err-prevErr)/(time1(T2)-prevTime)*kD;
-        // steer*=speed/100.0;
-        prevErr = err;
         prevTime = time1(T2);
+        prevErr = err;
         setSpeed(speed+steer, speed-steer);
         sleep(1);
 
@@ -823,11 +822,6 @@ float motionProfilingSuper(float startMinSpeed, float endMinSpeed, float maxSpee
     {
         speed = maxSpeed;
     }
-
-    // if (fabs(err)<0.5 && isStop)
-    // {
-    //     speed = 0;
-    // }
 
     if (negative)
     {
