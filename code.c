@@ -100,9 +100,9 @@ void code()
 	resetRelative();
     moveSimpleAcc(30, 30, 95, 0.15, RELDEG);
 	stopTask(clawReady);
-    moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
+    // moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
     setArmSpeed(CLAW, -100);
-	sleep(100);
+	sleep(500);
     moveSimple(100, 100, 65, RELDEG);
     moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
     moveArm(100, 100, 50, 0.01, LIFT, RELDEG);
@@ -143,9 +143,9 @@ void code()
 	resetRelative();
     moveSimpleAcc(30, 30, 103, 0.15, RELDEG);
 	stopTask(liftDown);
-    moveArm(-100, -100, 1000, 0.7, CLAW, TIME);
+    // moveArm(-100, -100, 1000, 0.7, CLAW, TIME);
     setArmSpeed(CLAW, -100);
-	sleep(100);
+	sleep(500);
     moveSimple(100, 100, 62, RELDEG);
 	moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
     moveArm(100, 100, 50, 0.01, LIFT, RELDEG);
@@ -170,9 +170,9 @@ void code()
 	moveArm(60, 30, 30, 0.3, LIFT, RELDEG);
 	moveArmAbs(100, 100, 230, 0.7, CLAW);
 	moveArm(100, 100, 500, 0.3, LIFT, TIME);
-    moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
+    // moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
 	setArmSpeed(CLAW, -100);
-	sleep(100);
+	sleep(500);
 	moveArm(-50, 20, 195, 0.1, LIFT, RELDEG);
 
     // Goes to the first stack of blocks
@@ -216,20 +216,24 @@ void code()
 		resetRelative();
 		moveSimpleAcc(30, 30, 100, 0.15, RELDEG);
 		stopTask(clawReady);
-		moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
+		// moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
 		setArmSpeed(CLAW, -100);
-		sleep(100);
+		sleep(500);
 		moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
-		turn1Motor(100, -180, LEFT);
+		moveSimpleAcc(30, 30, 70, 0.15, RELDEG);
+		turn1Motor(50, -90, LEFT);
+	}
+	else
+	{
+		moveSimpleNone(-50, -50, 1000, TIME);
+		sleep(100);
+		moveSimple(100, 100, 254, RELDEG);
+		turn1Motor(100, 90, LEFT);
 	}
 
     // Collects the two debris on the left side
-    moveSimpleNone(-50, -50, 1000, TIME);
-	sleep(100);
-	moveSimple(100, 100, 254, RELDEG);
-	turn1Motor(100, 90, LEFT);
-	moveSenseSimple(-40, -40, BLACK, 2, COLOR);
-	moveSimple(100, 100, 625, RELDEG);
+	moveSenseSimple(-25, -25, BLACK, 2, COLOR);
+	moveSimpleAcc(100, 100, 625, 0.2, RELDEG);
 	turn2Motor(50, 60);
 	moveArm(100, 100, 62, 0.3, LIFT, RELDEG);
 	moveSimple(100, 100, 240, RELDEG);
@@ -239,10 +243,10 @@ void code()
 	sleep(100);
 
     // Moves the red stack over
-	moveSimpleAcc(100, 100, 1550, 0.2, RELDEG);
+	moveSimpleAcc(100, 100, 1670, 0.2, RELDEG);
 	moveArm(100, 100, 94, 0.3, LIFT, RELDEG);
 	startTask(liftUp500Delayed);
-	moveSimpleAcc(-100, -100, 470, 0.2, RELDEG);
+	moveSimpleAcc(-100, -100, 590, 0.2, RELDEG);
 	turn1Motor(50, -92, RIGHT);
     moveSenseSimple(-40, -40, RED, 1, COLOR);
 	moveSimple(-40, -40, 50, RELDEG);
@@ -256,19 +260,20 @@ void code()
 	moveSenseSuper(100, 100, 100, 100, BLACK, 0.005, 0.0003, 0.001, 3, false, false, false, COLOR);
 	moveSuper(100, 100, 255, 100, 15, 0.004, 0.0003, 0.001, false, true, true, RELDEG);
 	moveSenseSimple(0, 100, 40, 2, LESSREFL);
-	lineFollow(70, 20, 820, 55, 0.3, -0.6, 80, 2, RELDEG);
+	lineFollow(70, 30, 820, 55, 0.3, -0.6, 80, 2, RELDEG);
 	resetRelative();
 	moveSenseSimple(30, 30, BLACK, 3, COLOR);
-    sleep(200);
-	moveSimpleAcc(-60, -60, 380, 0.2, RELDEG);
-	turn1Motor(50, -92.5, RIGHT);
+    sleep(100);
+	moveSimpleAcc(-100, -100, 380, 0.15, RELDEG);
+	
 
     // Collects the green/blue blocks if they are there
 	if (startedClose)
     {
+		turn1Motor(50, -92.5, RIGHT);
 		if(skipGreenBlueStack) // Collects with rack gear if not stacking
 		{
-			moveArm(100, 100, 100,0.01, LIFT, RELDEG);
+			moveArm(100, 100, 100, 0.01, LIFT, RELDEG);
 			moveSimple(100, 100, 220, RELDEG);
 			moveArm(-100, -100, 500,0.01, LIFT, TIME);
 		}
@@ -283,9 +288,9 @@ void code()
 			resetRelative();
 			moveSimpleAcc(30, 30, 105, 0.15, RELDEG);
 			stopTask(clawReady);
-			moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
+			// moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
 			setArmSpeed(CLAW, -100);
-			sleep(100);
+			sleep(500);
 			moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
 		}
 	}
@@ -304,22 +309,28 @@ void code()
 		}
 		else
 		{ // If the blocks are in the claw, place them down and then move back
-			turn1Motor(100, 30, RIGHT);
+			turn1Motor(100, -62.5, RIGHT);
 			turn1Motor(100, 30, LEFT);
 			moveSuper(-100, -100, 400, 15, 100, 0.004, 0.0003, 0.001, true, false, false, RELDEG);
 			moveSenseSuper(-100, -100, 100, 100, WHITE, 0.005, 0.0003, 0.001, 2, false, false, false, COLOR);
 			moveSuper(-100, -100, 450, 100, 10, 0.004, 0.0003, 0.001, false, true, false, RELDEG);
 			setSpeed(0, 0);
-			moveArm(100, 100, 800, 0.01, LIFT, TIME);
+			startTask(liftDown);
+			sleep(300);
 			moveArmAbs(100, 100, 330, 0.7, CLAW);
 			turn1Motor(100, -10, LEFT);
+			stopTask(liftDown);
 			startTask(liftUp1000);
-			moveSimpleNone(-100, -100, 1500, TIME);
+			moveSimpleNone(-100, -100, 1200, TIME);
 		}
 	}
 	else
 	{ // If there is a stack of 4
 		// Collects the final green/blue blocks
+		if (!startedClose)
+		{
+			turn1Motor(50, -92.5, RIGHT);
+		}
 		moveSuper(-100, -100, 990, 15, 100, 0.006, 0.0005, 0.001, true, false, false, RELDEG);
 		moveSuper(-50, -50, 1500, 50, 12, 0.004, 0.0005, 0.001, false, true, true, TIME);
 		sleep(100);
@@ -356,12 +367,13 @@ void code()
 	turn2Motor(50, 90);
 	moveSimpleNone(-100, -100, 1000, TIME);
 	sleep(100);
-	moveSimpleAcc(100, 100, 577, 0.2, RELDEG);
-	turn2Motor(50, -90);
+	moveSimpleAcc(100, 100, 588, 0.2, RELDEG);
+	turn2Motor(30, -90);
 
 	// Goes to the water connection differently if not making the stack of 4
 	if(skipGreenBlueStack)
 	{
+		moveArm(100, 50, 75, 0.3, LIFT, RELDEG);
 		moveSimpleAcc(100, 100, 221, 0.2, RELDEG);
 		moveArm(100, 100, 1000, 0.01, LIFT, TIME);
 		moveSimpleAcc(100, 100, 100, 0.2, RELDEG);
@@ -385,22 +397,18 @@ void code()
 		turn1Motor(100, 18, RIGHT);
 
 		// Goes to the water connection
-		moveSimple(100, 100, 600, RELDEG);
-		moveSenseSimple(50, 50, BLACK, 3, COLOR);
-		sleep(100);
+		moveSuper(100, 100, 600, 15, 100, 0.004, 0.0005, 0.001, true, false, false, RELDEG);
+		moveSenseSuper(100, 100, 100, 50, BLACK, 0.005, 0.0005, 0.001, 3, false, false, true, COLOR);
 		resetRelative();
-		moveSenseSimple(100, -100, BLACK, 2, COLOR);
-		sleep(100);
-		resetRelative();
-		moveSenseSimple(0, 100, 50, 2, GREATREFL);
-		lineFollow(70, 20, 750, 55, 0.3, 0.6, 80, 2, RELDEG);
+		moveSenseSimple(40, -40, BLACK, 2, COLOR);
+		lineFollow(70, 30, 750, 55, 0.3, 0.6, 80, 2, RELDEG);
 		resetRelative();
 		startTask(liftDown);
 		startTask(clawBackDown);
 
 		// Puts debris in the collection area
-		moveSenseSimple(20, 20, RED, 2, COLOR);
-		moveSimple(100, 100, 1100, RELDEG);
+		moveSenseSuper(30, 30, 30, 30, RED, 0.004, 0.0005, 0.001, 2, false, false, false, COLOR);
+		moveSuper(100, 100, 1120, 30, 15, 0.004, 0.0005, 0.001, true, true, true, RELDEG);
 		startTask(clawWater);
 		moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
 		turn1Motor(100, 80, RIGHT);
