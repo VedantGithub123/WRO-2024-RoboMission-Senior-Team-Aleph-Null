@@ -10,7 +10,8 @@ bool skipGreenBlueStack = true; // Variable to store if we are skipping the gree
 #include "sensing_functions.c" 						// Contains all the functions for sensing
 #include "movement_functions.c" 					// Contains all the movement functions
 
- #include "code.c"
+#include "code.c"
+#include "surprise_challenge.c"
 
 //CODE:
 
@@ -21,7 +22,8 @@ task main()
 	clearTimer(T1);									// Clears the timer for timing the run
 
 	// Runs all the zones here
-	code();
+    code();
+	surpriseChallenge();
 
 	// Time display after the challenge is finished
 	displayCenteredBigTextLine(5, "%0.2f", (time100(T1)/10.0));
