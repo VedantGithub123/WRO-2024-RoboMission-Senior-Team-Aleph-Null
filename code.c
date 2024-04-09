@@ -171,28 +171,7 @@ void code()
 	sleep(500);
 	moveArm(-50, 20, 195, 0.1, LIFT, RELDEG);
 
-
-	// moveSimpleAcc(100, 100, 210, 0.2, RELDEG);
-	// turn2Motor(30, 90);
-	// moveSimpleNone(-50, -50, 1500, TIME);
-	// sleep(100);
-
-	// Stacks the next 4 blocks
-	//startTask(readyLiftForPicking);
-	//moveSimpleAcc(50, 50, 260, 0.1, RELDEG);
-	//moveSimpleAcc(-15, -15, 114, 0.1, RELDEG);
-	// sleep(200);
-	// moveArm(60, 30, 30, 0.3, LIFT, RELDEG);
-	// moveArmAbs(100, 100, 230, 0.7, CLAW);
-	// moveArm(100, 100, 500, 0.3, LIFT, TIME);
-    // moveArm(-100, 100, 1000, 0.7, CLAW, TIME);
-	// setArmSpeed(CLAW, -100);
-	// sleep(500);
-	// moveArm(-50, 20, 195, 0.1, LIFT, RELDEG);
-
     // Goes to the first stack of blocks
-    // turn1Motor(60, 59, LEFT);
-	// turn1Motor(60, 59, RIGHT);
     if (getReflection(2)<50){
         moveSenseSimple(0, 100, 40, 2, GREATREFL);
     }else{
@@ -257,10 +236,10 @@ void code()
 	sleep(50);
 
     // Moves the red stack over
-	moveSimpleAcc(100, 100, 1660, 0.2, RELDEG);
+	moveSimpleAcc(100, 100, 1650, 0.2, RELDEG);
 	moveArm(100, 100, 94, 0.3, LIFT, RELDEG);
 	startTask(liftUp500Delayed);
-	moveSimpleAcc(-100, -100, 595, 0.2, RELDEG);
+	moveSimpleAcc(-100, -100, 585, 0.2, RELDEG);
 	turn1Motor(50, -92, RIGHT);
     moveSenseSimple(-40, -40, RED, 1, COLOR);
 	moveSimple(-40, -40, 20, RELDEG);
@@ -287,6 +266,8 @@ void code()
 		turn1Motor(50, -93, RIGHT);
 		if(skipGreenBlueStack) // Collects with rack gear if not stacking
 		{
+			moveSimpleAcc(60, 60, 35, 0.2, RELDEG);
+			lineSquare(50, 50, 2, 3, -0.4, -50, 500);
 			moveArm(100, 100, 150, 0.01, LIFT, RELDEG);
 			moveSimpleAcc(100, 100, 220, 0.2, RELDEG);
 			moveArm(-100, -100, 500, 0.01, LIFT, TIME);
@@ -316,7 +297,7 @@ void code()
 			turn1Motor(-100, -25, LEFT);
 			moveSuper(-100, -100, 300, 15, 100, 0.004, 0.0003, 0.001, true, false, false, RELDEG);
 			moveSenseSuper(-100, -100, 100, 100, WHITE, 0.005, 0.0003, 0.001, 2, false, false, false, COLOR);
-			moveSuper(-100, -100, 300, 100, 100, 0.004, 0.0003, 0.001, false, false, false, RELDEG);
+			moveSuper(-100, -100, 220, 100, 100, 0.004, 0.0003, 0.001, false, false, false, RELDEG);
 			startTask(releaseBlocks);
 			startTask(clawBackDown);
 			moveSimpleNone(-100, -85, 1500, TIME);
@@ -330,12 +311,12 @@ void code()
 			moveSuper(-100, -100, 450, 100, 10, 0.004, 0.0003, 0.001, false, true, false, RELDEG);
 			setSpeed(0, 0);
 			startTask(liftDown);
-			sleep(300);
+			sleep(500);
 			moveArmAbs(100, 100, 330, 0.7, CLAW);
 			turn1Motor(100, -12, LEFT);
 			stopTask(liftDown);
 			startTask(liftUp1000);
-			moveSimpleNone(-100, -100, 1000, TIME);
+			moveSimpleNone(-100, -100, 1500, TIME);
 		}
 	}
 	else
@@ -407,7 +388,7 @@ void code()
 	{
 		// Collects the small debris
 		turn1Motor(-100, -18, LEFT);
-		turn1Motor(100, 210, RIGHT);
+		turn1Motor(100, 215, RIGHT);
 		moveSimple(100, 100, 530, RELDEG);
 		// turn1Motor(100, 25, RIGHT);
 		turn2Motor(50, -25);
