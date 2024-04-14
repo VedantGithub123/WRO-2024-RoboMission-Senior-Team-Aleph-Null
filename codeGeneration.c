@@ -21,9 +21,12 @@ bool downPressed = false;
 
 long textFile;
 
-void writeToFile(string whatToWrite)
+char toWrite[100] = "";
+
+void writeToFile()
 {
-    fileWriteData(textFile, whatToWrite, strlen(whatToWrite));
+    fileWriteData(textFile, toWrite, strlen(toWrite));
+    fileWriteChar(textFile, '\n');
 }
 
 void page1()
@@ -78,10 +81,14 @@ void page1()
                 if (mod(angleFromCM(fabs(val)), 90) < 15 || mod(angleFromCM(fabs(val)), 90) > 75)
                 {
                     writeDebugStreamLine("turn1Motor(%d, %d, RIGHT);", sgn(val)*50, 90*round(angleFromCM(val)/90.0));
+                    sprintf(toWrite, "turn1Motor(%d, %d, RIGHT);", sgn(val)*50, 90*round(angleFromCM(val)/90.0));
+                    writeToFile();
                 }
                 else
                 {
                     writeDebugStreamLine("turn1Motor(%d, %d, RIGHT);", sgn(val)*50, angleFromCM(val));
+                    sprintf(toWrite, "turn1Motor(%d, %d, RIGHT);", sgn(val)*50, angleFromCM(val));
+                    writeToFile();
                 }
             }
 
@@ -94,10 +101,14 @@ void page1()
                 if (mod(angleFromCM(fabs(val)), 90) < 15 || mod(angleFromCM(fabs(val)), 90) > 75)
                 {
                     writeDebugStreamLine("turn1Motor(%d, %d, LEFT);", sgn(val)*50, 90*round(angleFromCM(val)/90.0));
+                    sprintf(toWrite, "turn1Motor(%d, %d, LEFT);", sgn(val)*50, 90*round(angleFromCM(val)/90.0));
+                    writeToFile();
                 }
                 else
                 {
                     writeDebugStreamLine("turn1Motor(%d, %d, LEFT);", sgn(val)*50, angleFromCM(val));
+                    sprintf(toWrite, "turn1Motor(%d, %d, LEFT);", sgn(val)*50, angleFromCM(val));
+                    writeToFile();
                 }
             }
 
@@ -110,10 +121,14 @@ void page1()
                 if (mod(angleFromCM(fabs(val)), 90) < 15 || mod(angleFromCM(fabs(val)), 90) > 75)
                 {
                     writeDebugStreamLine("turn2Motor(20, %d);", 90*round(angleFromCM(val)/90.0));
+                    sprintf(toWrite, "turn2Motor(20, %d);", 90*round(angleFromCM(val)/90.0));
+                    writeToFile();
                 }
                 else
                 {
                     writeDebugStreamLine("turn2Motor(20, %d);", angleFromCM(val));
+                    sprintf(toWrite, "turn2Motor(20, %d);", angleFromCM(val));
+                    writeToFile();
                 }
             }
 
@@ -121,6 +136,8 @@ void page1()
             else
             {
                 writeDebugStreamLine("moveSimpleAcc(%d, %d, %d, 0.2, RELDEG);", leftSpeed, rightSpeed, max2(fabs(getRelDegrees(RIGHT)),fabs(getRelDegrees(LEFT))));
+                sprintf(toWrite, "moveSimpleAcc(%d, %d, %d, 0.2, RELDEG);", leftSpeed, rightSpeed, max2(fabs(getRelDegrees(RIGHT)),fabs(getRelDegrees(LEFT))));
+                writeToFile();
             }
             resetRelative();
         }
@@ -132,6 +149,10 @@ void page1()
         playImmediateTone(100, 10);
         writeDebugStreamLine("moveSimpleNone(-100, -100, 1000, TIME);");
         writeDebugStreamLine("sleep(50);");
+        sprintf(toWrite, "moveSimpleNone(-100, -100, 1000, TIME);");
+        writeToFile();
+        sprintf(toWrite, "sleep(50);");
+        writeToFile();
         resetRelative();
     }
 }
@@ -146,6 +167,14 @@ void page2()
         writeDebugStreamLine("setSpeed(0, 0);");
         writeDebugStreamLine("sleep(100);");
         writeDebugStreamLine("resetRelative();");
+        sprintf(toWrite, "lineSquare(53, 48, 2, 3, -0.4, -50, 1000);");
+        writeToFile();
+        sprintf(toWrite, "setSpeed(0, 0);");
+        writeToFile();
+        sprintf(toWrite, "sleep(100);");
+        writeToFile();
+        sprintf(toWrite, "resetRelative();");
+        writeToFile();
         resetRelative();
     }
 
@@ -157,6 +186,14 @@ void page2()
         writeDebugStreamLine("setSpeed(0, 0);");
         writeDebugStreamLine("sleep(100);");
         writeDebugStreamLine("resetRelative();");
+        sprintf(toWrite, "lineSquare(53, 48, 2, 3, 0.4, 50, 1000);");
+        writeToFile();
+        sprintf(toWrite, "setSpeed(0, 0);");
+        writeToFile();
+        sprintf(toWrite, "sleep(100);");
+        writeToFile();
+        sprintf(toWrite, "resetRelative();");
+        writeToFile();
         resetRelative();
     }
 }
@@ -169,6 +206,10 @@ void page3()
         playImmediateTone(100, 10);
         writeDebugStreamLine("lineFollow(40, 30, %d, 50, 0.3, 0.23, 50, 2, RELDEG);", (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2);
         writeDebugStreamLine("resetRelative();");
+        sprintf(toWrite, "lineFollow(40, 30, %d, 50, 0.3, 0.23, 50, 2, RELDEG);", (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2);
+        writeToFile();
+        sprintf(toWrite, "resetRelative();");
+        writeToFile();
         resetRelative();
     }
 
@@ -212,6 +253,8 @@ void page3()
         {
             playImmediateTone(100, 10);
             writeDebugStreamLine("moveSenseSimple(%d, %d, %s, 2, COLOR);", leftSpeed, rightSpeed, getColourName[getColor(2)]);
+            sprintf(toWrite, "moveSenseSimple(%d, %d, %s, 2, COLOR);", leftSpeed, rightSpeed, getColourName[getColor(2)]);
+            writeToFile();
             resetRelative();
         }
     }
@@ -220,8 +263,12 @@ void page3()
     else if (downPressed)
     {
         playImmediateTone(100, 10);
-        writeDebugStreamLine("lineFollow(40, 30, %d, 50, -0.3, -0.23, 50, 2, RELDEG);", (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2);
+        writeDebugStreamLine("lineFollow(40, 30, %d, 50, 0.3, -0.23, -50, 2, RELDEG);", (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2);
         writeDebugStreamLine("resetRelative();");
+        sprintf(toWrite, "lineFollow(40, 30, %d, 50, 0.3, -0.23, -50, 2, RELDEG);", (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2);
+        writeToFile();
+        sprintf(toWrite, "resetRelative();");
+        writeToFile();
         resetRelative();
     }
 }
@@ -234,6 +281,10 @@ void page4()
         playImmediateTone(100, 10);
         writeDebugStreamLine("lineFollow(40, 30, %d, 50, 0.3, 0.23, 50, 3, RELDEG);", (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2);
         writeDebugStreamLine("resetRelative();");
+        sprintf(toWrite, "lineFollow(40, 30, %d, 50, 0.3, 0.23, 50, 3, RELDEG);", (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2);
+        writeToFile();
+        sprintf(toWrite, "resetRelative();");
+        writeToFile();
         resetRelative();
     }
 
@@ -278,6 +329,8 @@ void page4()
             playImmediateTone(100, 10);
             writeDebugStreamLine("moveSenseSimple(%d, %d, %s, 3, COLOR);", leftSpeed, rightSpeed, getColourName[getColor(3)]);
             resetRelative();
+            sprintf(toWrite, "moveSenseSimple(%d, %d, %s, 3, COLOR);", leftSpeed, rightSpeed, getColourName[getColor(3)]);
+            writeToFile();
         }
     }
 
@@ -285,8 +338,12 @@ void page4()
     else if (downPressed)
     {
         playImmediateTone(100, 10);
-        writeDebugStreamLine("lineFollow(40, 30, %d, 50, -0.3, -0.23, 50, 3, RELDEG);", (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2);
+        writeDebugStreamLine("lineFollow(40, 30, %d, 50, 0.3, -0.23, -50, 3, RELDEG);", (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2);
         writeDebugStreamLine("resetRelative();");
+        sprintf(toWrite, "lineFollow(40, 30, %d, 50, 0.3, -0.23, -50, 3, RELDEG);", (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2);
+        writeToFile();
+        sprintf(toWrite, "resetRelative();");
+        writeToFile();
         resetRelative();
     }
 }
@@ -310,6 +367,8 @@ void page5()
     {
         playImmediateTone(100, 10);
         writeDebugStreamLine("moveArmAbs(60, 30, %d, 0.3, CLAW);", getArmDegreesAbs(CLAW));
+        sprintf(toWrite, "moveArmAbs(60, 30, %d, 0.3, CLAW);", getArmDegreesAbs(CLAW));
+        writeToFile();
     }
 
     // When no button is pressed, stop the claw from moving
@@ -326,6 +385,8 @@ void page6()
     {
         playImmediateTone(100, 10);
         writeDebugStreamLine("moveArm(100, 100, 1000, 0.01, CLAW, TIME);");
+        sprintf(toWrite, "moveArm(100, 100, 1000, 0.01, CLAW, TIME);");
+        writeToFile();
     }
 
     // If the down button is pressed, write to the debug stream to close the claw for seconds
@@ -333,6 +394,8 @@ void page6()
     {
         playImmediateTone(100, 10);
         writeDebugStreamLine("moveArm(-100, -100, 1000, 0.01, CLAW, TIME);");
+        sprintf(toWrite, "moveArm(-100, -100, 1000, 0.01, CLAW, TIME);");
+        writeToFile();
     }
 
     // If the center button is pressed, write to the debug stream to set the claw speed to close
@@ -341,6 +404,10 @@ void page6()
         playImmediateTone(100, 10);
         writeDebugStreamLine("setArmSpeed(CLAW, -100);");
         writeDebugStreamLine("sleep(100);");
+        sprintf(toWrite, "setArmSpeed(CLAW, -100);");
+        writeToFile();
+        sprintf(toWrite, "sleep(100);");
+        writeToFile();
     }
 }
 
@@ -363,6 +430,9 @@ void page7()
     {
         playImmediateTone(100, 10);
         writeDebugStreamLine("moveArmAbs(60, 30, %d, 0.3, LIFT);", getArmDegreesAbs(LIFT));
+        sprintf(toWrite, "moveArmAbs(60, 30, %d, 0.3, LIFT);", getArmDegreesAbs(LIFT));
+        writeToFile();
+        
     }
 
     // When no button is pressed, stop the lift from moving
@@ -379,6 +449,8 @@ void page8()
     {
         playImmediateTone(100, 10);
         writeDebugStreamLine("moveArm(-100, -100, 1000, 0.01, LIFT, TIME);");
+        sprintf(toWrite, "moveArm(-100, -100, 1000, 0.01, LIFT, TIME);");
+        writeToFile();
     }
 
     // If the down button is pressed, write to the debug stream to move the lift down for seconds
@@ -386,6 +458,8 @@ void page8()
     {
         playImmediateTone(100, 10);
         writeDebugStreamLine("moveArm(100, 100, 1000, 0.01, LIFT, TIME);");
+        sprintf(toWrite, "moveArm(100, 100, 1000, 0.01, LIFT, TIME);");
+        writeToFile();
     }
 }
 
