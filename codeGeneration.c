@@ -465,6 +465,12 @@ void page8()
 
 task main()
 {
+
+    displayCenteredBigTextLine(3, "Check Sensor 2");
+    getColor(2);
+    displayCenteredBigTextLine(3, "Check Sensor 3");
+    getColor(3);
+
 	// Any other setup code is done here
     setBlockBackButton(1);
 	resetMotors();									// Resets motors
@@ -480,6 +486,7 @@ task main()
 
     while (!getButtonPress(buttonBack))
     {
+
         // This part of the code gets whether or not to use the button inputs, it only uses the button inputs when the button went from off to on
         rightPressed =  (getButtonPress(buttonRight) && !rightWasPressed);
         rightWasPressed = getButtonPress(buttonRight);
