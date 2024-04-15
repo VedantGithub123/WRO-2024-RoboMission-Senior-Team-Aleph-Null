@@ -68,7 +68,7 @@ void page1()
         }
 
         // Based on the speeds and how close they are, it determines if you were trying to turn for a nice amount of degrees or go straight etc.
-        if (!(leftSpeed==0 && leftSpeed == 0))
+        if (!(leftSpeed == 0 && rightSpeed == 0))
         {
             playImmediateTone(100, 10);
 
