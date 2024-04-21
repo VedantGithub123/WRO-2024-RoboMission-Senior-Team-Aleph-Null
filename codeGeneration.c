@@ -465,6 +465,17 @@ void page8()
 
 task main()
 {
+    // Resets the claw and lift
+    setArmSpeed(CLAW, -100);
+	setArmSpeed(LIFT, -100);
+
+    sleep(500);
+
+    resetMotorEncoder(d);
+	setArmSpeed(CLAW, 0);
+	resetMotorEncoder(a);
+	setArmSpeed(LIFT, 0);
+    sleep(50);
 
     displayCenteredBigTextLine(3, "Check Sensor 2");
     getColor(2);

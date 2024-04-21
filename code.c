@@ -298,7 +298,6 @@ void code()
 	moveArm(100, 100, 82, 0.3, LIFT, RELDEG);
 	moveSimple(100, 100, 240, RELDEG);
 	setArmSpeed(LIFT, -30);
-	// startTask(liftUp500);
 
 	// Turns and wall squares
 	moveSimpleAcc(30, -22, 710, 0.15, RELDEG);
@@ -402,8 +401,6 @@ void code()
 		{
 			moveSimpleAcc(-100, -100, 350, 0.15, RELDEG);
 			turn1Motor(50, -92, RIGHT);
-			// turn1Motor(100, -72, RIGHT);
-			// turn1Motor(100, 19.5, LEFT);
 		}
 
 		// Moves backwards until it sees the white in fornt of the green and back a little more
@@ -534,7 +531,6 @@ void code()
 		if (!consistentLastWater)
 		{
 			moveSuper(50, 49.8, 1123, 30, 15, 0.004, 0.0005, 0.001, true, true, true, RELDEG);
-			// turn1Motor(100, 10, LEFT);
 		}
 		else
 		{
@@ -554,13 +550,7 @@ void code()
 		startTask(clawWater);
 		stopTask(liftDown);
 		moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
-		// turn1Motor(100, 70, RIGHT);
-		moveArmAbs(60, 30, 56, 0.3, LIFT);
-		moveSimpleAcc(-50, -50, 80, 0.2, RELDEG);
-		turn1Motor(-50, -90, LEFT);
-		moveSimpleAcc(-50, -50, 148, 0.2, RELDEG);
-		moveArm(100, 100, 1000, 0.01, LIFT, TIME);
-		moveSimpleAcc(50, 50, 380, 0.2, RELDEG);
+		turn1Motor(100, 70, RIGHT);
 	}
 	else
 	{
