@@ -198,7 +198,7 @@ void code()
 	moveSimple(-100, -100, 130, RELDEG);
 	turn1Motor(100, -90, RIGHT);
 	moveSenseSimple(-20, -20, BLACK, 3, COLOR);
-	lineSquare(50, 52, 2, 3, -0.5, -50, 500);
+	lineSquare(50, 53, 2, 3, -0.5, -50, 500);
 
 	// Moves forward and turns so the sensors are good for line following
 	moveSimpleAcc(50, 50, 40, 0.1, RELDEG);
@@ -318,7 +318,7 @@ void code()
 
 	// Moves back and turns so the robot is in line with the red stack
 	moveSimpleAcc(-100, -100, 565, 0.2, RELDEG);
-	turn1Motor(50, -95, RIGHT);
+	turn1Motor(50, -94, RIGHT);
 
 	// Moves back for sensing and grabs the red stack with the lift
     moveSenseSimple(-30, -30, RED, 2, COLOR);
@@ -554,7 +554,13 @@ void code()
 		startTask(clawWater);
 		stopTask(liftDown);
 		moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
-		turn1Motor(100, 70, RIGHT);
+		// turn1Motor(100, 70, RIGHT);
+		moveArmAbs(60, 30, 56, 0.3, LIFT);
+		moveSimpleAcc(-50, -50, 80, 0.2, RELDEG);
+		turn1Motor(-50, -90, LEFT);
+		moveSimpleAcc(-50, -50, 148, 0.2, RELDEG);
+		moveArm(100, 100, 1000, 0.01, LIFT, TIME);
+		moveSimpleAcc(50, 50, 380, 0.2, RELDEG);
 	}
 	else
 	{
