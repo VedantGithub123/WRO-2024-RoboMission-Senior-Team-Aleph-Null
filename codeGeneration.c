@@ -48,21 +48,21 @@ void page1()
             leftSpeed = getRelDegrees(LEFT)/getRelDegrees(RIGHT)*rightSpeed;
         }
 
-        if (fabs(leftSpeed)<5)
+        if (fabs(leftSpeed)<10)
         {
             leftSpeed = 0;
         }
-        if (fabs(rightSpeed)<5)
+        if (fabs(rightSpeed)<10)
         {
             rightSpeed = 0;
         }
 
-        if (fabs(leftSpeed)>40)
+        if (fabs(leftSpeed)>30)
         {
             leftSpeed = sgn(leftSpeed)*50;
         }
 
-        if (fabs(rightSpeed)>40)
+        if (fabs(rightSpeed)>30)
         {
             rightSpeed = sgn(rightSpeed)*50;
         }
