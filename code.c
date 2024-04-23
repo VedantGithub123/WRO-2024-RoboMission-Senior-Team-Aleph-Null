@@ -1,80 +1,3 @@
-float clawDegree = 162;
-float waterClawDegree = 330;
-
-task liftUp500()
-{
-	moveArm(-100, -100, 500, 0.01, LIFT, TIME);
-	stopTask(liftUp500);
-}
-
-task liftUp500Delayed()
-{
-	sleep(800);
-	moveArm(-100, -100, 500, 0.01, LIFT, TIME);
-	stopTask(liftUp500Delayed);
-}
-
-task liftUp1000()
-{
-	moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
-	stopTask(liftUp1000);
-}
-
-task liftDown()
-{
-	moveArm(100, 100, 800, 0.01, LIFT, TIME);
-	stopTask(liftDown);
-}
-
-task readyLiftForPicking()
-{
-	moveArm(60, 30, clawDegree-10, 0.3, LIFT, RELDEG);
-	stopTask(readyLiftForPicking);
-}
-
-task readyLiftForPicking2()
-{
-	moveArm(60, 30, clawDegree-10, 0.3, LIFT, RELDEG);
-	stopTask(readyLiftForPicking);
-}
-
-task clawReady()
-{
-	moveArmAbs(100, 30, 300, 0.3, CLAW);
-	stopTask(clawReady);
-}
-
-task clawWater()
-{
-	moveArmAbs(100, 100, 480, 0.3, CLAW);
-	stopTask(clawWater);
-}
-
-task readyLiftForGreenBlue()
-{
-	moveArm(100, 100, 124, 0.3, LIFT, RELDEG);
-	stopTask(readyLiftForGreenBlue);
-}
-
-task clawBackDown(){
-	moveArmAbs(100, 100, waterClawDegree, 0.7, CLAW);
-	stopTask(clawBackDown);
-}
-
-task releaseBlocks(){
-	moveArm(100, 100, 124, 0.3, LIFT, RELDEG);
-	sleep(250);
-	moveArm(-100, -100, 500, 0.01, LIFT, TIME);
-	stopTask(releaseBlocks);
-}
-
-task debrisLiftOpenClose(){
-	moveArm(100, 100, 145, 0.3, LIFT, RELDEG);
-	sleep(250);
-	moveArm(-100, -100, 500, 0.01, LIFT, TIME);
-	stopTask(releaseBlocks);
-}
-
 void code()
 {
 	// Lifts up the lift and closes the claw to reset them in the same position
@@ -91,6 +14,8 @@ void code()
 
     // Goes to the first 4 blocks
     moveSimpleNone(-100, -100, 1000, TIME); // Very first wall square
+
+	surpriseChallenge();
 
 	// Resets the lift and claw
 	resetMotorEncoder(d);
@@ -120,7 +45,7 @@ void code()
 	// Collects the first 4 blocks
 	resetRelative();
     moveSimpleAcc(30, 30, 95, 0.15, RELDEG); // Moves forward so the claw is in the right spot
-	
+
 	// Grabs the blocks with the claw
 	stopTask(clawReady);
     setArmSpeed(CLAW, -100);
@@ -153,7 +78,7 @@ void code()
 	startTask(liftUp1000);
 
     // Goes to the next 4 blocks
-	
+
 	// Turns to line square
 	turn2Motor(50, -90);
 	moveSenseSimple(-20, -20, BLACK, 3, COLOR);
@@ -202,7 +127,7 @@ void code()
 
 	// Moves forward and turns so the sensors are good for line following
 	moveSimpleAcc(50, 50, 40, 0.1, RELDEG);
-	turn2motor(30, 90);
+	turn2Motor(30, 90);
 
 	// Makes the second stack of blocks
 	startTask(readyLiftForPicking);
@@ -218,7 +143,7 @@ void code()
 	sleep(500);
 
 	// After grabbing the new stacks, lift up so that the stacks clear the stacks in the yellow area
-	moveArm(-50, 20, 210, 0.1, LIFT, RELDEG); 
+	moveArm(-50, 20, 210, 0.1, LIFT, RELDEG);
 
     // Goes to the first stack of blocks
 
@@ -274,7 +199,7 @@ void code()
 		sleep(500);
 
 		// Position for the debris while the lift is moving up
-		startTask(liftUp1000)
+		startTask(liftUp1000);
 		moveSimpleAcc(30, 30, 80, 0.15, RELDEG);
 		turn1Motor(50, -91.5, LEFT);
 	}
@@ -289,7 +214,7 @@ void code()
 
     // Collects the two debris on the left side
 	moveSenseSimple(-25, -25, BLACK, 2, COLOR); // Goes back until black to be in the same position
-	
+
 	// Goes forward and turns so the rack gear is aligned with the debris
 	moveSimpleAcc(100, 100, 557, 0.2, RELDEG);
 	turn2Motor(50, 58);

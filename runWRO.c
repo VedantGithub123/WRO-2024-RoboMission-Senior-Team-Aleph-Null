@@ -23,8 +23,8 @@ task main()
 	clearTimer(T1);									// Clears the timer for timing the run
 
 	// Runs all the zones here
-	code();
-	surpriseChallenge();
+	 code();
+	// surpriseChallenge();
 
 	// Time display after the challenge is finished
 	displayCenteredBigTextLine(5, "%0.2f", (time100(T1)/10.0));
