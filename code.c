@@ -90,7 +90,8 @@ void code()
     }
 
     // Goes to the first 4 blocks
-    moveSimpleNone(-100, -100, 1000, TIME); // Very first wall square
+	surpriseChallenge();
+	moveSimpleNone(-100, -100, 1000, TIME); // Very first wall square
 
 	// Resets the lift and claw
 	resetMotorEncoder(d);
