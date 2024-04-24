@@ -22,7 +22,7 @@ void code()
 	setArmSpeed(LIFT, 0);
     sleep(50);
 
-	surpriseChallenge();
+	// surpriseChallenge();
 
 	//Goes to the black line
     moveSimpleAcc(100, 100, 290, 0.25, RELDEG);
