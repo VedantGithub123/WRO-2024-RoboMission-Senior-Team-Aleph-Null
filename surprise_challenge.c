@@ -83,19 +83,32 @@ void surpriseChallenge()
 	// turn1Motor(-140, -150, RIGHT);
 	// moveSimpleNone(-100, -100, 1500, TIME);
 	// sleep(100);
-	
-	turn1Motor(50, 90, RIGHT);
-	moveSimpleAcc(50, 50, 161, 0.2, RELDEG);
-	moveSenseSimple(20, 20, WHITE, 2, COLOR);
-	moveSimpleAcc(50, 50, 280, 0.2, RELDEG);
-	turn2Motor(20, 56);
-	moveArmAbs(60, 30, 137, 0.3, LIFT);
-	turn1Motor(50, 35, LEFT);
-	turn1Motor(-50, -45, LEFT);
-	startTask(liftUp1000);
-	turn2Motor(-50, -55);
-	moveSimpleAcc(-50, -50, 300, 0.2, RELDEG);
-	moveSenseSimple(-20, -20, RED, 2, COLOR);
-	turn1Motor(-50, -90, RIGHT);
+
+	moveSimpleAcc(50, 50, 193, 0.2, RELDEG);
+	turn1Motor(100, 91, LEFT);
+	moveSimpleAcc(100, 100, 1474, 0.2, RELDEG);
+	moveSenseSimple(20, 20, BLACK, 3, COLOR);
+	turn2Motor(20, -90);
 	moveSimpleNone(-100, -100, 1000, TIME);
+	//sleep(50);
+	moveSimpleAcc(100, 100, 493, 0.2, RELDEG);
+	moveArmAbs(60, 30, 341, 0.3, CLAW);
+	moveArm(100, 100, 1300, 0.01, LIFT, TIME);
+	turn1Motor(100, 18, LEFT);
+	moveSimpleAcc(100, 100, 81, 0.2, RELDEG);
+	moveArm(-100, -100, 1000, 0.01, CLAW, TIME);
+	turn1Motor(-100, -17, LEFT);
+	moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
+	moveSimpleNone(-50, -50, 1000, TIME);
+	//sleep(50);
+	moveSimpleAcc(100, 100, 400, 0.2, RELDEG);
+	turn2Motor(20, 90);
+	moveArm(100, 100, 200, 0.01, LIFT, RELDEG);
+	moveArmAbs(60, 30, 308, 0.3, CLAW);
+	//moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
+	startTask(liftUp1000)
+	moveSimpleAcc(-100, -100, 1626, 0.2, RELDEG);
+	turn1Motor(-100, -90, LEFT);
+	moveSimpleNone(-100, -100, 1000, TIME);
+	sleep(50);
 }

@@ -15,14 +15,14 @@ void code()
     // Goes to the first 4 blocks
     moveSimpleNone(-100, -100, 1000, TIME); // Very first wall square
 
-	surpriseChallenge();
-
 	// Resets the lift and claw
 	resetMotorEncoder(d);
 	setArmSpeed(CLAW, 0);
 	resetMotorEncoder(a);
 	setArmSpeed(LIFT, 0);
     sleep(50);
+
+	surpriseChallenge();
 
 	//Goes to the black line
     moveSimpleAcc(100, 100, 290, 0.25, RELDEG);
