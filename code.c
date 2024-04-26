@@ -56,12 +56,12 @@ void code()
 	// Closes the rack gear to collect the outside blocks
     moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
     moveArm(100, 100, 50, 0.01, LIFT, RELDEG);
-    moveSimple(100, 100, 70, RELDEG);
+    moveSimple(30, 30, 70, RELDEG);
     moveArm(-100, -100, 500, 0.01, LIFT, TIME);
 
 	// Goes to the yellow area
-	turn1Motor(100, -55, LEFT);
-	turn1Motor(100, -55, RIGHT);
+	turn1Motor(100, -52, LEFT);
+	turn1Motor(100, -52, RIGHT);
 	lineSquare(53, 48, 2, 3, -0.45, -50, 700); // Line squares to stay straight
 	resetRelative();
 	moveSimpleAcc(-70, -70, 660, 0.2, RELDEG);
@@ -69,7 +69,7 @@ void code()
 	// Stacks the first 4 blocks
 	moveArm(60, 30, clawDegree-10, 0.3, LIFT, RELDEG); // Brings the claw down just above the blocks
 	resetRelative();
-	moveSimpleAcc(-15, -15, 115, 0.1, RELDEG); // Backs up so the blocks in the claw are on top of the other blocks
+	moveSimpleAcc(-15, -15, 110, 0.1, RELDEG); // Backs up so the blocks in the claw are on top of the other blocks
 	moveArm(60, 30, 30, 0.3, LIFT, RELDEG); // Brings the claw down so the blocks are resting on each other
 
 	// Releases the blocks and moves backwards while the lift is moving up
@@ -114,7 +114,7 @@ void code()
 	// Closes the rack gear to collect the other blocks
 	moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
     moveArm(100, 100, 50, 0.01, LIFT, RELDEG);
-    moveSimple(100, 100, 70, RELDEG);
+    moveSimple(30, 30, 70, RELDEG);
 	moveArm(-100, -100, 500, 0.01, LIFT, TIME);
 
 	// Positions for stacking the next 4 blocks
@@ -208,7 +208,7 @@ void code()
 		// If the blocks are not there position for picking up the debris
 		moveSimpleNone(-50, -50, 1000, TIME); // Wall squares
 		sleep(100);
-		moveSimple(100, 100, 210, RELDEG);
+		moveSimple(100, 100, 230, RELDEG);
 		turn1Motor(100, 92, LEFT);
 	}
 
@@ -216,7 +216,7 @@ void code()
 	moveSenseSimple(-25, -25, BLACK, 2, COLOR); // Goes back until black to be in the same position
 
 	// Goes forward and turns so the rack gear is aligned with the debris
-	moveSimpleAcc(100, 100, 557, 0.2, RELDEG);
+	moveSimpleAcc(100, 100, 562, 0.2, RELDEG);
 	turn2Motor(50, 58);
 
 	// Uses the rack gear to collect the debris
@@ -225,9 +225,9 @@ void code()
 	setArmSpeed(LIFT, -30);
 
 	// Turns and wall squares
-	moveSimpleAcc(30, -22, 710, 0.15, RELDEG);
+	moveSimpleAcc(30, -22, 690, 0.15, RELDEG);
 	setArmSpeed(LIFT, 0);
-	moveArm(100, 100, 52, 0.3, LIFT, RELDEG); // Opens the rack gear so the debris does not get hit when the robot wall squares
+	moveArm(100, 100, 62, 0.3, LIFT, RELDEG); // Opens the rack gear so the debris does not get hit when the robot wall squares
 	moveSimpleNone(-30, -30, 1000, TIME);
 	sleep(50);
 
@@ -329,9 +329,9 @@ void code()
 		}
 
 		// Moves backwards until it sees the white in fornt of the green and back a little more
-		moveSuper(-100, -100, 300, 15, 100, 0.004, 0.0003, 0.001, true, false, false, RELDEG);
-		moveSenseSuper(-100, -100, 100, 100, WHITE, 0.005, 0.0003, 0.001, 2, false, false, false, COLOR);
-		moveSuper(-100, -100, 165, 100, 100, 0.004, 0.0003, 0.001, false, false, false, RELDEG);
+		moveSuper(-100, -100, 300, 15, 100, 0.004, 0.0002, 0.0005, true, false, false, RELDEG);
+		moveSenseSuper(-100, -100, 100, 100, WHITE, 0.005, 0.0002, 0.0005, 2, false, false, false, COLOR);
+		moveSuper(-100, -100, 165, 100, 100, 0.004, 0.0002, 0.0005, false, false, false, RELDEG);
 
 		// Without stopping release the blocks and wall square
 		startTask(releaseBlocks);
@@ -455,7 +455,7 @@ void code()
 		moveSenseSuper(30, 30, 30, 30, RED, 0.004, 0.0005, 0.001, 2, false, false, false, COLOR);
 		if (!consistentLastWater)
 		{
-			moveSuper(50, 49.8, 1123, 30, 15, 0.004, 0.0005, 0.001, true, true, true, RELDEG);
+			moveSuper(50, 49.6, 1123, 30, 15, 0.004, 0.0005, 0.001, true, true, true, RELDEG);
 		}
 		else
 		{
