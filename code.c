@@ -31,14 +31,14 @@ void code()
 	moveSenseSuper(100, 100, 30, 100, BLACK, 0.005, 0.0005, 0.001, 3, true, false, false, COLOR);
 
 	// After going to the black line, goes forward and turns
-	moveSuper(100, 100, 168, 100, 15, 0.003, 0.0005, 0.001, false, true, true, RELDEG);
+	moveSuper(100, 100, 172, 100, 15, 0.003, 0.0005, 0.001, false, true, true, RELDEG);
     turn2Motor(50, 89.5);
 
 	// Positions itself for picking the blocks with a line square while moving the lift and claw
     startTask(liftDown);
     startTask(clawReady);
 	moveSimple(40, 40, 20, RELDEG);
-	lineSquare(50, 48, 2, 3, -0.4, -50, 1000);
+	lineSquare(50, 46, 2, 3, -0.4, -50, 1000);
 	setSpeed(0, 0);
 	sleep(100);
 
@@ -56,7 +56,7 @@ void code()
 	// Closes the rack gear to collect the outside blocks
     moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
     moveArm(100, 100, 50, 0.01, LIFT, RELDEG);
-    moveSimple(30, 30, 70, RELDEG);
+    moveSimpleAcc(20, 20, 70, 0.2, RELDEG);
     moveArm(-100, -100, 500, 0.01, LIFT, TIME);
 
 	// Goes to the yellow area
@@ -114,13 +114,13 @@ void code()
 	// Closes the rack gear to collect the other blocks
 	moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
     moveArm(100, 100, 50, 0.01, LIFT, RELDEG);
-    moveSimple(30, 30, 70, RELDEG);
+    moveSimpleAcc(20, 20, 70, 0.2, RELDEG);
 	moveArm(-100, -100, 500, 0.01, LIFT, TIME);
 
 	// Positions for stacking the next 4 blocks
 
 	// Goes to the line and line squares so the position is consistent
-	moveSimple(-100, -100, 130, RELDEG);
+	moveSimple(-100, -100, 110, RELDEG);
 	turn1Motor(100, -90, RIGHT);
 	moveSenseSimple(-20, -20, BLACK, 3, COLOR);
 	lineSquare(50, 53, 2, 3, -0.5, -50, 500);
@@ -165,7 +165,7 @@ void code()
 	moveSimple(-13, -13, 93, RELDEG); // Pulls them to the yellow area
 	moveArm(50, 30, 85, 0.3, LIFT, RELDEG); // Lowers the lift a little to release them
 
-	moveSimple(-25, -25, 67, RELDEG); // Moves back so the second stacks are on top of the first stacks
+	moveSimple(-25, -25, 60, RELDEG); // Moves back so the second stacks are on top of the first stacks
 	moveArm(50, 50, 40, 0.2, LIFT, RELDEG); // Lowers the claw so the new stacks rest on the old ones
 
 	moveArmAbs(100, 10, 300, 0.7, CLAW); // Release the blocks
@@ -434,7 +434,7 @@ void code()
 		turn1Motor(-100, -10, LEFT);
 		turn1Motor(100, 220, RIGHT);
 		moveSimple(100, 100, 530, RELDEG);
-		turn2Motor(50, -20);
+		turn2Motor(50, -17);
 
 		// Goes to the water connection
 
