@@ -287,6 +287,16 @@ void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distanc
             rightSpeed -= ((sgn(rightDegrees)!=0) ? sgn(rightDegrees) : 0)*fabs(steer);
         }
 
+        if (leftDegrees==0)
+        {
+            leftSpeed = sgn(getRelDegrees(LEFT))*-8;
+        }
+
+        if (rightDegrees==0)
+        {
+            rightSpeed = sgn(getRelDegrees(RIGHT))*-8;
+        }
+
         prevTurnErr = turnErr;
         prevTime = time1(T2);
         setSpeed(leftSpeed, rightSpeed);
