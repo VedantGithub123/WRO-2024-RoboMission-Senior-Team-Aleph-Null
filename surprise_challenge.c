@@ -77,45 +77,33 @@ task debrisLiftOpenClose(){
 
 void surpriseChallenge()
 {
-    moveSimple(100, 100, 110, RELDEG);	
-	if (!startedClose){
-		moveArm(100, 100, 300, 0.01, LIFT, TIME);
-		moveSimple(100, 100, 300, RELDEG);
-		startTask(liftUp500);
-		turn1Motor(100, 140, RIGHT);
-	}	
-	else {																		
-		turn1Motor(100, 80, RIGHT);
-		
+    moveArm(100, 100, 100, 0.01, LIFT, RELDEG);
+	moveSimple(-80, -80, 110, RELDEG);
+	moveArm(-100, -100, 500, 0.01, LIFT, TIME);
+	turn1Motor(-140, -150, RIGHT);
+	moveSimpleNone(-100, -100, 1500, TIME);
+	sleep(100);
+	
+	if (!startedClose)
+	{
+		moveSimpleAcc(50, 50, 139, 0.2, RELDEG);
+		turn1Motor(50, 90, LEFT);
+		moveSimpleAcc(100, 100, 2179, 0.2, RELDEG);
+		moveSenseSimple(20, 20, BLACK, 3, COLOR);
+		turn2Motor(40, 105);
+		moveSimpleAcc(-100, -100, 1225, 0.2, RELDEG);
+		moveSimpleNone(-100, -100, 1000, TIME);
+		sleep(50);
 	}
-	moveSimpleAcc(100, 100, 200, 0.2, RELDEG);
-	moveSenseSimple(-20, -20, RED, 2, COLOR);
-	if (!startedClose){
-		moveSimpleAcc(50, 50, 200, 0.2, RELDEG);
-		turn1Motor(100, -60, RIGHT);
-		moveSimpleAcc(50, 50, 500, 0.2, RELDEG);
-
-	}
-	else {
-	moveSimpleAcc(50, 50, 600, 0.2, RELDEG);
-	}
-	turn2Motor(40, -60);
-	moveSimpleAcc(50, 50, 180, 0.2, RELDEG);
-	moveArm(100, 100, 300, 0.01, LIFT, TIME);
-	sleep(200);
-	moveSimpleAcc(-50, -50, 120, 0.2, RELDEG);
-	turn1Motor(100, -80, RIGHT);
-	startTask(liftUp500);
-	if (!startedClose){
-		moveSimpleAcc(-100, -100, 250, 0.2, RELDEG);
-
-	}
-	else{
-		moveSimpleAcc(-100, -100, 400, 0.2, RELDEG);
-	}
-	moveSenseSimple(-20, -20, RED, 3, COLOR);
-	moveSimpleAcc(-100, -100, 100, 0.2, RELDEG);
-	turn1Motor(100, -60, RIGHT);
+	moveSimpleAcc(50, 50, 120, 0.2, RELDEG);
+	turn2Motor(20, 91);
+	moveSenseSimple(20, 20, RED, 3, COLOR);
+	moveSimpleAcc(30, 30, 315, 0.2, RELDEG);
+	turn2Motor(20, -90);
 	moveSimpleNone(-30, -30, 1000, TIME);
-	stopTask(liftUp500);
+	sleep(50);
+	moveSimpleAcc(20, 20, 130, 0.1, RELDEG);
+	setArmSpeed(CLAW, -100);
+	sleep(500);
+
 }

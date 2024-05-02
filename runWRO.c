@@ -25,6 +25,7 @@ task main()
 	// Runs all the zones here
 
 	code();
+	surpriseChallenge();
 
 	// Time display after the challenge is finished
 	displayCenteredBigTextLine(5, "%0.2f", (time100(T1)/10.0));
