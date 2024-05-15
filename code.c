@@ -69,7 +69,7 @@ void code()
 	// Stacks the first 4 blocks
 	moveArm(60, 30, clawDegree-14, 0.3, LIFT, RELDEG); // Brings the claw down just above the blocks
 	resetRelative();
-	moveSimpleAcc(-15, -15, 110, 0.1, RELDEG); // Backs up so the blocks in the claw are on top of the other blocks
+	moveSimpleAcc(-15, -15, 107, 0.1, RELDEG); // Backs up so the blocks in the claw are on top of the other blocks
 	moveArm(60, 30, 30, 0.3, LIFT, RELDEG); // Brings the claw down so the blocks are resting on each other
 
 	// Releases the blocks and moves backwards while the lift is moving up
@@ -133,7 +133,7 @@ void code()
 	startTask(readyLiftForPicking);
 	sleep(500);
 	resetRelative();
-	moveSimpleAcc(-15, -15, 102, 0.1, RELDEG); // Moves back so the blocks are in the right spot
+	moveSimpleAcc(-15, -15, 105, 0.1, RELDEG); // Moves back so the blocks are in the right spot
 	moveArm(60, 30, 30, 0.3, LIFT, RELDEG); // Brings the claw down so the blocks rest on each other
 
 	// Releases the blocks
@@ -143,7 +143,7 @@ void code()
 	sleep(500);
 
 	// After grabbing the new stacks, lift up so that the stacks clear the stacks in the yellow area
-	moveArm(-50, 20, 199, 0.1, LIFT, RELDEG);
+	moveArm(-50, 20, 190, 0.1, LIFT, RELDEG);
 
     // Goes to the first stack of blocks
 
@@ -176,7 +176,7 @@ void code()
     moveSenseSimple(-50, -50, BLACK, 3, COLOR);
 
 	// Collects the green/blue blocks if they are there
-	if (!startedClose)
+	if (!startedClose || 1)
 	{
 		lineSquare(50, 52, 2, 3, 0.4, 50, 700); // Line squares for consistency
 
@@ -209,7 +209,7 @@ void code()
 		moveSimpleNone(-50, -50, 1000, TIME); // Wall squares
 		sleep(100);
 		moveSimple(100, 100, 225, RELDEG);
-		turn1Motor(100, 92, LEFT);
+		turn1Motor(100, 89, LEFT);
 	}
 
     // Collects the two debris on the left side
@@ -235,25 +235,31 @@ void code()
 
 	// Closes the rack gear while going forward so the debris is on the opposite side
 	startTask(liftUp500Delayed);
-	moveSimpleAcc(100, 100, 1628, 0.2, RELDEG);
+	moveSimpleAcc(100, 100, 1620, 0.2, RELDEG);
 
 	// Opens the rack gear so the debris doesn't move while moving back
 	moveArm(100, 100, 44, 0.3, LIFT, RELDEG);
 	startTask(liftUp500Delayed);
 
 	// Moves back and turns so the robot is in line with the red stack
-	moveSimpleAcc(-100, -100, 568, 0.2, RELDEG);
-	turn1Motor(50, -93, RIGHT);
+	moveSimpleAcc(-100, -100, 578, 0.2, RELDEG);
+	turn1Motor(50, -91, RIGHT);
 
 	// Moves back for sensing and grabs the red stack with the lift
     moveSenseSimple(-30, -30, RED, 2, COLOR);
 	moveSimple(-30, -30, 100, RELDEG);
-    moveArm(100, 100, 1000, 0.01, LIFT, TIME);
+    //moveArm(100, 100, 1000, 0.01, LIFT, TIME);
+	moveArm(30, 30, 200, 0.3, LIFT, RELDEG);
+
+
 
 	// If skipping the green/blue stack and there are blocks in the claw, put them down in the rack gear
-	if (skipGreenBlueStack && !startedClose)
+	if (skipGreenBlueStack && !startedClose || 1)
 	{
 		startTask(clawBackDown);
+		sleep(500);
+		moveArm(100, 100, 500, 0.01, LIFT, TIME);
+
 	}
 
 	// Moves forward with the red stack so it is in the red area
@@ -334,7 +340,7 @@ void code()
 		// Moves backwards until it sees the white in fornt of the green and back a little more
 
 		moveSenseSuper(-100, -100, 100, 100, WHITE, 0.005, 0.0002, 0.0005, 2, false, false, false, COLOR);
-		moveSuper(-100, -100, 150, 100, 100, 0.004, 0.0002, 0.0005, false, false, false, RELDEG);
+		moveSuper(-100, -100, 140, 100, 100, 0.004, 0.0002, 0.0005, false, false, false, RELDEG);
 
 		// Without stopping release the blocks and wall square
 		startTask(releaseBlocks);
@@ -437,7 +443,7 @@ void code()
 		turn1Motor(-100, -10, LEFT);
 		turn1Motor(100, 220, RIGHT);
 		moveSimple(100, 100, 530, RELDEG);
-		turn2Motor(50, -33);
+		turn2Motor(50, -29);
 
 		// Goes to the water connection
 
@@ -449,7 +455,7 @@ void code()
 		moveSenseSimple(30, -20, BLACK, 2, COLOR);
 
 		// Line follows to straighten the robot
-		lineFollow(40, 15, 940, 40, 0.3, 0.27, 50, 2, RELDEG);
+		lineFollow(23, 15, 960, 50, 0.3, 0.2, 35, 2, RELDEG);
 		resetRelative();
 		startTask(liftDown);
 		startTask(clawBackDown);
@@ -458,7 +464,7 @@ void code()
 		moveSenseSuper(15, 15, 15, 15, RED, 0.004, 0.0005, 0.001, 2, false, false, false, COLOR);
 		if (!consistentLastWater)
 		{
-			moveSuper(50, 49.6, 1123, 15, 15, 0.004, 0.0002, 0.0005, true, true, true, RELDEG);
+			moveSuper(50, 50, 1123, 15, 15, 0.004, 0.0002, 0.0005, true, true, true, RELDEG);
 		}
 		else
 		{

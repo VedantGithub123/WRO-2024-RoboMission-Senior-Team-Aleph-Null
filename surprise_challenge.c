@@ -1,4 +1,4 @@
-float clawDegree = 156;
+float clawDegree = 152;
 float waterClawDegree = 330;
 
 task liftUp500()
@@ -77,67 +77,24 @@ task debrisLiftOpenClose(){
 
 void surpriseChallenge()
 {
- //   moveArm(100, 100, 100, 0.01, LIFT, RELDEG);
-	//moveSimple(-80, -80, 110, RELDEG);
-	//moveArm(-100, -100, 500, 0.01, LIFT, TIME);
-	//turn1Motor(-140, -150, RIGHT);
-	//moveSimpleNone(-100, -100, 1500, TIME);
-	//sleep(100);
+	moveArm(100, 100, 100, 0.01, LIFT, RELDEG);
+	moveSimple(-80, -80, 110, RELDEG);
+	moveArm(-100, -100, 500, 0.01, LIFT, TIME);
+	turn1Motor(-140, -150, RIGHT);
+	moveSimpleNone(-100, -100, 1500, TIME);
+	sleep(100);
 
-	//if (!startedClose)
-	//{
-	//	moveSimpleAcc(50, 50, 139, 0.2, RELDEG);
-	//	turn1Motor(50, 90, LEFT);
-	//	moveSimpleAcc(100, 100, 2179, 0.2, RELDEG);
-	//	moveSenseSimple(20, 20, BLACK, 3, COLOR);
-	//	turn2Motor(40, 105);
-	//	moveSimpleAcc(-100, -100, 1225, 0.2, RELDEG);
-	//	moveSimpleNone(-100, -100, 1000, TIME);
-	//	sleep(50);
-	//}
-	//moveSimpleAcc(50, 50, 120, 0.2, RELDEG);
-	//turn2Motor(20, 91);
-	//moveSenseSimple(20, 20, RED, 3, COLOR);
-	//moveSimpleAcc(30, 30, 315, 0.2, RELDEG);
-	//turn2Motor(20, -90);
-	//moveSimpleNone(-30, -30, 1000, TIME);
-	//sleep(50);
-	//moveSimpleAcc(20, 20, 130, 0.1, RELDEG);
-	//setArmSpeed(CLAW, -100);
-	//sleep(500);
-moveSimple(100, 100, 100, RELDEG);
-turn1Motor(100, 91, RIGHT);
-moveSimple(100, 100, 200, RELDEG);
-moveSenseSimple(-20, -20, RED, 2, COLOR);
-moveSimple(100, 100, 790, RELDEG);
-turn1Motor(100, -90, LEFT);
-turn1Motor(100, 135, RIGHT)
-turn1Motor(100, 37, LEFT);
-moveSimple(100, 100, 300, RELDEG);
-moveSenseSimple(-20, -20, RED, 2, COLOR);
-moveSimple(100, 100, 600, RELDEG);
-lineFollow(40, 15, 700, 40, 0.3, 0.27, 50, 2, RELDEG);
-turn1Motor(100, 90, RIGHT);
-sleep(500);
-moveSimple(100, 100, 210, RELDEG);
-//moveSimple(100, 100, -200, RELDEG);
-//turn1Motor(100, 90, RIGHT);
-//lineFollow(30, 30, 500, 50, 0.1, 0.6, 100, 2, RELDEG);
-//moveSenseSimple(20, 20, RED, 2, COLOR);
-//moveSimple(100, 100, 300, RELDEG);
-//turn1Motor(100, -90, RIGHT);
-//moveSimpleNone(-100, -100, 1000, TIME);
-
-
-
+	moveSimpleAcc(50, 50, 243, 0.2, RELDEG);
+	turn1Motor(50, 90, LEFT);
+	moveSimpleAcc(50, 50, 1964, 0.2, RELDEG);
+	moveArm(100, 100, 150, 0.01, LIFT, RELDEG);
+	moveSenseSimple(20, 20, BLACK, 2, COLOR);
+	startTask(liftUp1000);
+	sleep(1000);
+	turn2Motor(20, -90);
+	moveSimpleNone(-100, -100, 1000, TIME);
+	sleep(50);
+	moveSimpleAcc(50, 50, 790, 0.2, RELDEG);
+	turn1Motor(50, 90, LEFT);
+	moveSimpleAcc(50, 50, 338, 0.2, RELDEG);
 }
-
-//moveSimpleAcc(50, 50, 761, 0.2, RELDEG);
-//turn1Motor(-50, -90, LEFT);
-//turn1Motor(50, 132, RIGHT);
-//moveSimpleAcc(50, 50, 262, 0.2, RELDEG);
-//turn1Motor(100, 27, LEFT);
-//lineFollow(30, 30, 1150, 50, 0.1, 0.6, 100, 2, RELDEG)
-//turn1Motor(100, 90, RIGHT);
-//moveSimpleAcc(100, 100, 200, 0.2, RELDEG);
-//turn1Motor(100, 90, RIGHT);
