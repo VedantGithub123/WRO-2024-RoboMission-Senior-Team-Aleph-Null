@@ -7,13 +7,13 @@ void code()
     // Go to the other side if the robot started far
     if (!startedClose)
     {
-        turn1Motor(100, 51, LEFT);
-        moveSimpleAcc(100, 100, 1920, 0.5, RELDEG);
-        turn2Motor(100, 128);
+        turn1MotorAcc(100, 47, 0.5, LEFT);
+        moveSimpleAccMinSpeed(100, 100, 20, 1920, 3, RELDEG);
+        turn2MotorAcc(100, 128, 0.5);
     }
 
     // Goes to the first 4 blocks
-    moveSimpleNone(-100, -100, 1000, TIME); // Very first wall square
+    moveSimpleNoneAcc(-100, -100, 20, 1000, 0.3, TIME); // Very first wall square
 
 	// Resets the lift and claw
 	resetMotorEncoder(d);
@@ -22,54 +22,54 @@ void code()
 	setArmSpeed(LIFT, 0);
     sleep(50);
 
-	//surpriseChallenge();
+	// surpriseChallenge();
 
 	//Goes to the black line
-    moveSimpleAcc(100, 100, 310, 0.25, RELDEG);
-    turn1Motor(100, 90.5, LEFT);
+    moveSimpleAcc(100, 100, 290, 0.25, RELDEG);
+    turn1MotorMinspeed(100, 91, 15, LEFT);
 	resetRelative();
 	moveSenseSuper(100, 100, 30, 100, BLACK, 0.005, 0.0005, 0.001, 2, true, false, false, COLOR);
 
 	// After going to the black line, goes forward and turns
-	moveSuper(100, 100, 178, 100, 15, 0.003, 0.0005, 0.001, false, true, true, RELDEG);
-    turn2Motor(50, 89.5);
+	moveSuper(100, 100, 185, 100, 15, 0.003, 0.0005, 0.001, false, true, true, RELDEG);
+    turn2MotorMinspeed(30, 90, 17);
 
 	// Positions itself for picking the blocks with a line square while moving the lift and claw
     startTask(liftDown);
     startTask(clawReady);
-	moveSimple(40, 40, 20, RELDEG);
-	lineSquare(50, 46, 2, 3, -0.4, -50, 1000);
+	moveSimple(40, 40, 10, RELDEG);
+	lineSquare(50, 50, 2, 3, -0.7, -53, 500);
 	setSpeed(0, 0);
-	sleep(100);
+	// sleep(100);
 
 	// Collects the first 4 blocks
 	resetRelative();
-    moveSimpleAcc(30, 30, 95, 0.15, RELDEG); // Moves forward so the claw is in the right spot
+    moveSimpleAccMinSpeed(30, 30, 12, 95, 0.15, RELDEG); // Moves forward so the claw is in the right spot
 
 	// Grabs the blocks with the claw
 	stopTask(clawReady);
     setArmSpeed(CLAW, -100);
-	sleep(500);
+	sleep(400);
 
     moveSimple(100, 100, 65, RELDEG); // Goes forward after using the claw so the rack gear is positioned
 
 	// Closes the rack gear to collect the outside blocks
-    moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
+    moveArm(-100, -100, 800, 0.01, LIFT, TIME);
     moveArm(100, 100, 50, 0.01, LIFT, RELDEG);
     moveSimpleAcc(20, 20, 70, 0.2, RELDEG);
     moveArm(-100, -100, 500, 0.01, LIFT, TIME);
 
 	// Goes to the yellow area
-	turn1Motor(100, -52, LEFT);
-	turn1Motor(100, -52, RIGHT);
-	lineSquare(53, 48, 2, 3, -0.45, -50, 700); // Line squares to stay straight
+	turn1Motor(100, -55, LEFT);
+	turn1Motor(100, -55, RIGHT);
+	lineSquare(50, 48, 2, 3, -0.5, -50, 500); // Line squares to stay straight
 	resetRelative();
-	moveSimpleAcc(-70, -70, 658, 0.2, RELDEG);
+	moveSimpleAcc(-100, -100, 660, 0.2, RELDEG);
 
 	// Stacks the first 4 blocks
-	moveArm(60, 30, clawDegree-14, 0.3, LIFT, RELDEG); // Brings the claw down just above the blocks
+	moveArm(60, 30, clawDegree-10, 0.3, LIFT, RELDEG); // Brings the claw down just above the blocks
 	resetRelative();
-	moveSimpleAcc(-15, -15, 107, 0.1, RELDEG); // Backs up so the blocks in the claw are on top of the other blocks
+	moveSimpleAccMinspeed(-15, -15, 12, 107, 0.1, RELDEG); // Backs up so the blocks in the claw are on top of the other blocks
 	moveArm(60, 30, 30, 0.3, LIFT, RELDEG); // Brings the claw down so the blocks are resting on each other
 
 	// Releases the blocks and moves backwards while the lift is moving up
@@ -82,26 +82,26 @@ void code()
 	// Turns to line square
 	turn2Motor(50, -90);
 	moveSenseSimple(-20, -20, BLACK, 3, COLOR);
-    lineSquare(50, 50, 2, 3, -0.4, -75, 700);
+    lineSquare(50, 50, 2, 3, -0.5, -75, 500);
 	resetRelative();
 
 	// Positions to collect the next blocks
-    moveSimpleAcc(50, 50, 140, 0.17, RELDEG);
+    moveSimpleAcc(50, 50, 110, 0.17, RELDEG);
     turn1Motor(100, 89, RIGHT);
 	stopTask(liftUp1000);
     startTask(liftDown);
-    moveSimpleAcc(-50, -50, 30, 0.2, RELDEG);
+    moveSimpleAcc(-50, -50, 40, 0.2, RELDEG);
 
 	// Line squares so that the robot is in the same position
-	lineSquare(50, 53, 2, 3, -0.4, -50, 1000);
+	lineSquare(50, 53, 2, 3, -0.7, -50, 600);
 	setSpeed(0, 0);
-	sleep(50);
+	// sleep(50);
 
 	// Collects the next 4 blocks
 
 	// Moves so the claw is aligned with the blocks
 	resetRelative();
-    moveSimpleAcc(30, 30, 103, 0.15, RELDEG);
+    moveSimpleAccMinspeed(25, 25, 12, 100, 0.15, RELDEG);
 	stopTask(liftDown);
 
 	// Closes the claw to grab the blocks
@@ -112,7 +112,7 @@ void code()
     moveSimple(100, 100, 62, RELDEG);
 
 	// Closes the rack gear to collect the other blocks
-	moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
+	moveArm(-100, -100, 800, 0.01, LIFT, TIME);
     moveArm(100, 100, 50, 0.01, LIFT, RELDEG);
     moveSimpleAcc(20, 20, 70, 0.2, RELDEG);
 	moveArm(-100, -100, 500, 0.01, LIFT, TIME);
@@ -131,19 +131,19 @@ void code()
 
 	// Makes the second stack of blocks
 	startTask(readyLiftForPicking);
-	sleep(500);
+	sleep(400);
 	resetRelative();
-	moveSimpleAcc(-15, -15, 105, 0.1, RELDEG); // Moves back so the blocks are in the right spot
+	moveSimpleAccMinspeed(-15, -15, 12, 104, 0.1, RELDEG); // Moves back so the blocks are in the right spot
 	moveArm(60, 30, 30, 0.3, LIFT, RELDEG); // Brings the claw down so the blocks rest on each other
 
 	// Releases the blocks
 	moveArmAbs(100, 100, 230, 0.7, CLAW);
-	moveArm(100, 100, 500, 0.3, LIFT, TIME); // Brings the lift down to collect the 2 stacks of 2
+	moveArm(100, 100, 300, 0.3, LIFT, TIME); // Brings the lift down to collect the 2 stacks of 2
 	setArmSpeed(CLAW, -100);
-	sleep(500);
+	sleep(400);
 
 	// After grabbing the new stacks, lift up so that the stacks clear the stacks in the yellow area
-	moveArm(-50, 20, 190, 0.1, LIFT, RELDEG);
+	moveArm(-100, 50, 190, 0.1, LIFT, RELDEG);
 
     // Goes to the first stack of blocks
 
@@ -161,62 +161,65 @@ void code()
 	moveSenseSimple(20, 20, YELLOW, 3, COLOR); // Goes to the yellow area
 
 	// Makes the stacks of 4
-	moveArm(-100, -100, 1000, 0.25, LIFT, TIME); // Grabs the other stacks with the rack gear
-	moveSimple(-13, -13, 93, RELDEG); // Pulls them to the yellow area
-	moveArm(50, 30, 85, 0.3, LIFT, RELDEG); // Lowers the lift a little to release them
+	moveArm(-100, -100, 400, 0.25, LIFT, TIME); // Grabs the other stacks with the rack gear
+	moveSimpleAccMinspeed(-13, -13, 12, 93, 0.2, RELDEG); // Pulls them to the yellow area
+	moveArm(100, 50, 80, 0.3, LIFT, RELDEG); // Lowers the lift a little to release them
 
-	moveSimple(-25, -25, 60, RELDEG); // Moves back so the second stacks are on top of the first stacks
-	moveArm(50, 50, 30, 0.2, LIFT, RELDEG); // Lowers the claw so the new stacks rest on the old ones
+	moveSimpleAccMinspeed(-25, -25, 12, 52, 0.2, RELDEG); // Moves back so the second stacks are on top of the first stacks
+	moveArm(50, 50, 37, 0.2, LIFT, RELDEG); // Lowers the claw so the new stacks rest on the old ones
 
 	moveArmAbs(100, 10, 300, 0.7, CLAW); // Release the blocks
 	moveArm(-50, 50, 70, 0.3, LIFT, RELDEG); // Lift up a little so the prongs on the claw don't make the stack fall
 
 	// Move backwards until the line while the lift is going up
 	startTask(liftUp500Delayed);
-    moveSenseSimple(-50, -50, BLACK, 3, COLOR);
 
 	// Collects the green/blue blocks if they are there
-	if (!startedClose || 1)
+	if (!startedClose)
 	{
-		lineSquare(50, 52, 2, 3, 0.4, 50, 700); // Line squares for consistency
+		moveSenseSimple(-50, -50, BLACK, 3, COLOR);
+		lineSquare(50, 52, 2, 3, 0.4, 50, 500); // Line squares for consistency
 
 		// Maneuvering to get the the right position for picking the blocks
-		turn1Motor(100, 150, LEFT);
-		turn1Motor(100, -30, RIGHT);
-		moveSimple(100, 100, 20, RELDEG);
+		moveSimple(40, 40, 30, RELDEG);
+		turn1Motor(100, 160, LEFT);
+		turn1Motor(100, -20, RIGHT);
+		moveSimple(30, 30, 20, RELDEG);
 
 		// Moves the lift in position and line squares so the robot is straight
 		startTask(liftDown);
-		lineSquare(50, 50, 2, 3, -0.4, -50, 700);
+		lineSquare(50, 50, 2, 3, -0.55, -40, 500);
 		setSpeed(0, 0);
-		sleep(100);
+		// sleep(100);
 		resetRelative();
 
 		// Moves forward and grabs the blocks with the claw
-		moveSimpleAcc(30, 30, 100, 0.15, RELDEG);
+		moveSimpleAcc(30, 30, 80, 0.15, RELDEG);
 		stopTask(clawReady);
 		setArmSpeed(CLAW, -100);
-		sleep(500);
+		sleep(400);
 
 		// Position for the debris while the lift is moving up
-		startTask(liftUp1000);
-		moveSimpleAcc(30, 30, 86, 0.15, RELDEG);
-		turn1Motor(50, -91.5, LEFT);
+		stopTask(liftDown);
+		setArmSpeed(LIFT, -100);
+		moveSimpleAcc(30, 30, 100, 0.15, RELDEG);
+		turn1Motor(50, -95, LEFT);
 	}
 	else
 	{
 		// If the blocks are not there position for picking up the debris
-		moveSimpleNone(-50, -50, 1000, TIME); // Wall squares
-		sleep(100);
+		moveSimpleNone(-100, -100, 1000, TIME); // Wall squares
+		// sleep(100);
 		moveSimple(100, 100, 225, RELDEG);
-		turn1Motor(100, 89, LEFT);
+		turn1Motor(100, 89.5, LEFT);
 	}
 
     // Collects the two debris on the left side
 	moveSenseSimple(-25, -25, BLACK, 2, COLOR); // Goes back until black to be in the same position
 
 	// Goes forward and turns so the rack gear is aligned with the debris
-	moveSimpleAcc(100, 100, 562, 0.2, RELDEG);
+	moveSimpleAcc(100, 100, 565, 0.2, RELDEG);
+	setArmSpeed(LIFT, 0);
 	turn2Motor(50, 58);
 
 	// Uses the rack gear to collect the debris
@@ -225,41 +228,36 @@ void code()
 	setArmSpeed(LIFT, -30);
 
 	// Turns and wall squares
-	moveSimpleAcc(30, -22, 690, 0.15, RELDEG);
+	moveSimpleAcc(30, -22, 699, 0.15, RELDEG);
 	setArmSpeed(LIFT, 0);
 	moveArm(100, 100, 62, 0.3, LIFT, RELDEG); // Opens the rack gear so the debris does not get hit when the robot wall squares
-	moveSimpleNone(-30, -30, 1000, TIME);
+	moveSimpleNone(-30, -30, 700, TIME);
 	sleep(50);
 
     // Moves the red stack over
 
 	// Closes the rack gear while going forward so the debris is on the opposite side
 	startTask(liftUp500Delayed);
-	moveSimpleAcc(100, 100, 1620, 0.2, RELDEG);
+	moveSimpleAccMinspeed(100, 100, 15, 1635, 0.3, RELDEG);
 
 	// Opens the rack gear so the debris doesn't move while moving back
 	moveArm(100, 100, 44, 0.3, LIFT, RELDEG);
 	startTask(liftUp500Delayed);
 
 	// Moves back and turns so the robot is in line with the red stack
-	moveSimpleAcc(-100, -100, 578, 0.2, RELDEG);
-	turn1Motor(50, -91, RIGHT);
+	moveSimpleAccMinspeed(-100, -100, 15, 590, 0.23, RELDEG);
+	turn1MotorMinspeed(50, -95, 15, RIGHT);
 
 	// Moves back for sensing and grabs the red stack with the lift
-    moveSenseSimple(-30, -30, RED, 2, COLOR);
-	moveSimple(-30, -30, 100, RELDEG);
-    //moveArm(100, 100, 1000, 0.01, LIFT, TIME);
-	moveArm(30, 30, 200, 0.3, LIFT, RELDEG);
-
-
+	moveSenseSuper(-40, -40, 40, 40, RED, 0.005, 0.0003, 0.001, 2, false, false, false, COLOR);
+	moveSuper(-40, -40, 100, 40, 12, 0.004, 0.0003, 0.001, false, true, false, RELDEG);
+	setSpeed(0, 0);
+    moveArm(100, 100, 700, 0.01, LIFT, TIME);
 
 	// If skipping the green/blue stack and there are blocks in the claw, put them down in the rack gear
-	if (skipGreenBlueStack && !startedClose || 1)
+	if (skipGreenBlueStack && !startedClose && !stacksOf2)
 	{
 		startTask(clawBackDown);
-		sleep(500);
-		moveArm(100, 100, 500, 0.01, LIFT, TIME);
-
 	}
 
 	// Moves forward with the red stack so it is in the red area
@@ -267,61 +265,77 @@ void code()
     moveSimple(15, 15, 160, RELDEG);
 
 	// Releases the stack and turns to catch the line
-    moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
-	turn1Motor(100, 153, RIGHT);
+	startTask(liftUp1000);
+	sleep(400);
+	if (stacksOf2 && !startedClose)
+	{
+		moveSimpleAcc(50, 50, 80, 0.2, RELDEG);
+		turn1Motor(100, 45, LEFT);
+		turn2Motor(50, 90);
+		moveSimple(100, 100, 850, RELDEG);
+		turn1Motor(100, 48, LEFT);
+		moveSimple(100, 100, 838, RELDEG);
+		turn1Motor(100, -90, RIGHT);
+		moveSimpleNone(-40, -40, 700, TIME);
+	}
+	else
+	{
+		turn1MotorAcc(100, 153, 1, RIGHT);
 
-    // Goes to the the spot for the close green/blue blocks
+		// Goes to the the spot for the close green/blue blocks
 
-	// Moves forward until a little after the sensor sees the black line
-	moveSuper(100, 100, 300, 15, 100, 0.004, 0.0003, 0.001, true, false, false, RELDEG);
-	moveSenseSuper(100, 100, 100, 100, BLACK, 0.005, 0.0003, 0.001, 3, false, false, false, COLOR);
-	moveSuper(100, 100, 215, 100, 15, 0.004, 0.0003, 0.001, false, true, true, RELDEG);
+		// Moves forward until a little after the sensor sees the black line
+		moveSuper(100, 100, 300, 60, 100, 0.004, 0.0003, 0.001, true, false, false, RELDEG);
+		moveSenseSuper(100, 100, 100, 100, BLACK, 0.005, 0.0003, 0.001, 3, false, false, false, COLOR);
+		moveSuper(100, 100, 215, 100, 20, 0.004, 0.0003, 0.001, false, true, true, RELDEG);
 
-	// Turns to catch the line for line following
-	moveSenseSimple(-40, 40, 40, 2, LESSREFL);
-	lineFollow(70, 30, 820, 50, 0.2, -0.33, 60, 2, RELDEG); // Line follows
-	resetRelative();
+		// Turns to catch the line for line following
+		moveSenseSimple(-40, 40, 40, 2, LESSREFL);
+		lineFollow(70, 30, 950, 50, 0.2, -0.35, 55, 2, RELDEG); // Line follows
+		resetRelative();
 
-	// Moves until black and moves back to position for grabbing the next blocks and/or releasing them
-	moveSenseSimple(30, 30, BLACK, 3, COLOR);
-    sleep(100);
+		// Moves until black and moves back to position for grabbing the next blocks and/or releasing them
+		moveSenseSimple(30, 30, BLACK, 3, COLOR);
+		sleep(50);
 
-    // Collects the green/blue blocks if they are there
-	if (startedClose)
-    {
-		moveSimpleAcc(-100, -100, 380, 0.15, RELDEG);
-		turn1Motor(50, -93, RIGHT);
-		if(skipGreenBlueStack) // Collects with rack gear if not stacking
+		// Collects the green/blue blocks if they are there
+		if (startedClose)
 		{
-			moveSimpleAcc(60, 60, 35, 0.2, RELDEG);
-			lineSquare(50, 50, 2, 3, -0.4, -50, 500); // Line squares for consistency
+			moveSimpleAcc(-100, -100, 385, 0.15, RELDEG);
+			turn1Motor(50, -93, RIGHT);
+			if(skipGreenBlueStack && !stacksOf2) // Collects with rack gear if not stacking
+			{
+				moveSimpleAcc(60, 60, 35, 0.2, RELDEG);
+				lineSquare(50, 50, 2, 3, -0.4, -50, 500); // Line squares for consistency
 
-			// Opens the rack gear, moves forward, and closes the rack gear to grab the blocks
-			moveArm(100, 100, 150, 0.01, LIFT, RELDEG);
-			resetRelative();
-			moveSimpleAcc(100, 100, 220, 0.2, RELDEG);
-			moveArm(-100, -100, 500, 0.01, LIFT, TIME);
-		}
-		else // Collects with claw if stacking
-		{
-			// Line squares for consistency while getting the lift ready
-			moveSimpleAcc(60, 60, 35, 0.2, RELDEG);
-			startTask(liftDown);
-			lineSquare(50, 50, 2, 3, -0.4, -50, 1000);
-			setSpeed(0, 0);
-			sleep(100);
-			resetRelative();
+				// Opens the rack gear, moves forward, and closes the rack gear to grab the blocks
+				moveArm(100, 100, 150, 0.01, LIFT, RELDEG);
+				resetRelative();
+				moveSimpleAcc(100, 100, 220, 0.2, RELDEG);
+				moveArm(-100, -100, 400, 0.01, LIFT, TIME);
+			}
+			else // Collects with claw if stacking
+			{
+				// Line squares for consistency while getting the lift ready
+				moveSimpleAcc(30, 30, 35, 0.2, RELDEG);
+				startTask(liftDown);
+				lineSquare(50, 50, 2, 3, -0.6, -50, 500);
+				setSpeed(0, 0);
+				// sleep(100);
+				resetRelative();
 
-			// Moves forward and grabs the blocks with the claw
-			moveSimpleAcc(30, 30, 105, 0.15, RELDEG);
-			stopTask(clawReady);
-			setArmSpeed(CLAW, -100);
-			sleep(500);
-			moveArm(-100, -100, 1000, 0.01, LIFT, TIME); // Lifts up the lift
+				// Moves forward and grabs the blocks with the claw
+				moveSimpleAcc(30, 30, 80, 0.15, RELDEG);
+				stopTask(clawReady);
+				setArmSpeed(CLAW, -100);
+				sleep(500);
+				setArmSpeed(LIFT, -100);
+				// moveArm(-100, -100, 700, 0.01, LIFT, TIME); // Lifts up the lift
+			}
 		}
 	}
 
-	if (skipGreenBlueStack)
+	if (skipGreenBlueStack && !stacksOf2)
 	{
 		// Positions the robot differently whether or not it picked up the close blocks
 		if (startedClose)
@@ -340,64 +354,99 @@ void code()
 		// Moves backwards until it sees the white in fornt of the green and back a little more
 
 		moveSenseSuper(-100, -100, 100, 100, WHITE, 0.005, 0.0002, 0.0005, 2, false, false, false, COLOR);
-		moveSuper(-100, -100, 140, 100, 100, 0.004, 0.0002, 0.0005, false, false, false, RELDEG);
+		moveSuper(-100, -100, 160, 100, 100, 0.004, 0.0002, 0.0005, false, false, false, RELDEG);
 
 		// Without stopping release the blocks and wall square
 		startTask(releaseBlocks);
 		startTask(clawBackDown);
-		moveSuper(-100, -85, 1000, 100, 15, 0.004, 0, 0, false, true, true, TIME);
+		moveSuper(-100, -85, 800, 100, 15, 0.004, 0, 0, false, true, true, TIME);
 	}
 	else
 	{ // If there is a stack of 4
 		// Collects the final green/blue blocks
 
 		// Goes to the other side of the mat
-		if (!startedClose)
+		if (startedClose)
 		{
-			turn1Motor(50, -92.5, RIGHT);
+			moveSuper(-100, -100, 1150, 100, 100, 0.006, 0.0002, 0.0005, true, false, false, RELDEG);
+			moveSuper(-40, -40, 900, 30, 12, 0.004, 0, 0, false, true, true, TIME);
+			// sleep(100);
 		}
-		moveSuper(-100, -100, 990, 15, 100, 0.006, 0.0005, 0.001, true, false, false, RELDEG);
-		moveSuper(-50, -50, 1500, 50, 12, 0.004, 0.0005, 0.001, false, true, true, TIME);
-		sleep(100);
 
 		// Moves forward and turns to get the last blocks
 		moveSimple(100, 100, 50, RELDEG);
-		turn1Motor(50, 90.5, RIGHT);
+		turn1MotorMinspeed(50, 91, 12, RIGHT);
 
 		// Moves forward until red and then degrees
 		startTask(readyLiftForGreenBlue);
-		moveSuper(100, 100, 180, 15, 50, 0.004, 0.0003, 0.001, true, false, false, RELDEG);
+		moveSuper(100, 100, 180, 50, 50, 0.006, 0.0003, 0.001, true, false, false, RELDEG);
 		moveSenseSuper(100, 100, 50, 50, RED, 0.005, 0.0003, 0.001, 2, false, false, false, COLOR);
-		moveSuper(100, 100, 410, 50, 15, 0.002, 0.0003, 0.001, false, true, true, RELDEG);
+		moveSuper(100, 100, 410, 50, 15, 0.003, 0.0003, 0.001, false, true, true, RELDEG);
 
 		// Grabs the last blocks with the rack gear
 		moveArm(-100, -100, 500, 0.01, LIFT, TIME);
 
 		// Makes 2 stacks of 2 in the blue area
 
-		// Moves back and wall squares
-		moveSimpleAcc(-100, -100, 950, 0.2, RELDEG);
-		turn1Motor(100, -90, RIGHT);
-		moveSimpleNone(-100, -100, 500, TIME);
-		sleep(100);
+		if (stacksOf2)
+		{
+			moveSimpleAcc(-100, -100, 770, 0.2, RELDEG);
+			turn1Motor(100, -90, RIGHT);
+			moveSimpleNone(-100, -100, 500, TIME);
+			sleep(100);
 
-		// Goes forward to the blue area
-		startTask(readyLiftForPicking2);
-		moveSimpleAcc(50, 50, 700, 0.2, RELDEG);
+			startTask(readyLiftForPicking2);
+			moveSimpleAcc(50, 50, 430, 0.2, RELDEG);
 
-		// Moves back so the blocks are on top of the bottom ones
-		moveSimple(-15, -15, 104, RELDEG);
-		sleep(200);
+			// Moves back so the blocks are on top of the bottom ones
+			moveSimple(-15, -15, 105, RELDEG);
+			sleep(200);
 
-		// Lowers the blocks in the claw so they rest on the other ones
-		moveArm(60, 30, 30, 0.3, LIFT, RELDEG);
+			// Lowers the blocks in the claw so they rest on the other ones
+			moveArm(60, 30, 30, 0.3, LIFT, RELDEG);
+			moveArmAbs(100, 100, waterClawDegree, 0.7, CLAW);
 
-		// Releases the blocks and wall squarea
-		moveArmAbs(100, 100, waterClawDegree, 0.7, CLAW);
-		moveArm(-100, 100, 70, 0.3, LIFT, RELDEG);
-		startTask(liftUp500Delayed);
-		moveSimpleNone(-100, -100, 1500, TIME);
-		sleep(100);
+			moveSimpleAcc(-50, -50, 115, 0.2, RELDEG);
+			setArmSpeed(LIFT, -100);
+			sleep(700);
+			setArmSpeed(LIFT, 0);
+			turn1Motor(-50, -37, RIGHT);
+			turn1Motor(-50, -37, LEFT);
+			moveSimpleNone(-100, -100, 300, TIME);
+			sleep(50);
+			moveSimpleAccMinspeed(20, 20, 12, 680, 0.2, RELDEG);
+			moveArmAbs(30, 15, 230, 0.2, LIFT);
+			startTask(liftUp1000);
+			// moveArmAbs(60, 30, 28, 0.3, LIFT);
+			moveSimpleNone(-100, -100, 1300, TIME);
+			sleep(50);
+		}
+		else
+		{
+			// Moves back and wall squares
+			moveSimpleAcc(-100, -100, 950, 0.2, RELDEG);
+			turn1Motor(100, -90, RIGHT);
+			moveSimpleNone(-100, -100, 500, TIME);
+			sleep(100);
+
+			// Goes forward to the blue area
+			startTask(readyLiftForPicking2);
+			moveSimpleAcc(50, 50, 700, 0.2, RELDEG);
+
+			// Moves back so the blocks are on top of the bottom ones
+			moveSimple(-15, -15, 104, RELDEG);
+			sleep(200);
+
+			// Lowers the blocks in the claw so they rest on the other ones
+			moveArm(60, 30, 30, 0.3, LIFT, RELDEG);
+
+			// Releases the blocks and wall squares
+			moveArmAbs(100, 100, waterClawDegree, 0.7, CLAW);
+			moveArm(-100, 100, 70, 0.3, LIFT, RELDEG);
+			startTask(liftUp500Delayed);
+			moveSimpleNone(-100, -100, 1500, TIME);
+			sleep(100);
+		}
 	}
 
     // Collects the debris and does the water connection
@@ -409,41 +458,32 @@ void code()
 	moveSuper(100, 100, 162, 50, 15, 0.004, 0.0002, 0.0005, false, true, true, RELDEG);
 
 	// Wall squares and moves forward to align with the water connection
-	turn2Motor(50, 90);
-	moveSimpleNone(-100, -100, 1000, TIME);
-	sleep(100);
-	moveSimpleAcc(100, 100, 569, 0.2, RELDEG);
-	turn2Motor(30, -90);
+	turn2MotorMinspeed(50, 90, 15);
+	moveSimpleNone(-100, -100, 700, TIME);
+	sleep(50);
+	moveSimpleAccMinspeed(100, 100, 15, 569, 0.3, RELDEG);
+	turn2MotorMinspeed(30, -90, 12);
 
-	// Goes to the water connection differently if not making the stack of 4
-	if(skipGreenBlueStack)
-	{
-		// Opens the rack gear a little and then more later to push the blocks out of the way
-		moveArm(100, 50, 75, 0.3, LIFT, RELDEG);
-		moveSimpleAcc(100, 100, 216, 0.2, RELDEG); // Goes forward until the blocks
-		moveArm(50, 50, 1000, 0.01, LIFT, TIME); // Pushes them away while lowering the claw
-		moveSimpleAcc(100, 100, 90, 0.2, RELDEG);
-	}
-	else
-	{
-		// Lowers the lift while moving forward since the blocks are gone
-		startTask(liftDown);
-		sleep(300);
-		moveSimpleAcc(100, 100, 321, 0.2, RELDEG);
-	}
+	// Opens the rack gear a little and then more later to push the blocks out of the way
+	moveArm(100, 50, 75, 0.3, LIFT, RELDEG);
+	moveSimpleAccMinspeed(100, 100, 15, 216, 0.2, RELDEG); // Goes forward until the blocks
+	moveArm(100, 100, 600, 0.01, LIFT, TIME); // Pushes them away while lowering the claw
+	moveSimpleAccMinspeed(100, 100, 15, 93, 0.2, RELDEG);
 
 	// Does the water connection
 	startTask(clawWater);
-	moveArm(-50, -50, 1000, 0.01, LIFT, TIME);
+	setArmSpeed(LIFT, -100);
+	sleep(600);
+	// moveArm(-50, -50, 600, 0.01, LIFT, TIME);
 
 	// Different endings if not making the stack of 4
-	if (skipGreenBlueStack)
+	if (skipGreenBlueStack || stacksOf2)
 	{
 		// Collects the small debris
 		turn1Motor(-100, -10, LEFT);
-		turn1Motor(100, 220, RIGHT);
+		turn1MotorMinspeed(100, 227, 15, RIGHT);
 		moveSimple(100, 100, 530, RELDEG);
-		turn2Motor(50, -29);
+		turn2Motor(50, -19);
 
 		// Goes to the water connection
 
@@ -455,7 +495,8 @@ void code()
 		moveSenseSimple(30, -20, BLACK, 2, COLOR);
 
 		// Line follows to straighten the robot
-		lineFollow(23, 15, 960, 50, 0.3, 0.2, 35, 2, RELDEG);
+		lineFollow(40, 30, 700, 40, 0.3, 0.27, 50, 2, RELDEG);
+		lineFollow(23, 15, 280, 50, 0.3, 0.2, 35, 2, RELDEG);
 		resetRelative();
 		startTask(liftDown);
 		startTask(clawBackDown);
@@ -464,7 +505,7 @@ void code()
 		moveSenseSuper(15, 15, 15, 15, RED, 0.004, 0.0005, 0.001, 2, false, false, false, COLOR);
 		if (!consistentLastWater)
 		{
-			moveSuper(50, 50, 1123, 15, 15, 0.004, 0.0002, 0.0005, true, true, true, RELDEG);
+			moveSuper(50, 49.6, 1123, 15, 15, 0.004, 0.0002, 0.0005, true, true, true, RELDEG);
 		}
 		else
 		{
@@ -483,7 +524,7 @@ void code()
 
 		startTask(clawWater);
 		stopTask(liftDown);
-		moveArm(-100, -100, 1000, 0.01, LIFT, TIME);
+		moveArm(-100, -100, 700, 0.01, LIFT, TIME);
 		turn1Motor(100, 70, RIGHT);
 	}
 	else

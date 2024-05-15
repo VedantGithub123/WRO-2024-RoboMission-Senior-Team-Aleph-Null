@@ -220,7 +220,11 @@ void move(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distanc
         }
         else
         {
-            if (time1(T2)>=3000)
+            if (time1(T2)>=3000 && leftMaxSpeed != 20)
+            {
+                break;
+            }
+            if (time1(T2)>=7000)
             {
                 break;
             }
@@ -468,19 +472,31 @@ void moveSense(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float ta
 // Function to keep default parameters in the move function
 void moveSimple(float leftMaxSpeed, float rightMaxSpeed, float distance, int state)
 {
-    move(leftMaxSpeed, rightMaxSpeed, 12, distance, 0.35, 1.5, 15, state);
+    move(leftMaxSpeed, rightMaxSpeed, 20, distance, 0.35, 1.5, 15, state);
 }
 
 // Function to keep default parameters in the move function
 void moveSimpleAcc(float leftMaxSpeed, float rightMaxSpeed, float distance, float acc, int state)
 {
-    move(leftMaxSpeed, rightMaxSpeed, 12, distance, acc, 1.5, 10, state);
+    move(leftMaxSpeed, rightMaxSpeed, 20, distance, acc, 1.5, 10, state);
+}
+
+// Function to keep default parameters in the move function
+void moveSimpleAccMinspeed(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distance, float acc, int state)
+{
+    move(leftMaxSpeed, rightMaxSpeed, minSpeed, distance, acc, 1.5, 10, state);
 }
 
 // Function to move without synced motors
 void moveSimpleNone(float leftMaxSpeed, float rightMaxSpeed, float distance, int state)
 {
     move(leftMaxSpeed, rightMaxSpeed, 12, distance, 0.2, 0, 0, state);
+}
+
+// Function to move without synced motors
+void moveSimpleNoneAcc(float leftMaxSpeed, float rightMaxSpeed, float minSpeed, float distance, float acc, int state)
+{
+    move(leftMaxSpeed, rightMaxSpeed, minSpeed, distance, acc, 0, 0, state);
 }
 
 // Function to keep default parameters in the moveAbs function
@@ -513,6 +529,48 @@ void turn1Motor(float speed, float angle, int port)
     else
     {
         moveSimple(0, speed*sgn(angle), angle/360.0*2.0*wheelDist*PI, RELCM);
+    }
+}
+
+// Function to turn with 2 motors
+void turn2MotorAcc(float speed, float angle, float acc)
+{
+    speed = fabs(speed);
+    moveSimpleAcc(speed*sgn(angle), speed*sgn(angle)*-1.0, angle/360.0*wheelDist*PI, acc, RELCM);
+}
+
+// Function to turn with 1 motor
+void turn1MotorAcc(float speed, float angle, float acc, int port)
+{
+    speed = fabs(speed);
+    if (port == LEFT)
+    {
+        moveSimpleAcc(speed*sgn(angle), 0, angle/360.0*2.0*wheelDist*PI, acc, RELCM);
+    }
+    else
+    {
+        moveSimpleAcc(0, speed*sgn(angle), angle/360.0*2.0*wheelDist*PI, acc, RELCM);
+    }
+}
+
+// Function to turn with 2 motors
+void turn2MotorMinspeed(float speed, float angle, float minSpeed)
+{
+    speed = fabs(speed);
+    moveSimpleAccMinspeed(speed*sgn(angle), speed*sgn(angle)*-1.0, minSpeed, angle/360.0*wheelDist*PI, 0.4, RELCM);
+}
+
+// Function to turn with 1 motor
+void turn1MotorMinspeed(float speed, float angle, float minspeed, int port)
+{
+    speed = fabs(speed);
+    if (port == LEFT)
+    {
+        moveSimpleAccMinspeed(speed*sgn(angle), 0, minspeed, angle/360.0*2.0*wheelDist*PI, 0.4, RELCM);
+    }
+    else
+    {
+        moveSimpleAccMinspeed(0, speed*sgn(angle), minspeed, angle/360.0*2.0*wheelDist*PI, 0.4, RELCM);
     }
 }
 
