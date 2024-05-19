@@ -1,4 +1,4 @@
-float clawDegree = 152;
+float clawDegree = 162;
 float waterClawDegree = 333;
 
 task liftUp500()
