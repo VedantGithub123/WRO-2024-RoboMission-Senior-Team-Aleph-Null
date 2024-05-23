@@ -25,7 +25,7 @@ void code()
 	// surpriseChallenge();
 
 	//Goes to the black line
-    moveSimpleAcc(100, 100, 300, 0.25, RELDEG);
+    moveSimpleAcc(100, 100, 295, 0.25, RELDEG);
     turn1MotorMinspeed(100, 91, 15, LEFT);
 	resetRelative();
 	moveSenseSuper(100, 100, 30, 100, BLACK, 0.005, 0.0005, 0.001, 2, true, false, false, COLOR);
@@ -69,12 +69,12 @@ void code()
 	// Stacks the first 4 blocks
 	moveArm(60, 30, clawDegree-10, 0.3, LIFT, RELDEG); // Brings the claw down just above the blocks
 	resetRelative();
-	moveSimpleAccMinspeed(-15, -15, 12, 107, 0.1, RELDEG); // Backs up so the blocks in the claw are on top of the other blocks
+	moveSimpleAccMinspeed(-15, -15, 12, 100, 0.1, RELDEG); // Backs up so the blocks in the claw are on top of the other blocks
 	moveArm(60, 30, 30, 0.3, LIFT, RELDEG); // Brings the claw down so the blocks are resting on each other
 
 	// Releases the blocks and moves backwards while the lift is moving up
 	moveArmAbs(100, 100, 310, 0.7, CLAW);
-	moveSimpleAcc(-100, -100, 92, 0.2, RELDEG);
+	moveSimpleAcc(-100, -100, 100, 0.2, RELDEG);
 	startTask(liftUp1000);
 
     // Goes to the next 4 blocks
@@ -203,16 +203,17 @@ void code()
 		// Position for the debris while the lift is moving up
 		stopTask(liftDown);
 		setArmSpeed(LIFT, -100);
-		moveSimpleAcc(30, 30, 100, 0.15, RELDEG);
-		turn1Motor(50, -95, LEFT);
+		moveSimpleAcc(30, 30, 80, 0.15, RELDEG);
+		turn1MotorMinspeed(50, -98, 12, LEFT);
 	}
 	else
 	{
 		// If the blocks are not there position for picking up the debris
 		moveSimpleNone(-100, -100, 1000, TIME); // Wall squares
 		// sleep(100);
-		moveSimple(100, 100, 220, RELDEG);
-		turn1MotorMinspeed(70, 89, 12, LEFT);
+		resetRelative();
+		moveSimpleAccMinspeed(100, 100, 12, 250, 0.25, RELDEG);
+		turn1MotorMinspeed(50, 89, 12, LEFT);
 	}
 
     // Collects the two debris on the left side
@@ -302,7 +303,7 @@ void code()
 		// Collects the green/blue blocks if they are there
 		if (startedClose)
 		{
-			moveSimpleAcc(-100, -100, 385, 0.15, RELDEG);
+			moveSimpleAcc(-100, -100, 375, 0.15, RELDEG);
 			turn1Motor(50, -93, RIGHT);
 			if(skipGreenBlueStack && !stacksOf2) // Collects with rack gear if not stacking
 			{
