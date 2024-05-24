@@ -25,7 +25,7 @@ void code()
 	// surpriseChallenge();
 
 	//Goes to the black line
-    moveSimpleAcc(100, 100, 290, 0.25, RELDEG);
+    moveSimpleAcc(100, 100, 275, 0.25, RELDEG);
     turn1MotorMinspeed(100, 91, 15, LEFT);
 	resetRelative();
 	moveSenseSuper(100, 100, 30, 100, BLACK, 0.005, 0.0005, 0.001, 2, true, false, false, COLOR);
@@ -38,13 +38,14 @@ void code()
     startTask(liftDown);
     startTask(clawReady);
 	// moveSimple(40, 40, 10, RELDEG);
-	lineSquare(50, 50, 2, 3, -0.7, -53, 700);
+	lineSquare(50, 50, 2, 3, -0.65, -55, 800);
 	setSpeed(0, 0);
 	// sleep(100);
 
 	// Collects the first 4 blocks
 	resetRelative();
-    moveSimpleAccMinSpeed(30, 30, 12, 95, 0.15, RELDEG); // Moves forward so the claw is in the right spot
+    moveSimpleAccMinSpeed(16, 16, 8, 95, 0.15, RELDEG); // Moves forward so the claw is in the right spot
+	sleep(50);
 
 	// Grabs the blocks with the claw
 	stopTask(clawReady);
@@ -69,7 +70,7 @@ void code()
 	// Stacks the first 4 blocks
 	moveArm(60, 30, clawDegree-10, 0.3, LIFT, RELDEG); // Brings the claw down just above the blocks
 	resetRelative();
-	moveSimpleAccMinspeed(-15, -15, 12, 100, 0.1, RELDEG); // Backs up so the blocks in the claw are on top of the other blocks
+	moveSimpleAccMinspeed(-12, -12, 8, 108, 0.1, RELDEG); // Backs up so the blocks in the claw are on top of the other blocks
 	moveArm(60, 30, 30, 0.3, LIFT, RELDEG); // Brings the claw down so the blocks are resting on each other
 
 	// Releases the blocks and moves backwards while the lift is moving up
@@ -94,16 +95,17 @@ void code()
     moveSimpleAcc(-50, -50, 40, 0.2, RELDEG);
 
 	// Line squares so that the robot is in the same position
-	lineSquare(48, 53, 2, 3, -0.7, -50, 700);
+	lineSquare(48, 51, 2, 3, -0.6, -55, 900);
 	setSpeed(0, 0);
-	// sleep(50);
+	sleep(50);
 
 	// Collects the next 4 blocks
 
 	// Moves so the claw is aligned with the blocks
 	resetRelative();
-    moveSimpleAccMinspeed(20, 20, 12, 99, 0.15, RELDEG);
+    moveSimpleAccMinspeed(16, 16, 10, 103, 0.15, RELDEG);
 	stopTask(liftDown);
+	sleep(50);
 
 	// Closes the claw to grab the blocks
     setArmSpeed(CLAW, -100);
@@ -127,7 +129,7 @@ void code()
 	// lineSquare(50, 53, 2, 3, -0.5, -50, 500);
 
 	// Moves forward and turns so the sensors are good for line following
-	moveSimpleAcc(50, 50, 40, 0.1, RELDEG);
+	moveSimpleAcc(50, 50, 50, 0.1, RELDEG);
 	turn2Motor(30, 90);
 
 	// Makes the second stack of blocks
@@ -189,13 +191,13 @@ void code()
 
 		// Moves the lift in position and line squares so the robot is straight
 		startTask(liftDown);
-		lineSquare(50, 52, 2, 3, -0.55, -45, 800);
+		lineSquare(50, 50, 2, 3, -0.65, -55, 800);
 		setSpeed(0, 0);
 		// sleep(100);
 		resetRelative();
 
 		// Moves forward and grabs the blocks with the claw
-		moveSimpleAcc(30, 30, 80, 0.15, RELDEG);
+		moveSimpleAccMinspeed(20, 20, 12, 95, 0.15, RELDEG);
 		stopTask(clawReady);
 		setArmSpeed(CLAW, -100);
 		sleep(500);
@@ -203,8 +205,8 @@ void code()
 		// Position for the debris while the lift is moving up
 		stopTask(liftDown);
 		setArmSpeed(LIFT, -100);
-		moveSimpleAcc(30, 30, 85, 0.15, RELDEG);
-		turn1MotorMinspeed(50, -94, 12, LEFT);
+		moveSimpleAccMinspeed(20, 20, 12, 90, 0.15, RELDEG);
+		turn1MotorMinspeed(40, -96, 12, LEFT);
 	}
 	else
 	{
@@ -212,8 +214,8 @@ void code()
 		moveSimpleNone(-100, -100, 1000, TIME); // Wall squares
 		// sleep(100);
 		resetRelative();
-		moveSimpleAccMinspeed(100, 100, 12, 250, 0.25, RELDEG);
-		turn1MotorMinspeed(50, 89, 12, LEFT);
+		moveSimpleAccMinspeed(100, 100, 12, 255, 0.25, RELDEG);
+		turn1MotorMinspeed(50, 88, 12, LEFT);
 	}
 
     // Collects the two debris on the left side
@@ -399,11 +401,11 @@ void code()
 			sleep(100);
 
 			startTask(readyLiftForPicking2);
-			moveSimpleAcc(50, 50, 430, 0.2, RELDEG);
+			moveSimpleAccMinspeed(40, 40, 12, 430, 0.2, RELDEG);
 
 			// Moves back so the blocks are on top of the bottom ones
-			moveSimple(-15, -15, 105, RELDEG);
-			sleep(200);
+			moveSimple(-12, -12, 105, RELDEG);
+			sleep(100);
 
 			// Lowers the blocks in the claw so they rest on the other ones
 			moveArm(60, 30, 30, 0.3, LIFT, RELDEG);
@@ -413,8 +415,8 @@ void code()
 			setArmSpeed(LIFT, -100);
 			sleep(700);
 			setArmSpeed(LIFT, 0);
-			turn1Motor(-50, -32, RIGHT);
-			turn1Motor(-50, -32, LEFT);
+			turn1Motor(-50, -33, RIGHT);
+			turn1Motor(-50, -33, LEFT);
 			moveSimpleNone(-100, -100, 500, TIME);
 			// sleep(50);
 			moveSimpleAccMinspeed(20, 20, 12, 680, 0.2, RELDEG);
@@ -456,7 +458,7 @@ void code()
 
 	// Turns and moves forward a bit after seeing red
 	turn1Motor(100, 90, RIGHT);
-	moveSuper(100, 100, 135, 15, 50, 0.004, 0.0002, 0.0005, true, false, false, RELDEG);
+	moveSuper(100, 100, 85, 15, 50, 0.004, 0.0002, 0.0005, true, false, false, RELDEG);
 	moveSenseSuper(100, 100, 50, 50, RED, 0.005, 0.0002, 0.0005, 2, false, false, false, COLOR);
 	moveSuper(100, 100, 162, 50, 15, 0.004, 0.0002, 0.0005, false, true, true, RELDEG);
 
