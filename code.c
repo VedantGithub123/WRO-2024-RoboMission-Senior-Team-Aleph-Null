@@ -25,7 +25,7 @@ void code()
 	// surpriseChallenge();
 
 	//Goes to the black line
-    moveSimpleAcc(100, 100, 295, 0.25, RELDEG);
+    moveSimpleAcc(100, 100, 290, 0.25, RELDEG);
     turn1MotorMinspeed(100, 91, 15, LEFT);
 	resetRelative();
 	moveSenseSuper(100, 100, 30, 100, BLACK, 0.005, 0.0005, 0.001, 2, true, false, false, COLOR);
@@ -94,7 +94,7 @@ void code()
     moveSimpleAcc(-50, -50, 40, 0.2, RELDEG);
 
 	// Line squares so that the robot is in the same position
-	lineSquare(50, 53, 2, 3, -0.7, -50, 700);
+	lineSquare(48, 53, 2, 3, -0.7, -50, 700);
 	setSpeed(0, 0);
 	// sleep(50);
 
@@ -102,7 +102,7 @@ void code()
 
 	// Moves so the claw is aligned with the blocks
 	resetRelative();
-    moveSimpleAccMinspeed(25, 25, 12, 98, 0.15, RELDEG);
+    moveSimpleAccMinspeed(20, 20, 12, 99, 0.15, RELDEG);
 	stopTask(liftDown);
 
 	// Closes the claw to grab the blocks
@@ -134,7 +134,7 @@ void code()
 	startTask(readyLiftForPicking);
 	sleep(400);
 	resetRelative();
-	moveSimpleAccMinspeed(-15, -15, 12, 104, 0.1, RELDEG); // Moves back so the blocks are in the right spot
+	moveSimpleAccMinspeed(-15, -15, 8, 104, 0.1, RELDEG); // Moves back so the blocks are in the right spot
 	moveArm(60, 30, 30, 0.3, LIFT, RELDEG); // Brings the claw down so the blocks rest on each other
 
 	// Releases the blocks
@@ -167,7 +167,7 @@ void code()
 	moveArm(100, 50, 70, 0.3, LIFT, RELDEG); // Lowers the lift a little to release them
 
 	moveSimpleAccMinspeed(-25, -25, 12, 65, 0.2, RELDEG); // Moves back so the second stacks are on top of the first stacks
-	moveArm(50, 50, 47, 0.2, LIFT, RELDEG); // Lowers the claw so the new stacks rest on the old ones
+	moveArm(50, 50, 42, 0.2, LIFT, RELDEG); // Lowers the claw so the new stacks rest on the old ones
 
 	moveArmAbs(100, 10, 300, 0.7, CLAW); // Release the blocks
 	moveArm(-50, 50, 70, 0.3, LIFT, RELDEG); // Lift up a little so the prongs on the claw don't make the stack fall
@@ -189,7 +189,7 @@ void code()
 
 		// Moves the lift in position and line squares so the robot is straight
 		startTask(liftDown);
-		lineSquare(50, 50, 2, 3, -0.55, -45, 600);
+		lineSquare(50, 52, 2, 3, -0.55, -45, 800);
 		setSpeed(0, 0);
 		// sleep(100);
 		resetRelative();
@@ -203,8 +203,8 @@ void code()
 		// Position for the debris while the lift is moving up
 		stopTask(liftDown);
 		setArmSpeed(LIFT, -100);
-		moveSimpleAcc(30, 30, 80, 0.15, RELDEG);
-		turn1MotorMinspeed(50, -98, 12, LEFT);
+		moveSimpleAcc(30, 30, 85, 0.15, RELDEG);
+		turn1MotorMinspeed(50, -94, 12, LEFT);
 	}
 	else
 	{
@@ -415,7 +415,7 @@ void code()
 			setArmSpeed(LIFT, 0);
 			turn1Motor(-50, -32, RIGHT);
 			turn1Motor(-50, -32, LEFT);
-			moveSimpleNone(-100, -100, 300, TIME);
+			moveSimpleNone(-100, -100, 500, TIME);
 			// sleep(50);
 			moveSimpleAccMinspeed(20, 20, 12, 680, 0.2, RELDEG);
 			moveArmAbs(30, 15, 230, 0.2, LIFT);
