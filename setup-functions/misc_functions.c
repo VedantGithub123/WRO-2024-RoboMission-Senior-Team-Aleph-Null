@@ -16,9 +16,9 @@ float getTrueDegrees(int m)
 {
 	if (m)
 	{
-		return getMotorEncoder(right)*1;
+		return getMotorEncoder(right)*358.0/360.0;
 	}
-	return getMotorEncoder(left)*-0.99;
+	return getMotorEncoder(left)*-1;
 }
 
 // Function to get the absolute degrees of each motor, based on the absolute baseline
@@ -119,34 +119,34 @@ float angleFromCM(float angle)
 // Resets the arm degrees based on the relative baseline
 void resetArm(int port)
 {
-    if (port==2)
+    if (port==CLAW)
     {
-        relativeBaseA = getMotorEncoder(a);
+        relativeBaseClaw = getMotorEncoder(claw);
     }
     else
     {
-        relativeBaseD = getMotorEncoder(d);
+        relativeBaseLift = getMotorEncoder(lift);
     }
 }
 
 // Gets the relative degree value of the arm
 float getArmDegrees(int port)
 {
-    if (port==2)
+    if (port==CLAW)
     {
-        return -(getMotorEncoder(a)-relativeBaseA);
+        return (getMotorEncoder(claw)-relativeBaseClaw);
     }
-    return -(getMotorEncoder(d)-relativeBaseD);
+    return (getMotorEncoder(lift)-relativeBaseLift);
 }
 
 // Gets the absolute degree value of the arm
 float getArmDegreesAbs(int port)
 {
-	if (port==2)
+	if (port==CLAW)
     {
-        return -(getMotorEncoder(a)-absoluteBaseA);
+        return getMotorEncoder(claw);
     }
-    return -getMotorEncoder(d);
+    return getMotorEncoder(lift);
 }
 
 // Sets the speed of the arm
@@ -163,7 +163,7 @@ void setArmSpeed(int port, float speed)
 	}else{
 		speed = (speed-97.0)*5.0+85.0;
 	}
-    setMotorSpeed((port==2) ? a : d, -speed);
+    setMotorSpeed((port==CLAW) ? claw : lift, speed);
 }
 
 // Converts the color number into a string

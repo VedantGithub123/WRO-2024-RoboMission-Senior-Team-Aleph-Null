@@ -1,6 +1,7 @@
 // Any global variables are declared here
 
-#define max2(a, b) (a>b) ? a : b
+#define max2(a, b) ((a>b) ? a : b)
+#define min2(a, b) ((a<b) ? a : b)
 
 #define INFINITY 1000000.0						// Big number for no accelleration
 #define RELDEG 0								// Moves for relative degrees
@@ -35,17 +36,22 @@ const float white4 = 100; 						// Globally defines the white value for the colo
 const float mid4 = (black4+white4)/2.0;         // Globally defines the midpoint for the color sensor in port 1
 
 const float wheelDiam = 6.24;					// Defines the diameter of the wheel for absolute positioning
-const float wheelDist = 17.52;					// Defines the distance between the wheels for the angle measurement
+const float wheelDist = 17.848;					// Defines the distance between the wheels for the angle measurement
+
+const float timeAccelRatio = 0.5;               // Defines the ratio between the time accel value to the degrees accel value
+const float turnPIDScale = 0.3;                 // Defines the scale for the kP and kD is the motors move in opposite directions
 
 const int LEFT = 0;								// Defines the left port for the encoder functions
 const int RIGHT = 1;							// Defines the right port for the encoder functions
-const int LIFT = 2;                             // Defines a value for
+const int LIFT = 2;
 const int CLAW = 3;
+
+const float defaultkP = 0.08;
+const float defaultkD = 0.08;
 
 float relativeBaseLeft = 0;						// Defines the baseline for relative movement left motor
 float relativeBaseRight = 0;					// Defines the baseline for relative movement right motor
 float absoluteLeft = 0;							// Defines the baseline for absolute movement left motor
 float absoluteRight = 0;						// Defines the baseline for absolute movement right motor
-float relativeBaseA = 0;                        // Defines the baseline for relative movement port a
-float relativeBaseD = 0;                        // Defines the baseline for relative movement port d
-float absoluteBaseA = 0;
+float relativeBaseClaw = 0;                     // Defines the baseline for relative movement port a
+float relativeBaseLift = 0;                     // Defines the baseline for relative movement port d
