@@ -23,48 +23,7 @@ task main()
 	clearTimer(T1);									// Clears the timer for timing the run
 
 	// Runs all the zones here
-
 	code();
-
-	return;
-
-	move(30, 30, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(-30, -30, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(30, -30, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(-30, 30, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(30, 0, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(-30, 0, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(0, 30, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(0, -30, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-
-	move(30, 10, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(-30, -10, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(10, 30, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(-10, -30, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(30, -10, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(-30, 10, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(-10, 30, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-	move(10, -30, 10, 10, 500, 0.4, 0.4, 0.15, 0.08, true, RELDEG);
-	sleep(300);
-
-	displayCenteredBigTextLine(5, "%0.1f, %0.1f", getTrueDegrees(LEFT), getTrueDegrees(RIGHT));
-	delay(5000);
-
 
 	// Time display after the challenge is finished
 	displayCenteredBigTextLine(5, "%0.2f", (time100(T1)/10.0));

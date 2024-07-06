@@ -247,12 +247,12 @@ void move(float lSpeed, float rSpeed, float startSpeed, float endSpeed, float di
         {
             if (fabs(lSpeed) >= fabs(rSpeed))
             {
-                leftSpeed = motionProfile(startSpeed, lSpeed, endSpeed, accRate, deccRate, distance, time1(T2), time1(T2), false, shouldStop);
+                leftSpeed = motionProfile(startSpeed, lSpeed, endSpeed, accRate, deccRate, distance, time1(T2)*sgn(lSpeed), time1(T2)*sgn(lSpeed), false, shouldStop);
                 rightSpeed = leftSpeed*rSpeed/lSpeed;
             }
             else
             {
-                rightSpeed = motionProfile(startSpeed, rSpeed, endSpeed, accRate, deccRate, distance, time1(T2), time1(T2), false, shouldStop);
+                rightSpeed = motionProfile(startSpeed, rSpeed, endSpeed, accRate, deccRate, distance, time1(T2)*sgn(rSpeed), time1(T2)*sgn(rSpeed), false, shouldStop);
                 leftSpeed = rightSpeed*lSpeed/rSpeed;
             }
         }
@@ -312,7 +312,7 @@ void move(float lSpeed, float rSpeed, float startSpeed, float endSpeed, float di
     {
         float totalTravelled = fabs(getRelDegrees(LEFT))+fabs(getRelDegrees(RIGHT));
         relativeBaseLeft += totalTravelled*lSpeed/(fabs(lSpeed)+fabs(rSpeed));
-        relativeBaseLeft += totalTravelled*rSpeed/(fabs(lSpeed)+fabs(rSpeed));
+        relativeBaseRight += totalTravelled*rSpeed/(fabs(lSpeed)+fabs(rSpeed));
     }
     else
     {
@@ -406,11 +406,11 @@ void moveSenseOneSensor(float lSpeed, float rSpeed, float startSpeed, float accR
 
     if (fabs(lSpeed) > fabs(rSpeed))
     {
-        distance = 1000*sgn(lSpeed);
+        distance = 100000*sgn(lSpeed);
     }
     else
     {
-        distance = 1000*sgn(rSpeed);
+        distance = 100000*sgn(rSpeed);
     }
 
     // Variables for the main loop
@@ -425,7 +425,7 @@ void moveSenseOneSensor(float lSpeed, float rSpeed, float startSpeed, float accR
     while (true)
     {
         // Does the exit conditions
-        if (time1(T2)>=10000)
+        if (time1(T2) >= 10000)
         {
             break;
         }
@@ -494,7 +494,7 @@ void moveSenseOneSensor(float lSpeed, float rSpeed, float startSpeed, float accR
     // Resets the motor based on where it should be
     float totalTravelled = fabs(getRelDegrees(LEFT))+fabs(getRelDegrees(RIGHT));
     relativeBaseLeft += totalTravelled*lSpeed/(fabs(lSpeed)+fabs(rSpeed));
-    relativeBaseLeft += totalTravelled*rSpeed/(fabs(lSpeed)+fabs(rSpeed));
+    relativeBaseRight += totalTravelled*rSpeed/(fabs(lSpeed)+fabs(rSpeed));
 
     if (shouldStop)
     {
@@ -533,11 +533,11 @@ void moveSenseTwoSensor(float lSpeed, float rSpeed, float startSpeed, float accR
 
     if (fabs(lSpeed) > fabs(rSpeed))
     {
-        distance = 1000*sgn(lSpeed);
+        distance = 100000*sgn(lSpeed);
     }
     else
     {
-        distance = 1000*sgn(rSpeed);
+        distance = 100000*sgn(rSpeed);
     }
 
     // Variables for the main loop
@@ -565,11 +565,11 @@ void moveSenseTwoSensor(float lSpeed, float rSpeed, float startSpeed, float accR
         }
         else if (state1 == LESSREFL && getReflection(sensor1)<=target1)
         {
-            sensor1Exit = false;
+            sensor1Exit = true;
         }
         else if (state1 == COLOR && getColor(sensor1) == target1)
         {
-            sensor1Exit = false;
+            sensor1Exit = true;
         }
         else
         {
@@ -580,15 +580,15 @@ void moveSenseTwoSensor(float lSpeed, float rSpeed, float startSpeed, float accR
         {
             if (state2 == GREATREFL && getReflection(sensor2)>=target2)
             {
-                return;
+                break;
             }
             else if (state2 == LESSREFL && getReflection(sensor2)<=target2)
             {
-                return;
+                break;
             }
             else if (state2 == COLOR && getColor(sensor2) == target2)
             {
-                return;
+                break;
             }
         }
 
@@ -644,7 +644,7 @@ void moveSenseTwoSensor(float lSpeed, float rSpeed, float startSpeed, float accR
     // Resets the motor based on where it should be
     float totalTravelled = fabs(getRelDegrees(LEFT))+fabs(getRelDegrees(RIGHT));
     relativeBaseLeft += totalTravelled*lSpeed/(fabs(lSpeed)+fabs(rSpeed));
-    relativeBaseLeft += totalTravelled*rSpeed/(fabs(lSpeed)+fabs(rSpeed));
+    relativeBaseRight += totalTravelled*rSpeed/(fabs(lSpeed)+fabs(rSpeed));
 
     if (shouldStop)
     {
@@ -737,13 +737,156 @@ void lineFollowOneSensor(float speed, float startSpeed, float endSpeed, float di
 // Line follows with one sensor until sensing with two sensors
 void lineFollowOneSensorStopTwoSensor(float speed, float startSpeed, float accRate, float kP, float kD, bool shouldStop, int lineFollowSensor, float midpoint, int sensor1, int target1, int state1, int sensor2, int target2, int state2)
 {
+    accRate *= timeAccelRatio;
 
+    startSpeed = fabs(startSpeed);
+    midpoint = fabs(midpoint);
+
+    kD = fabs(kD)*sgn(kP);
+
+    float distance = 100000*sgn(speed);
+
+    float err;
+    float steer;
+    float newSpeed;
+
+    bool sensor1Exit = false;
+
+    float prevErr = 0;
+    clearTimer(T2);
+    resetRelative();
+
+    while (true)
+    {
+        // Does the exit conditions
+        if (time1(T2)>=10000)
+        {
+            break;
+        }
+
+        if (state1 == GREATREFL && getReflection(sensor1)>=target1)
+        {
+            sensor1Exit = true;
+        }
+        else if (state1 == LESSREFL && getReflection(sensor1)<=target1)
+        {
+            sensor1Exit = true;
+        }
+        else if (state1 == COLOR && getColor(sensor1) == target1)
+        {
+            sensor1Exit = true;
+        }
+        else
+        {
+            sensor1Exit = false;
+        }
+
+        if (sensor1Exit)
+        {
+            if (state2 == GREATREFL && getReflection(sensor2)>=target2)
+            {
+                break;
+            }
+            else if (state2 == LESSREFL && getReflection(sensor2)<=target2)
+            {
+                break;
+            }
+            else if (state2 == COLOR && getColor(sensor2) == target2)
+            {
+                break;
+            }
+        }
+
+        // Gets the speed
+        newSpeed = motionProfile(startSpeed, speed, speed, accRate, accRate, distance, (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2.0, time1(T2), false, shouldStop);
+
+        // Does the PD controller
+        err = getReflection(lineFollowSensor)-midpoint;
+        steer = err*kP+(err-prevErr)*kD;
+
+        prevErr = err;
+
+        // Sets the speeds
+        setSpeed(newSpeed+steer, newSpeed-steer);
+
+    }
+
+    resetRelative();
+
+    if (shouldStop)
+    {
+        setSpeed(0, 0);
+    }
+    else
+    {
+        setSpeed(speed, speed);
+    }
 }
 
 // Line follows with one sensor until sensing with one sensor
 void lineFollowOneSensorStopOneSensor(float speed, float startSpeed, float accRate, float kP, float kD, bool shouldStop, int lineFollowSensor, float midpoint, int sensor, int target, int state)
 {
+    accRate *= timeAccelRatio;
 
+    startSpeed = fabs(startSpeed);
+    midpoint = fabs(midpoint);
+
+    kD = fabs(kD)*sgn(kP);
+
+    float distance = 100000*sgn(speed);
+
+    float err;
+    float steer;
+    float newSpeed;
+
+    float prevErr = 0;
+    clearTimer(T2);
+    resetRelative();
+
+    while (true)
+    {
+        // Does the exit conditions
+        if (time1(T2)>=10000)
+        {
+            break;
+        }
+        if (state == GREATREFL && getReflection(sensor)>=target)
+        {
+            break;
+        }
+        else if (state == LESSREFL && getReflection(sensor)<=target)
+        {
+            break;
+        }
+        else if (state == COLOR && getColor(sensor) == target)
+        {
+            break;
+        }
+
+        // Gets the speed
+        newSpeed = motionProfile(startSpeed, speed, speed, accRate, accRate, distance, (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2.0, time1(T2), false, shouldStop);
+
+        // Does the PD controller
+        err = getReflection(lineFollowSensor)-midpoint;
+        steer = err*kP+(err-prevErr)*kD;
+
+        prevErr = err;
+
+        // Sets the speeds
+        setSpeed(newSpeed+steer, newSpeed-steer);
+
+    }
+
+    resetRelative();
+
+    if (shouldStop)
+    {
+        setSpeed(0, 0);
+    }
+    else
+    {
+        setSpeed(speed, speed);
+    }
 }
 
 // Line follows with two sensors for degrees, seconds, or cm
@@ -824,15 +967,156 @@ void lineFollowTwoSensor(float speed, float startSpeed, float endSpeed, float di
 }
 
 // Line follows with two sensors until sensing with two sensors
-void lineFollowTwoSensorStopTwoSensor(float speed, float startSpeed, float accRate, float kP, float kD, bool shouldStop, int sensor1, int target1, int sensor2, int target2)
+void lineFollowTwoSensorStopTwoSensor(float speed, float startSpeed, float accRate, float kP, float kD, bool shouldStop, int sensor1, int target1, int state1, int sensor2, int target2, int state2)
 {
+    accRate *= timeAccelRatio;
 
+    startSpeed = fabs(startSpeed);
+
+    kD = fabs(kD)*sgn(kP);
+
+    float err;
+    float steer;
+    float newSpeed;
+
+    float distance = 100000*sgn(speed);
+
+    float sensor1Exit = false;
+
+    float prevErr = 0;
+    clearTimer(T2);
+    resetRelative();
+
+    while (true)
+    {
+        // Does the exit conditions
+        if (time1(T2)>=10000)
+        {
+            break;
+        }
+
+        if (state1 == GREATREFL && getReflection(sensor1)>=target1)
+        {
+            sensor1Exit = true;
+        }
+        else if (state1 == LESSREFL && getReflection(sensor1)<=target1)
+        {
+            sensor1Exit = true;
+        }
+        else if (state1 == COLOR && getColor(sensor1) == target1)
+        {
+            sensor1Exit = true;
+        }
+        else
+        {
+            sensor1Exit = false;
+        }
+
+        if (sensor1Exit)
+        {
+            if (state2 == GREATREFL && getReflection(sensor2)>=target2)
+            {
+                break;
+            }
+            else if (state2 == LESSREFL && getReflection(sensor2)<=target2)
+            {
+                break;
+            }
+            else if (state2 == COLOR && getColor(sensor2) == target2)
+            {
+                break;
+            }
+        }
+
+        // Gets the speed
+        newSpeed = motionProfile(startSpeed, speed, speed, accRate, accRate, distance, (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2.0, time1(T2), false, shouldStop);
+
+        // Does the PD controller
+        err = getReflection(sensor1)-getReflection(sensor2);
+        steer = err*kP+(err-prevErr)*kD;
+
+        prevErr = err;
+
+        // Sets the speeds
+        setSpeed(newSpeed+steer, newSpeed-steer);
+
+    }
+
+    resetRelative();
+
+    if (shouldStop)
+    {
+        setSpeed(0, 0);
+    }
+    else
+    {
+        setSpeed(speed, speed);
+    }
 }
 
 // Line follows with two sensors until sensing with one sensor
 void lineFollowTwoSensorStopOneSensor(float speed, float startSpeed, float accRate, float kP, float kD, bool shouldStop, int sensor1, int sensor2, int stopSensor, int stopTarget, int state)
 {
+    accRate *= timeAccelRatio;
 
+    startSpeed = fabs(startSpeed);
+
+    kD = fabs(kD)*sgn(kP);
+
+    float err;
+    float steer;
+    float newSpeed;
+
+    float distance = 100000*sgn(speed);
+
+    float prevErr = 0;
+    clearTimer(T2);
+    resetRelative();
+
+    while (true)
+    {
+        // Does the exit conditions
+        if (time1(T2)>=10000)
+        {
+            break;
+        }
+        if (state == GREATREFL && getReflection(stopSensor)>=stopTarget)
+        {
+            break;
+        }
+        else if (state == LESSREFL && getReflection(stopSensor)<=stopTarget)
+        {
+            break;
+        }
+        else if (state == COLOR && getColor(stopSensor) == stopTarget)
+        {
+            break;
+        }
+
+        // Gets the speed
+        newSpeed = motionProfile(startSpeed, speed, speed, accRate, accRate, distance, (getRelDegrees(LEFT)+getRelDegrees(RIGHT))/2.0, time1(T2), false, shouldStop);
+
+        // Does the PD controller
+        err = getReflection(sensor1)-getReflection(sensor2);
+        steer = err*kP+(err-prevErr)*kD;
+
+        prevErr = err;
+
+        // Sets the speeds
+        setSpeed(newSpeed+steer, newSpeed-steer);
+
+    }
+
+    resetRelative();
+
+    if (shouldStop)
+    {
+        setSpeed(0, 0);
+    }
+    else
+    {
+        setSpeed(speed, speed);
+    }
 }
 
 // Line squares
@@ -880,21 +1164,28 @@ void moveArm(float speed, float startSpeed, float endSpeed, float distance, floa
         deccRate *= timeAccelRatio;
     }
 
-    clearTimer(T3);
+    TTimers TARM = T3;
+
+    if (port == LIFT)
+    {
+        TARM = T4;
+    }
+
+    clearTimer(TARM);
 
     while (true)
     {
         // Breaking conditions
         if (state==TIME)
         {
-            if (time1(T3)>=fabs(distance))
+            if (time1(TARM)>=fabs(distance))
             {
                 break;
             }
         }
         else
         {
-            if (time1(T3)>3000)
+            if (time1(TARM)>3000)
             {
                 break;
             }
@@ -909,7 +1200,7 @@ void moveArm(float speed, float startSpeed, float endSpeed, float distance, floa
         }
 
         // Sets the speed of the arm from the motion profile
-        setArmSpeed(port, motionProfile(startSpeed, speed, endSpeed, accRate, deccRate, distance, ((state==TIME) ? time1(T3) : getArmDegrees(port)), time1(T3), false, shouldStop));
+        setArmSpeed(port, motionProfile(startSpeed, speed, endSpeed, accRate, deccRate, (state==TIME ? fabs(distance)*sgn(speed) : distance), ((state==TIME) ? time1(TARM)*sgn(speed) : getArmDegrees(port)), time1(TARM), false, shouldStop));
     }
 
     // Resets the arm
@@ -921,12 +1212,13 @@ void moveArm(float speed, float startSpeed, float endSpeed, float distance, floa
     {
         if (port == LIFT)
         {
-            relativeBaseLift += getArmDegrees(LIFT);
+            relativeBaseLift += distance;
         }
         else
         {
-            relativeBaseClaw += getArmDegrees(CLAW);
+            relativeBaseClaw += distance;
         }
+        resetArm(port);
     }
 
     // Stops the arm if so
@@ -934,7 +1226,6 @@ void moveArm(float speed, float startSpeed, float endSpeed, float distance, floa
     {
         setArmSpeed(port, 0);
     }
-
 }
 
 // Moves an arm to an absolute target

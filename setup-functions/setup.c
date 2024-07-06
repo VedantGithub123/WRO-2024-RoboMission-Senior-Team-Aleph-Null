@@ -47,7 +47,13 @@ const int LIFT = 2;
 const int CLAW = 3;
 
 const float defaultkP = 0.08;
-const float defaultkD = 0.08;
+const float defaultkD = 0;
+const float defaultMinspeed = 15;
+const float defaultAcc = 0.4;
+const float defaultArmMinspeed = 30;
+
+const float armDegreeToPick = 218;
+const float armDegreeToDrop = 130;
 
 float relativeBaseLeft = 0;						// Defines the baseline for relative movement left motor
 float relativeBaseRight = 0;					// Defines the baseline for relative movement right motor
