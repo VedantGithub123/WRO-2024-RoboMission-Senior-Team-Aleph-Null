@@ -78,7 +78,7 @@ void turn2MotorEverything(float speed, float startSpeed, float endSpeed, float a
 
 void turn2MotorAccMinspeed(float speed, float startSpeed, float endSpeed, float angle, float accRate, float deccRate, bool shouldStop)
 {
-    turn2MotorEverything(speed, startSpeed, endSpeed, angle, accRate, deccRate, 0, 0, true);
+    turn2MotorEverything(speed, startSpeed, endSpeed, angle, accRate, deccRate, 0, 0, shouldStop);
 }
 
 void turn2MotorAcc(float speed, float angle, float accRate, float deccRate)
@@ -112,7 +112,17 @@ void moveSenseOneSensorSimple(float lSpeed, float rSpeed, float startSpeed, bool
     moveSenseOneSensor(lSpeed, rSpeed, startSpeed, defaultAcc, defaultkP, defaultkD, shouldStop, sensor, target, state);
 }
 
+void moveSenseOneSensorNoSync(float lSpeed, float rSpeed, float startSpeed, bool shouldStop, int sensor, int target, int state)
+{
+    moveSenseOneSensor(lSpeed, rSpeed, startSpeed, defaultAcc, 0, 0, shouldStop, sensor, target, state);
+}
+
 void moveSenseTwoSensorSimple(float lSpeed, float rSpeed, float startSpeed, bool shouldStop, int target1, int state1, int target2, int state2)
 {
     moveSenseTwoSensor(lSpeed, rSpeed, startSpeed, defaultAcc, defaultkP, defaultkD, shouldStop, 2, target1, state1, 3, target2, state2);
+}
+
+void moveSenseTwoSensorNoSync(float lSpeed, float rSpeed, float startSpeed, bool shouldStop, int target1, int state1, int target2, int state2)
+{
+    moveSenseTwoSensor(lSpeed, rSpeed, startSpeed, defaultAcc, 0, 0, shouldStop, 2, target1, state1, 3, target2, state2);
 }

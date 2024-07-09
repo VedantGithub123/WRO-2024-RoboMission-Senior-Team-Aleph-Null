@@ -1231,6 +1231,8 @@ void moveArm(float speed, float startSpeed, float endSpeed, float distance, floa
 // Moves an arm to an absolute target
 void moveArmAbs(float speed, float startSpeed, float endSpeed, float target, float accRate, float deccRate, int port)
 {
+    resetArm(port);
+
     // Sets all the right values
     target = target-getArmDegreesAbs(port);
     if (target == 0){return;}

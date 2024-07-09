@@ -53,7 +53,9 @@ const float defaultAcc = 0.4;
 const float defaultArmMinspeed = 30;
 
 const float armDegreeToPick = 218;
-const float armDegreeToDrop = 130;
+const float armDegreeToDrop = 170;
+const float armDegreeForFirst = 100;
+const float clawDegreeOpen = -260;
 
 float relativeBaseLeft = 0;						// Defines the baseline for relative movement left motor
 float relativeBaseRight = 0;					// Defines the baseline for relative movement right motor
