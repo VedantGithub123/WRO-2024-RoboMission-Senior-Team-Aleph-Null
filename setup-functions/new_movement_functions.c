@@ -202,7 +202,7 @@ void move(float lSpeed, float rSpeed, float startSpeed, float endSpeed, float di
         }
         else
         {
-            if (time1(T2)>=3000)
+            if (time1(T2)>=stoppingTime)
             {
                 break;
             }

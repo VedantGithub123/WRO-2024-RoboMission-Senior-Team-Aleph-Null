@@ -6,11 +6,6 @@ task armReset()
     moveArmAbsSimple(100, clawDegreeOpen, CLAW);
 }
 
-task armDownForRed()
-{
-    moveArmAbsSimple(100, armDegreeToDrop, LIFT);
-}
-
 task liftArmBeforeBlocks()
 {
     moveArmAbsSimple(100, armDegreeToPick, LIFT);
@@ -19,6 +14,11 @@ task liftArmBeforeBlocks()
 task liftArmForFirstBlock()
 {
     moveArmAbsSimple(100, armDegreeForFirst, LIFT);
+}
+
+task liftArmForFarGreenBlue()
+{
+    moveArmAbsSimple(100, armDegreeToPick-10, LIFT);
 }
 
 task armDownToPlaceStack()
