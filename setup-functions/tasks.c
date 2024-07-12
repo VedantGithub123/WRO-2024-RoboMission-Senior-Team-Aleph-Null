@@ -21,6 +21,16 @@ task liftArmForFarGreenBlue()
     moveArmAbsSimple(100, armDegreeToPick-10, LIFT);
 }
 
+task liftArmForFarGreenBlue2()
+{
+    moveArmAbsSimple(100, armDegreeToPick+5, LIFT);
+}
+
+task liftArmForFarGreenBlueStartingFar()
+{
+    moveArmAbsSimple(100, armDegreeToPick, LIFT);
+}
+
 task armDownToPlaceStack()
 {
     moveArmAbsSimple(100, 55, LIFT);
@@ -33,7 +43,7 @@ task openClaw()
 
 task openClawForPlacingStacks()
 {
-    moveArmAbsSimple(100, clawDegreeOpen+50, CLAW);
+    moveArmAbs(100, 100, 30, clawDegreeOpen+50, 0.4, 0.4, CLAW);
 }
 
 task resetGreenBlue()

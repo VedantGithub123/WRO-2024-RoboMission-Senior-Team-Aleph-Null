@@ -24,6 +24,10 @@ task main()
 
 	// Runs all the zones here
 
+	//while (1){
+	//	displayCenteredBigTextLine(5, "G:%d, B:%d, %d", getGreen(4), getBlue(4), (getGreen(4)>=getBlue(4) || getBlue(4)<getGreen(4)+2));
+	//}
+
 	if (startedClose)
 	{
 		closeCode();
