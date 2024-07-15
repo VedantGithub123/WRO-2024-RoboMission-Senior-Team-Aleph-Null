@@ -35,6 +35,12 @@ void moveSimple(float lSpeed, float rSpeed, float distance, int state)
     move(lSpeed, rSpeed, defaultMinspeed, defaultMinspeed, distance, defaultAcc, defaultAcc, defaultkP, defaultkD, true, state);
 }
 
+void moveSimpleNoSettle(float lSpeed, float rSpeed, float distance, int state)
+{
+    move(lSpeed, rSpeed, defaultMinspeed, defaultMinspeed, distance, defaultAcc, defaultAcc, defaultkP, defaultkD, false, state);
+    setSpeed(0, 0);
+}
+
 void moveSimpleWallSquare(float lSpeed, float rSpeed, float distance, int state)
 {
     move(lSpeed, rSpeed, defaultMinspeed, defaultMinspeed, distance, defaultAcc, defaultAcc, 0, 0, true, state);
@@ -67,6 +73,12 @@ void turn1MotorAcc(float speed, float angle, float accRate, float deccRate, int 
 void turn1Motor(float speed, float angle, int port)
 {
     turn1MotorAcc(speed, angle, defaultAcc, defaultAcc, port);
+}
+
+void turn1MotorNoSettle(float speed, float angle, int port)
+{
+    turn1MotorAccMinspeed(speed, defaultMinspeed, defaultMinspeed, angle, defaultAcc, defaultAcc, false, port);
+    setSpeed(0, 0);
 }
 
 void turn2MotorEverything(float speed, float startSpeed, float endSpeed, float angle, float accRate, float deccRate, float turnkP, float turnkD, bool shouldStop)

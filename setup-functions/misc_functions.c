@@ -180,6 +180,16 @@ void setArmSpeed(int port, float speed)
     setMotorSpeed((port==CLAW) ? c : l, speed);
 }
 
+// Resets to the default parameters
+void resetParameters()
+{
+	defaultkP = trueDefaultkP;
+	defaultkD = trueDefaultkD;
+	defaultMinspeed = trueDefaultMinspeed;
+	defaultAcc = trueDefaultAcc;
+	defaultArmMinspeed = trueDefaultArmMinspeed;
+}
+
 // Converts the color number into a string
 const string getColourName[8] = {
 	"NONE",

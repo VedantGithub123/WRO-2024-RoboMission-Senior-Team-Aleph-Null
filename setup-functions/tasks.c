@@ -3,7 +3,7 @@ task armReset()
     moveArmSimple(100, 600, LIFT, TIME);
     moveArmSimple(100, 500, CLAW, TIME);
     resetArmAbs(CLAW);
-    moveArmAbsSimple(100, clawDegreeOpen, CLAW);
+    moveArmAbsSimple(100, clawDegreeOpen-10, CLAW);
 }
 
 task liftArmBeforeBlocks()
