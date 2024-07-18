@@ -1,6 +1,8 @@
 task armReset()
 {
-    moveArmSimple(100, 600, LIFT, TIME);
+    setArmSpeed(LIFT, 100);
+    sleep(400);
+    setArmSpeed(LIFT, 0);
     moveArmSimple(100, 500, CLAW, TIME);
     resetArmAbs(CLAW);
     moveArmAbsSimple(100, clawDegreeOpen-10, CLAW);
@@ -8,6 +10,12 @@ task armReset()
 
 task liftArmBeforeBlocks()
 {
+    moveArmAbsSimple(100, armDegreeToPick, LIFT);
+}
+
+task liftArmBeforeBlocksDelay()
+{
+    sleep(100);
     moveArmAbsSimple(100, armDegreeToPick, LIFT);
 }
 
@@ -23,12 +31,12 @@ task liftArmForFarGreenBlue()
 
 task liftArmForFarGreenBlue2()
 {
-    moveArmAbsSimple(100, armDegreeToPick+5, LIFT);
+    moveArmAbsSimple(100, armDegreeToPick+8, LIFT);
 }
 
 task liftArmForFarGreenBlueStartingFar()
 {
-    moveArmAbsSimple(100, armDegreeToPick, LIFT);
+    moveArmAbsSimple(100, armDegreeToPick-15, LIFT);
 }
 
 task armDownToPlaceStack()
@@ -61,4 +69,9 @@ task closeClaw()
     setArmSpeed(CLAW, -10);
     sleep(200);
     setArmSpeed(CLAW, -100);
+}
+
+task blocksLow()
+{
+    moveArmAbsSimple(100, 105, LIFT);
 }
