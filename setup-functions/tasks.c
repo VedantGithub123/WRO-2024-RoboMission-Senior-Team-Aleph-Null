@@ -15,7 +15,7 @@ task liftArmBeforeBlocks()
 
 task liftArmBeforeBlocksDelay()
 {
-    sleep(100);
+    sleep(300);
     moveArmAbsSimple(100, armDegreeToPick, LIFT);
 }
 
