@@ -58,8 +58,11 @@ void end()
     moveNoSyncAccParam(30, 30, 60, 12, 235, true, RELDEG);
     moveArmAbsSimple(100, 360, LIFT);
     moveArmAbsSimple(100, armDegreeToPick, LIFT);
-    turn1Motor(30, -14, LEFT);
-	moveSimple(-20, -20, 57, RELDEG);
+
+ 	turn1Motor(30, -22, RIGHT);
+	moveSimple(-20, -20, 40, RELDEG);
+	turn1Motor(30, -26, LEFT);
+		moveSimple(20, 20, 60, RELDEG);
 
     moveArmAbsSimple(100, armDegreeToDrop, LIFT);
     moveArmAbsSimple(100, clawDegreeOpen, CLAW);
@@ -71,7 +74,6 @@ void end()
     sleep(100);
     startTask(blocksLow);
 
-    turn1MotorNoSettle(30, 6, LEFT);
 
     // Puts the stack away
     moveSenseOneSensorSimple(-100, -100, 50, false, 3, RED, COLOR);
@@ -152,7 +154,7 @@ void end()
     setSpeed(0, 0);
     resetRelative();
     setArmSpeed(LIFT, 100);
-    moveNoSyncMinspeedParam(100, 100, 852, 0.2, 0.2, true, RELDEG);
+    moveNoSyncMinspeedParam(100, 100, 855, 0.2, 0.2, true, RELDEG);
 	turn1MotorAcc(100, -91, 0.4, 0.2, RIGHT);
 	moveNoSyncAccParamWallSquare(-100, -100, 70, 30, 250, false, RELDEG);
     moveSenseOneSensor(-30, -30, 30, 0.3, 0, 0, true, 1, WHITE, COLOR);
@@ -312,12 +314,13 @@ void closeCode()
     moveSenseOneSensor(100, 100, 20, 0.4, 0, 0, false, 2, BLUE, COLOR);
     resetRelative();
     moveNoSyncAccParamWallSquare(100, 100, 100, 20, 150, true, RELDEG);
+
     resetRelative();
     setSpeed(0, 0);
 
     moveArmAbsSimple(100, 160, LIFT);
-    moveSimpleNoSettle(-80, -100, 270, RELDEG);
-    turn1MotorNoSettle(100, 116, RIGHT);
+    moveSimpleNoSettle(-80, -100, 305, RELDEG);
+    turn1MotorNoSettle(100, 118, RIGHT);
     moveSimpleWallSquare(-40, -40, 900, TIME);
 
     resetRelative();
@@ -339,7 +342,7 @@ void closeCode()
     turn1MotorNoSettle(100, -55, RIGHT);
     moveSenseOneSensorNoSync(30, 30, 20, false, 3, BROWN, COLOR);
     moveSenseOneSensorNoSync(30, 30, 30, false, 3, RED, COLOR);
-    moveNoSyncAccParamWallSquare(20, 20, 30, 20, 215, false, RELDEG);
+    moveNoSyncAccParamWallSquare(20, 20, 30, 20, 217, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 

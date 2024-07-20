@@ -39,7 +39,7 @@ const float wheelDiam = 6.24;					// Defines the diameter of the wheel for absol
 const float wheelDist = 17.848;					// Defines the distance between the wheels for the angle measurement
 
 const float maxVoltage = 8.3;                   // Defines the voltage of the battery at full charge
-const float minVoltage = 6.0;                   // Defines the voltage of the battery at no charge
+const float minVoltage = 7.2;                   // Defines the voltage of the battery at no charge
 
 const float timeAccelRatio = 0.5;               // Defines the ratio between the time accel value to the degrees accel value
 const float turnPIDScale = 0.3;                 // Defines the scale for the kP and kD is the motors move in opposite directions
