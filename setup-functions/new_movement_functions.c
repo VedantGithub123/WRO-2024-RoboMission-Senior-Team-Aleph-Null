@@ -698,7 +698,7 @@ void lineFollowOneSensor(float speed, float startSpeed, float endSpeed, float di
         }
         else
         {
-            if (time1(T2)>=3000)
+            if (time1(T2)>=5000)
             {
                 break;
             }
@@ -930,7 +930,7 @@ void lineFollowTwoSensor(float speed, float startSpeed, float endSpeed, float di
         }
         else
         {
-            if (time1(T2)>=3000)
+            if (time1(T2)>=5000)
             {
                 break;
             }
@@ -1120,7 +1120,7 @@ void lineFollowTwoSensorStopOneSensor(float speed, float startSpeed, float accRa
 }
 
 // Line squares
-void lineSquare(int mid1, int mid2, int port1, int port2, float kP, float kD, int time)
+void lineSquare(int mid1, int mid2, int port1, int port2, float kP, float kI, float kD, int time)
 {
     // Verifies variables
     clearTimer(T2);
@@ -1134,11 +1134,36 @@ void lineSquare(int mid1, int mid2, int port1, int port2, float kP, float kD, in
     float prevErr1 = 0;
     float prevErr2 = 0;
 
+    float integral1 = 0;
+    float integral2 = 0;
+
+    float err1;
+    float err2;
+
 
     while (time1(T2)<time)
     {
+        err1 = getReflection(port1)-mid1;
+        err2 = getReflection(port2)-mid2;
+        
+        if (sgn(err1) != sgn(prevErr1))
+        {
+            // integral1 = 0;
+            integral1 *= -0.5;
+        }
+        if (sgn(err2) != sgn(prevErr2))
+        {
+            integral1 *= -0.5;
+        }
+
+        integral1 *= 0.9;
+        integral2 *= 0.9;
+
+        integral1 += err1*kI;
+        integral2 += err2*kI;
+
         // PD implementation for each side (Maybe add modified PID later)
-        setSpeed((getReflection(port1)-mid1)*kP+(getReflection(port1)-mid1-prevErr1)*kD, (getReflection(port2)-mid2)*kP+(getReflection(port2)-mid2-prevErr2)*kD);
+        setSpeed(err1*kP+(err1-prevErr1)*kD+integral1, err2*kP+(err2-prevErr2)*kD+integral2);
 
         // Stores previous error values
         prevErr1 = getReflection(port1)-mid1;
