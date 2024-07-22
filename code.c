@@ -655,34 +655,14 @@ void farCode()
     // Collects the debris
     moveArmAbsSimple(100, 160, LIFT);
     moveNoSyncMinspeedParam(-70, -100, 380, 0.2, 0.2, false, RELDEG);
-    turn1MotorAccMinspeed(100, 20, 20, 118, 0.4, 0.4, false, RIGHT);
+    turn1MotorAccMinspeed(100, 20, 20, 113, 0.4, 0.4, false, RIGHT);
     setSpeed(0, 0);
     moveNoSyncAccParamWallSquare(-100, -100, 100, 20, 700, false, TIME);
     resetRelative();
     setSpeed(0, 0);
     setArmSpeed(LIFT, 100);
 
-    // moveSimpleNoSettle(100, 100, 1630, RELDEG);
-    // defaultkP = 0;
-    // moveNoSyncParam(-100, -100, 50, 100, 70, 0.4, 0.4, false, RELDEG);
-    // startTask(liftArmBeforeBlocksDelay);
-    // turn1MotorAccMinspeed(100, 100, 100, -124, 0.4, 0.4, false, RIGHT);
-    // moveNoSyncParamWallsquare(-100, -100, 100, 100, 500, 0.4, 0.4, false, TIME);
-    // resetRelative();
-    // setSpeed(0, 0);
-    // resetParameters();
-
     // // Goes to the last green/blue blocks
-    // turn1MotorAccMinspeed(100, 50, 50, 52, 0.4, 0.4, false, LEFT);
-    // moveNoSyncParam(100, 100, 20, 50, 1150, 0.4, 0.4, false, RELDEG);
-    // turn1MotorAccMinspeed(100, 50, 50, 130, 0.4, 0.4, false, LEFT);
-    // moveNoSyncParam(-100, -100, -20, -50, 850, 0.4, 0.4, false, RELDEG);
-	// moveNoSyncAccParamWallSquare(-50, -50, -20, -50, 800, true, TIME);
-    // setSpeed(0, 0);
-    // resetRelative();
-
-	// turnFromWallSquareLeft();
-
     moveNoSyncParam(100, 100, 20, 12, 1530, 0.3, 0.3, true, RELDEG);
     startTask(liftArmBeforeBlocksDelay);
     moveNoSyncParam(-100, -100, 12, 50, 1400, 0.3, 0.4, false, RELDEG);
