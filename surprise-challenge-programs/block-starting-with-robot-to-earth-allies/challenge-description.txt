@@ -1,0 +1,1 @@
+A block starts with the robot and must be within the size limit. It needs to be brought completely inside the earth allies square.

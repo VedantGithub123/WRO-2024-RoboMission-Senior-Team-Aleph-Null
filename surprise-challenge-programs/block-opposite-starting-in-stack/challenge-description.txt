@@ -1,0 +1,3 @@
+The block starts opposite to the starting base in the furthest out green/blue starting position
+and must be used in a stack that has more than 1 level. It can be used as any color so the if it
+is on the base, the stack counts. This was the surprise challenge at Canada's Nationals.
