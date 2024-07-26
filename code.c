@@ -311,7 +311,7 @@ void closeCode()
     moveArmAbsSimple(100, armDegreeToDrop, LIFT);
     moveArmAbsSimple(100, clawDegreeOpen, CLAW);
 
-    moveArmAbsSimple(100, armDegreeForFirst, LIFT);
+    moveArmAbsSimple(100, armDegreeForFirst-10, LIFT);
     startTask(closeClaw);
     moveSimple(15, 15, 30, RELDEG);
     setArmSpeed(CLAW, -100);
@@ -326,7 +326,7 @@ void closeCode()
     resetRelative();
     setSpeed(0, 0);
 
-    moveArmAbsSimple(100, 160, LIFT);
+    moveArmAbsSimple(40, 160, LIFT);
     moveSimpleNoSettle(-80, -100, 305, RELDEG);
     turn1MotorNoSettle(100, 118, RIGHT);
     moveSimpleWallSquare(-40, -40, 900, TIME);

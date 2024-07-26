@@ -8,7 +8,6 @@
 #include "setup-functions/simple_movement_functions.c"		// COntains all the simple movement functions
 
 #include "setup-functions/tasks.c"
-#include "surprise_challenge.c"
 #include "code.c"
 
 int page = 1;
