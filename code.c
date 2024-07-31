@@ -133,9 +133,9 @@ void end()
     moveArmAbsSimple(100, armDegreeToDrop+20, LIFT);
 
     //SURPRISEEEEEEEEEEEEEEEEEEEEEE
-    	startTask(openClaw);
-		turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 40, defaultAcc, defaultAcc, true, RIGHT);
-		turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 40, defaultAcc, defaultAcc, true, LEFT);
+    startTask(openClaw);
+    turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 40, defaultAcc, defaultAcc, true, RIGHT);
+    turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 40, defaultAcc, defaultAcc, true, LEFT);
     resetArmAbs(LIFT);
     startTask(liftArmForFirstBlock);
     moveNoSyncParam(80, 80, 80, 30, 240, 0.4, 0.2, true, RELDEG);

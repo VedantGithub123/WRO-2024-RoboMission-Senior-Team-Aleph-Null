@@ -12,7 +12,6 @@ bool startedClose = true; // Variable to store which side the robot starts on, t
 
 #include "setup-functions/tasks.c"
 #include "code.c"
-#include "surprise-challenge-programs/right-gray-square-to-base/surprise_challenge.c"
 
 //CODE:
 
@@ -28,6 +27,46 @@ task main()
 	// while (1){
 	// 	displayCenteredBigTextLine(5, "G:%d, B:%d, %d", getGreen(4), getBlue(4), (getGreen(4)>=getBlue(4) || getBlue(4)<getGreen(4)+2));
 	// }
+	// setArmSpeed(LIFT, 100);
+    // sleep(400);
+    // setArmSpeed(LIFT, 0);
+    // moveArmSimple(100, 500, CLAW, TIME);
+    // resetArmAbs(CLAW);
+    // moveArmAbsSimple(100, clawDegreeOpen-10, CLAW);
+    // moveArmSimple(-100, 700, LIFT, TIME);
+    // resetArmAbs(LIFT);
+
+	// setArmSpeed(CLAW, 0);
+	// setArmSpeed(LIFT, 0);
+    // sleep(50);
+
+
+	moveNoSyncParam(100, 100, defaultMinspeed, defaultMinspeed, 681, defaultAcc, defaultAcc, true, RELDEG);
+        turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, -90, defaultAcc, defaultAcc, true, LEFT);
+        moveNoSyncParam(-100, -100, defaultMinspeed, defaultMinspeed, 440, defaultAcc, defaultAcc, false, RELDEG);
+        moveSimpleWallSquare(-100, -100, 1000, TIME);
+        setSpeed(0, 0);
+        resetRelative();
+		sleep(400);
+        moveNoSyncParam(50, 50, defaultMinspeed, defaultMinspeed, 131, defaultAcc, defaultAcc, true, RELDEG);
+        turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 90, defaultAcc, defaultAcc, true, LEFT);
+        moveNoSyncParam(100, 100, defaultMinspeed, defaultMinspeed, 1927, 0.2, 0.2, true, RELDEG);
+        moveSenseOneSensorSimple(20, 20, defaultMinspeed, true, 3, BLACK, COLOR);
+        turn2MotorAccMinspeed(20, defaultMinspeed, defaultMinspeed, 100, defaultAcc, defaultAcc, true);
+        moveNoSyncParam(-100, -100, defaultMinspeed, defaultMinspeed, 1495, 0.2, 0.2, true, RELDEG);
+        moveSimpleWallSquare(-100, -100, 1000, TIME);
+        setSpeed(0, 0);
+        resetRelative();
+        turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 90, defaultAcc, defaultAcc, true, RIGHT);
+        moveSenseOneSensorSimple(-20, -20, defaultMinspeed, true, 3, RED, COLOR);
+        moveNoSyncParam(-20, -20, defaultMinspeed, defaultMinspeed, 92, defaultAcc, defaultAcc, true, RELDEG);
+        turn2MotorAccMinspeed(20, defaultMinspeed, defaultMinspeed, 90, defaultAcc, defaultAcc, true);
+        moveSimpleWallSquare(-50, -50, 1000, TIME);
+        setSpeed(0, 0);
+        resetRelative();
+        moveNoSyncParam(20, 20, defaultMinspeed, defaultMinspeed, 132, defaultAcc, defaultAcc, true, RELDEG);
+	
+	return;
 
 	displayCenteredBigTextLine(8, "Battery: %d%%", 100.0*(getBatteryVoltage()-minVoltage)/(maxVoltage-minVoltage));
 
