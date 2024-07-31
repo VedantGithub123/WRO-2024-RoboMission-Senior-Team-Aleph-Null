@@ -28,7 +28,7 @@ void end()
     setArmSpeed(CLAW, -100);
     startTask(liftArmForFarGreenBlue2);
 
-    
+
 	turn1MotorNoSettle(30, -8, LEFT);
 	moveSenseOneSensorNoSync(-100, -50, 50, false, 1, RED, COLOR);
     moveNoSyncAccParamWallSquare(-100, -50, 100, 20, 125, false, RELDEG);
@@ -131,6 +131,17 @@ void end()
     resetRelative();
     moveSenseOneSensor(-30, -30, 30, defaultAcc, defaultkP/2, defaultkD/2, true, 1, WHITE, COLOR);
     moveArmAbsSimple(100, armDegreeToDrop+20, LIFT);
+
+    //SURPRISEEEEEEEEEEEEEEEEEEEEEE
+    	startTask(openClaw);
+		turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 40, defaultAcc, defaultAcc, true, RIGHT);
+		turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 40, defaultAcc, defaultAcc, true, LEFT);
+    resetArmAbs(LIFT);
+    startTask(liftArmForFirstBlock);
+    moveNoSyncParam(80, 80, 80, 30, 240, 0.4, 0.2, true, RELDEG);
+    setArmSpeed(CLAW, -100);
+    startTask(liftArmBeforeBlocks);
+    sleep(150);
 
     // Puts the debris away
     turn1MotorNoSettle(100, 45, LEFT);
