@@ -41,31 +41,13 @@ task main()
     // sleep(50);
 
 
-	moveNoSyncParam(100, 100, defaultMinspeed, defaultMinspeed, 681, defaultAcc, defaultAcc, true, RELDEG);
-        turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, -90, defaultAcc, defaultAcc, true, LEFT);
-        moveNoSyncParam(-100, -100, defaultMinspeed, defaultMinspeed, 440, defaultAcc, defaultAcc, false, RELDEG);
-        moveSimpleWallSquare(-100, -100, 1000, TIME);
-        setSpeed(0, 0);
-        resetRelative();
-		sleep(400);
-        moveNoSyncParam(50, 50, defaultMinspeed, defaultMinspeed, 131, defaultAcc, defaultAcc, true, RELDEG);
-        turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 90, defaultAcc, defaultAcc, true, LEFT);
-        moveNoSyncParam(100, 100, defaultMinspeed, defaultMinspeed, 1927, 0.2, 0.2, true, RELDEG);
-        moveSenseOneSensorSimple(20, 20, defaultMinspeed, true, 3, BLACK, COLOR);
-        turn2MotorAccMinspeed(20, defaultMinspeed, defaultMinspeed, 100, defaultAcc, defaultAcc, true);
-        moveNoSyncParam(-100, -100, defaultMinspeed, defaultMinspeed, 1495, 0.2, 0.2, true, RELDEG);
-        moveSimpleWallSquare(-100, -100, 1000, TIME);
-        setSpeed(0, 0);
-        resetRelative();
-        turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 90, defaultAcc, defaultAcc, true, RIGHT);
-        moveSenseOneSensorSimple(-20, -20, defaultMinspeed, true, 3, RED, COLOR);
-        moveNoSyncParam(-20, -20, defaultMinspeed, defaultMinspeed, 92, defaultAcc, defaultAcc, true, RELDEG);
-        turn2MotorAccMinspeed(20, defaultMinspeed, defaultMinspeed, 90, defaultAcc, defaultAcc, true);
-        moveSimpleWallSquare(-50, -50, 1000, TIME);
-        setSpeed(0, 0);
-        resetRelative();
-        moveNoSyncParam(20, 20, defaultMinspeed, defaultMinspeed, 132, defaultAcc, defaultAcc, true, RELDEG);
-	
+	moveNoSyncParam(50, 50, defaultMinspeed, defaultMinspeed, 63, defaultAcc, defaultAcc, true, RELDEG);
+	turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 90, defaultAcc, defaultAcc, true, RIGHT);
+	moveNoSyncParam(50, 50, defaultMinspeed, defaultMinspeed, 448, defaultAcc, defaultAcc, true, RELDEG);
+	setArmSpeed(CLAW, -100);
+	sleep(300);
+    turn2Motor(30, -45);
+
 	return;
 
 	displayCenteredBigTextLine(8, "Battery: %d%%", 100.0*(getBatteryVoltage()-minVoltage)/(maxVoltage-minVoltage));
