@@ -27,29 +27,7 @@ task main()
 	// while (1){
 	// 	displayCenteredBigTextLine(5, "G:%d, B:%d, %d", getGreen(4), getBlue(4), (getGreen(4)>=getBlue(4) || getBlue(4)<getGreen(4)+2));
 	// }
-	// setArmSpeed(LIFT, 100);
-    // sleep(400);
-    // setArmSpeed(LIFT, 0);
-    // moveArmSimple(100, 500, CLAW, TIME);
-    // resetArmAbs(CLAW);
-    // moveArmAbsSimple(100, clawDegreeOpen-10, CLAW);
-    // moveArmSimple(-100, 700, LIFT, TIME);
-    // resetArmAbs(LIFT);
-
-	// setArmSpeed(CLAW, 0);
-	// setArmSpeed(LIFT, 0);
-    // sleep(50);
-
-
-	moveNoSyncParam(50, 50, defaultMinspeed, defaultMinspeed, 63, defaultAcc, defaultAcc, true, RELDEG);
-	turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 90, defaultAcc, defaultAcc, true, RIGHT);
-	moveNoSyncParam(50, 50, defaultMinspeed, defaultMinspeed, 448, defaultAcc, defaultAcc, true, RELDEG);
-	setArmSpeed(CLAW, -100);
-	sleep(300);
-    turn2Motor(30, -45);
-
-	return;
-
+	
 	displayCenteredBigTextLine(8, "Battery: %d%%", 100.0*(getBatteryVoltage()-minVoltage)/(maxVoltage-minVoltage));
 
 	if (startedClose)
