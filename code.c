@@ -648,7 +648,7 @@ void farCode()
     setSpeed(0, 0);
 
     // Collects the far green/blue blocks
-    turn1MotorNoSettle(100, 59, LEFT);
+    turn1MotorNoSettle(100, 55, LEFT);
     turn1MotorNoSettle(100, -48, RIGHT);
     moveSenseOneSensorNoSync(20, 20, 20, false, 3, BLACK, COLOR);
     resetRelative();
