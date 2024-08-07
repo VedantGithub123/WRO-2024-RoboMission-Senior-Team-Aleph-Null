@@ -52,7 +52,7 @@ void end()
     // 2nd Block
     getGreen(4);
     resetRelative();
-    moveNoSyncMinspeedParam(100, 100, 410, 0.4, 0.25, false, RELDEG);
+    moveNoSyncMinspeedParam(100, 100, 400, 0.4, 0.25, false, RELDEG);
     setSpeed(0, 0);
 
     int baseColor = BLUE;
@@ -130,10 +130,10 @@ void end()
 	moveNoSyncAccParamWallSquare(-100, -100, 100, 100, 400, true, TIME);
     resetRelative();
     setSpeed(0, 0);
+    stopTask(liftArmBeforeBlocks);
 
 
     // Does the water connection
-    stopTask(liftArmBeforeBlocks);
     setArmSpeed(LIFT, 100);
     moveNoSyncMinspeedParam(100, 100, 890, 0.2, 0.2, true, RELDEG);
     resetRelative();
