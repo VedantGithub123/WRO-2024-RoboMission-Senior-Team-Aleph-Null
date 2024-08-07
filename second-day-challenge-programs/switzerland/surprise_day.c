@@ -13,9 +13,7 @@ void surpriseDay()
     sleep(50);
 
     // Moves barrier
-
     moveArmAbsSimple(100, 200, LIFT);
-
     moveSimpleWallSquare(-100, -100, 1000, TIME);
     setSpeed(0, 0);
     resetRelative();
@@ -41,7 +39,6 @@ void surpriseDay()
     resetRelative();
 
     // Puts debris away
-
     moveNoSyncParam(100, 100, defaultMinspeed, defaultMinspeed, 767, 0.2, 0.2, true, RELDEG);
 	turn1MotorAccMinspeed(40, defaultMinspeed, defaultMinspeed, 90, defaultAcc, defaultAcc, true, LEFT);
 	moveNoSyncParam(100, 100, defaultMinspeed, defaultMinspeed, 600, 0.2, 0.2, true, RELDEG);
@@ -60,7 +57,6 @@ void surpriseDay()
 	resetRelative();
 
     // Reverses water connection
-
     setArmSpeed(LIFT, 100);
     moveNoSyncMinspeedParam(100, 100, 790, 0.2, 0.2, true, RELDEG);
 	turn2MotorAcc(30, 91.5, 0.2, 0.2);
