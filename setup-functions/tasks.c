@@ -31,7 +31,7 @@ task liftArmForFarGreenBlue()
 
 task liftArmForFarGreenBlue2()
 {
-    moveArmAbsSimple(100, armDegreeToPick+8, LIFT);
+    moveArmAbsSimple(100, armDegreeToPick+0, LIFT);
 }
 
 task liftArmForFarGreenBlueStartingFar()

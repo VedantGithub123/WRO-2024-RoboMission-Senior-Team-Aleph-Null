@@ -52,7 +52,7 @@ void end()
     // 2nd Block
     getGreen(4);
     resetRelative();
-    moveNoSyncMinspeedParam(100, 100, 400, 0.4, 0.25, false, RELDEG);
+    moveNoSyncMinspeedParam(100, 100, 405, 0.4, 0.25, false, RELDEG);
     setSpeed(0, 0);
 
     int baseColor = BLUE;
@@ -62,7 +62,8 @@ void end()
         baseColor = GREEN;
     }
 
-    turn1MotorNoSettle(100, -90, LEFT);
+    turn1MotorAccMinspeed(100, 20, 20, -90, 0.2, 0.2, true, LEFT);
+    // turn1MotorNoSettle(100, -90, LEFT);
     resetRelative();
 	moveSenseOneSensorSimple(60, 60, 40, false, 1, BROWN, COLOR);
 	resetRelative();
@@ -135,7 +136,7 @@ void end()
 
     // Does the water connection
     setArmSpeed(LIFT, 100);
-    moveNoSyncMinspeedParam(100, 100, 890, 0.2, 0.2, true, RELDEG);
+    moveNoSyncMinspeedParam(100, 100, 900, 0.2, 0.2, true, RELDEG);
     resetRelative();
     turn2MotorAcc(30, 90, 0.2, 0.2);
     resetRelative();
@@ -313,7 +314,7 @@ void closeCode()
     sleep(150);
 
     // 2nd Block
-    moveNoSyncAccParamWallSquare(40, 40, 20, 20, 143, false, RELDEG);
+    moveNoSyncAccParamWallSquare(40, 40, 20, 20, 138, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
@@ -655,7 +656,7 @@ void farCode()
     setSpeed(0, 0);
 
     setArmSpeed(CLAW, -100);
-    startTask(liftArmBeforeBlocks);
+    moveArmAbsSimple(100, armDegreeToPick, LIFT);
     sleep(300);
 
     // 2nd Block
@@ -663,7 +664,6 @@ void farCode()
     resetRelative();
     setSpeed(0, 0);
 
-    stopTask(liftArmBeforeBlocks);
     moveArmAbsSimple(100, armDegreeToDrop, LIFT);
     moveArmAbsSimple(100, clawDegreeOpen, CLAW);
 
