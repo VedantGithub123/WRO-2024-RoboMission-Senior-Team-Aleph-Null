@@ -600,7 +600,7 @@ void farCode()
     moveSenseOneSensorNoSync(30, 30, 30, false, 3, RED, COLOR);
     moveSenseOneSensorNoSync(30, 30, 30, false, 3, BROWN, COLOR);
     moveSenseOneSensorNoSync(30, 30, 30, false, 1, RED, COLOR);
-    moveNoSyncAccParamWallSquare(20, 20, 30, 20, 235, false, RELDEG);
+    moveNoSyncAccParamWallSquare(20, 20, 30, 20, 228, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
@@ -616,7 +616,7 @@ void farCode()
     sleep(250);
 
     // 2nd Block
-    moveNoSyncAccParamWallSquare(40, 40, 30, 30, 140, false, RELDEG);
+    moveNoSyncAccParamWallSquare(40, 40, 30, 30, 143, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
@@ -633,7 +633,7 @@ void farCode()
 
     // Puts the yellow stack away
     moveSimpleNoSettle(-40, -40, 20, RELDEG);
-    turn1MotorNoSettle(100, 96, RIGHT);
+    turn1MotorNoSettle(100, 100, RIGHT);
     stopTask(liftArmBeforeBlocks);
     startTask(armDownToPlaceStack);
     moveSimpleNoSettle(100, 100, 400, RELDEG);
@@ -649,8 +649,8 @@ void farCode()
     setSpeed(0, 0);
 
     // Collects the far green/blue blocks
-    turn1MotorNoSettle(100, 55, LEFT);
-    turn1MotorNoSettle(100, -48, RIGHT);
+    turn1MotorNoSettle(100, 52, LEFT);
+    turn1MotorNoSettle(100, -50, RIGHT);
     moveSenseOneSensorNoSync(20, 20, 20, false, 3, BLACK, COLOR);
     resetRelative();
     setSpeed(0, 0);

@@ -229,7 +229,7 @@ void surpriseDay()
     // Collects the debris near the bridge
 	moveNoSyncAccParam(100, 100, 100, 100, 250, false, RELDEG);
 	turn1MotorNoSettle(100, 90, LEFT);
-	lineFollowOneSensorStopOneSensor(50, 50, defaultAcc, 0.4, 20, true, 3, 50, 2, BLACK, COLOR)
+	lineFollowOneSensorStopOneSensor(50, 50, defaultAcc, 0.4, 20, true, 3, 50, 2, BLACK, COLOR);
 	moveNoSyncAccParam(50, 50, 20, 20, 705, true, RELDEG);
 	setArmSpeed(CLAW, -100);
 	sleep(700);

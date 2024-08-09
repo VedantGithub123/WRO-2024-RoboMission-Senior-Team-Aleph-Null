@@ -22,7 +22,15 @@ task main()
 	clearTimer(T1);									// Clears the timer for timing the run
 
 	// Runs all the zones here
-    
+
+	
+
+
+    return;
+
+
+
+
 	// while (1){
 	// 	displayCenteredBigTextLine(5, "G:%d, B:%d, %d", getGreen(4), getBlue(4), (getGreen(4)>=getBlue(4) || getBlue(4)<getGreen(4)+2));
 	// }
