@@ -63,7 +63,6 @@ void end()
     }
 
     turn1MotorAccMinspeed(100, 20, 20, -90, 0.2, 0.2, true, LEFT);
-    // turn1MotorNoSettle(100, -90, LEFT);
     resetRelative();
 	moveSenseOneSensorSimple(60, 60, 40, false, 1, BROWN, COLOR);
 	resetRelative();
@@ -74,7 +73,7 @@ void end()
  	turn1MotorNoSettle(30, -18, RIGHT);
 	moveSimpleNoSettle(-20, -20, 45, RELDEG);
 	turn1MotorNoSettle(30, -21, LEFT);
-	moveSimpleNoSettle(20, 20, 55, RELDEG);
+	moveSimpleNoSettle(20, 20, 52, RELDEG);
 
     moveArmAbsSimple(100, armDegreeToDrop, LIFT);
     moveArmAbsSimple(100, clawDegreeOpen-10, CLAW);
@@ -145,11 +144,11 @@ void end()
 
     // Puts the debris away
     turn1MotorNoSettle(100, 45, LEFT);
-	turn1MotorNoSettle(100, -63, RIGHT);
+	turn1MotorNoSettle(100, -61, RIGHT);
 
-    moveNoSyncParam(100, 100, 20, 50, 300, 0.4, 0.4, false, RELDEG);
+    moveNoSyncParam(100, 100, 20, 50, 350, 0.4, 0.4, false, RELDEG);
     turn1MotorAccMinspeed(100, 50, 50, 113, 0.4, 0.4, false, RIGHT);
-    moveNoSyncParam(100, 100, 50, 50, 340, 0.4, 0.4, false, RELDEG);
+    moveNoSyncParam(100, 100, 50, 50, 360, 0.4, 0.4, false, RELDEG);
     turn1MotorAccMinspeed(100, 50, 50, 94, 0.4, 0.4, false, RIGHT);
 	moveSenseOneSensorSimple(100, 100, 50, false, 2, BLACK, COLOR);
     moveNoSyncParam(100, 100, 100, 50, 70, 0.4, 0.4, false, RELDEG);
@@ -290,7 +289,7 @@ void closeCode()
 
     startTask(openClawForPlacingStacks);
     sleep(100);
-    moveNoSyncParam(-100, -100, 60, 30, 620, 0.25, 0.4, false, RELDEG);
+    moveNoSyncParam(-100, -100, 60, 30, 600, 0.25, 0.4, false, RELDEG);
     stopTask(openClawForPlacingStacks);
     startTask(liftArmForFirstBlock);
     turn1MotorAccMinspeed(100, 30, 30, -94, 0.4, 0.4, false, LEFT);
@@ -311,7 +310,7 @@ void closeCode()
 
     setArmSpeed(CLAW, -100);
     startTask(liftArmBeforeBlocks);
-    sleep(150);
+    sleep(250);
 
     // 2nd Block
     moveNoSyncAccParamWallSquare(40, 40, 20, 20, 138, false, RELDEG);
@@ -335,7 +334,7 @@ void closeCode()
     sleep(200);
     moveSenseOneSensor(100, 100, 20, 0.4, 0, 0, false, 2, BLUE, COLOR);
     resetRelative();
-    moveNoSyncAccParamWallSquare(100, 100, 100, 20, 150, true, RELDEG);
+    moveNoSyncAccParamWallSquare(40, 40, 60, 20, 150, true, RELDEG);
 
     resetRelative();
     setSpeed(0, 0);
@@ -354,7 +353,7 @@ void closeCode()
     moveNoSyncParam(-100, -100, 50, 100, 70, 0.4, 0.4, false, RELDEG);
     startTask(liftArmBeforeBlocksDelay);
     turn1MotorAccMinspeed(100, 100, 100, -126, 0.4, 0.4, false, RIGHT);
-    moveNoSyncParamWallSquare(-100, -100, 100, 100, 550, 0.4, 0.4, false, TIME);
+    moveNoSyncParamWallSquare(-100, -100, 100, 100, 750, 0.4, 0.4, false, TIME);
     resetRelative();
     setSpeed(0, 0);
     resetParameters();
@@ -364,7 +363,7 @@ void closeCode()
     turn1MotorNoSettle(100, -55, RIGHT);
     moveSenseOneSensorNoSync(-30, -30, 30, false, 3, RED, COLOR);
     resetRelative();
-    moveNoSyncAccParamWallSquare(20, 20, 30, 20, 430, false, RELDEG);
+    moveNoSyncAccParamWallSquare(20, 20, 30, 20, 435, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
@@ -500,7 +499,7 @@ void farCode()
     // Goes to close red blocks
     moveSimpleNoSettle(-60, -100, 300, RELDEG);
 
-    turn1MotorAccMinspeed(100, 50, 100, 60, 0.4, 0.4, false, RIGHT);
+    turn1MotorAccMinspeed(100, 50, 100, 62, 0.4, 0.4, false, RIGHT);
 
     moveNoSyncParam(100, 100, 100, 100, 1750, 0.25, 0.25, false, RELDEG);
 
@@ -562,7 +561,7 @@ void farCode()
     // Collects the close yellow blocks
     turnFromWallSquareRight();
     moveSenseOneSensorNoSync(-20, -20, 20, false, 3, RED, COLOR);
-    moveNoSyncAccParamWallSquare(20, 20, 20, 20, 470, false, RELDEG);
+    moveNoSyncAccParamWallSquare(20, 20, 20, 20, 465, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
@@ -588,10 +587,10 @@ void farCode()
 
     // Goes to the far yellow blocks
     turn1MotorAccMinspeed(100, 50, 50, 98, 0.4, 0.4, false, RIGHT);
-    turn2MotorAccMinspeed(40, 40, 20, -157, 0.4, 0.4, true);
+    turn2MotorAccMinspeed(40, 40, 20, -162, 0.4, 0.4, true);
 
-    moveNoSyncAccParam(-100, -100, 50, 50, 1670, false, RELDEG);
-    moveNoSyncAccParamWallSquare(-50, -50, 50, 50, 350, false, TIME);
+    moveNoSyncAccParam(-100, -100, 50, 50, 1570, false, RELDEG);
+    moveNoSyncAccParamWallSquare(-50, -50, 50, 50, 500, false, TIME);
     resetRelative();
     setSpeed(0, 0);
 
@@ -600,7 +599,13 @@ void farCode()
     moveSenseOneSensorNoSync(30, 30, 30, false, 3, RED, COLOR);
     moveSenseOneSensorNoSync(30, 30, 30, false, 3, BROWN, COLOR);
     moveSenseOneSensorNoSync(30, 30, 30, false, 1, RED, COLOR);
-    moveNoSyncAccParamWallSquare(20, 20, 30, 20, 228, false, RELDEG);
+    moveSenseOneSensorNoSync(30, 30, 30, false, 3, RED, COLOR);
+    sleep(100);
+    moveSenseOneSensorNoSync(30, 30, 30, false, 3, BROWN, COLOR);
+    sleep(100);
+    moveSenseOneSensorNoSync(20, 20, 30, false, 3, RED, COLOR);
+    
+    moveNoSyncAccParamWallSquare(20, 20, 20, 20, 50, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
@@ -616,7 +621,7 @@ void farCode()
     sleep(250);
 
     // 2nd Block
-    moveNoSyncAccParamWallSquare(40, 40, 30, 30, 143, false, RELDEG);
+    moveNoSyncAccParamWallSquare(40, 40, 30, 30, 139, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
@@ -633,7 +638,7 @@ void farCode()
 
     // Puts the yellow stack away
     moveSimpleNoSettle(-40, -40, 20, RELDEG);
-    turn1MotorNoSettle(100, 100, RIGHT);
+    turn1MotorNoSettle(100, 98, RIGHT);
     stopTask(liftArmBeforeBlocks);
     startTask(armDownToPlaceStack);
     moveSimpleNoSettle(100, 100, 400, RELDEG);
@@ -650,7 +655,7 @@ void farCode()
 
     // Collects the far green/blue blocks
     turn1MotorNoSettle(100, 52, LEFT);
-    turn1MotorNoSettle(100, -50, RIGHT);
+    turn1MotorNoSettle(100, -54, RIGHT);
     moveSenseOneSensorNoSync(20, 20, 20, false, 3, BLACK, COLOR);
     resetRelative();
     setSpeed(0, 0);
@@ -678,7 +683,7 @@ void farCode()
     // Collects the debris
     moveSenseOneSensor(100, 100, 20, 0.4, 0, 0, false, 2, BLUE, COLOR);
     resetRelative();
-    moveNoSyncAccParamWallSquare(100, 100, 100, 20, 150, true, RELDEG);
+    moveNoSyncAccParamWallSquare(40, 40, 60, 20, 150, true, RELDEG);
     resetRelative();
     setSpeed(0, 0);
     moveArmAbsSimple(40, 160, LIFT);

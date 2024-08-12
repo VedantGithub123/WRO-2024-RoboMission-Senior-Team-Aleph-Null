@@ -49,8 +49,8 @@ const int RIGHT = 1;							// Defines the right port for the encoder functions
 const int LIFT = 2;
 const int CLAW = 3;
 
-const float trueDefaultkP = 0.08;
-const float trueDefaultkD = 0;
+const float trueDefaultkP = 0.08/2.0;
+const float trueDefaultkD = 0.1;
 const float trueDefaultMinspeed = 15;
 const float trueDefaultAcc = 0.4;
 const float trueDefaultArmMinspeed = 30;
