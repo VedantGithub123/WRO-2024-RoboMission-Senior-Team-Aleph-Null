@@ -141,8 +141,8 @@ void end()
     moveArmAbsSimple(100, armDegreeToDrop+20, LIFT);
 
     // Puts the debris away
-    turn1MotorNoSettle(100, 45, LEFT);
-	turn1MotorNoSettle(100, -61, RIGHT);
+    turn1MotorNoSettle(100, 48, LEFT);
+	turn1MotorNoSettle(100, -58, RIGHT);
 
     moveNoSyncParam(100, 100, 20, 50, 350, 0.4, 0.4, false, RELDEG);
     turn1MotorAccMinspeed(100, 50, 50, 113, 0.4, 0.4, false, RIGHT);
@@ -192,13 +192,13 @@ void closeCode()
     getReflection(3);
 
     moveSenseOneSensorNoSync(30, 30, 20, false, 3, 50, LESSREFL);
-    moveNoSyncAccParamWallSquare(15, 15, 30, 15, 65, false, RELDEG);
+    moveNoSyncAccParamWallSquare(15, 15, 30, 15, 60, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
     setArmSpeed(CLAW, -100);
     startTask(liftArmBeforeBlocks);
-    sleep(150);
+    sleep(200);
 
     // 2nd Block
     moveNoSyncAccParamWallSquare(40, 40, 20, 20, 145, false, RELDEG);
@@ -218,7 +218,7 @@ void closeCode()
     // Goes to the far red blocks
     moveSimpleNoSettle(-80, -100, 160, RELDEG);
 
-    turn1MotorAccMinspeed(100, 100, 100, 50, 0.4, 0.4, false, RIGHT);
+    turn1MotorAccMinspeed(100, 100, 100, 53, 0.4, 0.4, false, RIGHT);
 
     moveNoSyncParam(100, 100, 100, 100, 1660, 0.25, 0.25, false, RELDEG);
 
@@ -290,14 +290,14 @@ void closeCode()
     moveNoSyncParam(-100, -100, 60, 30, 535, 0.25, 0.4, false, RELDEG);
     stopTask(openClawForPlacingStacks);
     startTask(liftArmForFirstBlock);
-    turn1MotorAccMinspeed(100, 30, 30, -94, 0.4, 0.4, false, LEFT);
+    turn1MotorAccMinspeed(100, 30, 30, -92, 0.4, 0.4, false, LEFT);
 
     moveNoSyncAccParamWallSquare(-100, -100, 30, 60, 1100, false, TIME);
     resetRelative();
     setSpeed(0, 0);
 
-    turn1MotorNoSettle(100, 42, LEFT);
-    turn1MotorNoSettle(100, -55, RIGHT);
+    turn1MotorNoSettle(100, 45, LEFT);
+    turn1MotorNoSettle(100, -52, RIGHT);
 
     // Collects the far yellow blocks
     moveSenseOneSensorNoSync(30, 30, 30, false, 3, BROWN, COLOR);
@@ -325,8 +325,6 @@ void closeCode()
     setArmSpeed(CLAW, -100);
     sleep(150);
 
-
-
     // Gets the debris
     setArmSpeed(LIFT, 100);
     sleep(200);
@@ -350,7 +348,7 @@ void closeCode()
     defaultkP = 0;
     moveNoSyncParam(-100, -100, 50, 100, 70, 0.4, 0.4, false, RELDEG);
     startTask(liftArmBeforeBlocksDelay);
-    turn1MotorAccMinspeed(100, 100, 100, -135, 0.4, 0.4, false, RIGHT);
+    turn1MotorAccMinspeed(100, 100, 100, -160, 0.4, 0.4, false, RIGHT);
     moveNoSyncParamWallSquare(-100, -100, 100, 100, 750, 0.4, 0.4, false, TIME);
     resetRelative();
     setSpeed(0, 0);
@@ -393,11 +391,11 @@ void closeCode()
     startTask(liftArmBeforeBlocks);
 
     // Puts the yellow stack away
-    moveNoSyncAccParamWallSquare(-60, -100, 100, 20, 400, false, RELDEG);
+    moveNoSyncAccParamWallSquare(-60, -100, 100, 20, 420, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
-    turn1Motor(100, 107, RIGHT);
+    turn1Motor(100, 112, RIGHT);
 
     stopTask(liftArmBeforeBlocks);
     startTask(armDownToPlaceStack);
@@ -416,28 +414,27 @@ void closeCode()
 
     turn1MotorNoSettle(100, 48, LEFT);
     turn1MotorNoSettle(100, -52, RIGHT);
-    moveNoSyncAccParamWallSquare(100, 80, 60, 20, 370, false, RELDEG);
-    moveNoSyncAccParamWallSquare(20, 20, 20, 20, 150, false, RELDEG);
+
+    moveSenseOneSensorNoSync(20, 20, 20, false, 3, BLACK, COLOR);
     resetRelative();
     setSpeed(0, 0);
 
     setArmSpeed(CLAW, -100);
-    startTask(liftArmBeforeBlocks);
-    sleep(250);
+    moveArmAbsSimple(100, armDegreeToPick, LIFT);
+    sleep(300);
 
     // 2nd Block
-    moveSenseOneSensorNoSync(30, 30, 20, false, 3, BLACK, COLOR);
-    moveNoSyncAccParamWallSquare(20, 20, 30, 20, 25, false, RELDEG);
+    moveNoSyncAccParamWallSquare(20, 20, 30, 20, 74, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
-    stopTask(liftArmBeforeBlocks);
     moveArmAbsSimple(100, armDegreeToDrop, LIFT);
     moveArmAbsSimple(100, clawDegreeOpen, CLAW);
 
     moveArmAbsSimple(100, armDegreeForFirst, LIFT);
     startTask(closeClaw);
     moveSimple(20, 20, 30, RELDEG);
+    setArmSpeed(CLAW, -100);
     setArmSpeed(CLAW, -100);
     startTask(liftArmForFarGreenBlue);
 
