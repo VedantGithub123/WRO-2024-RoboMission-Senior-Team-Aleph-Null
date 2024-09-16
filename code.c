@@ -218,7 +218,7 @@ void closeCode()
     // Goes to the far red blocks
     moveSimpleNoSettle(-80, -100, 160, RELDEG);
 
-    turn1MotorAccMinspeed(100, 100, 100, 53, 0.4, 0.4, false, RIGHT);
+    turn1MotorAccMinspeed(100, 100, 100, 56, 0.4, 0.4, false, RIGHT);
 
     moveNoSyncParam(100, 100, 100, 100, 1660, 0.25, 0.25, false, RELDEG);
 
@@ -287,7 +287,7 @@ void closeCode()
 
     startTask(openClawForPlacingStacks);
     sleep(100);
-    moveNoSyncParam(-100, -100, 60, 30, 535, 0.25, 0.4, false, RELDEG);
+    moveNoSyncParam(-100, -100, 60, 30, 540, 0.25, 0.4, false, RELDEG);
     stopTask(openClawForPlacingStacks);
     startTask(liftArmForFirstBlock);
     turn1MotorAccMinspeed(100, 30, 30, -92, 0.4, 0.4, false, LEFT);
@@ -337,8 +337,8 @@ void closeCode()
 
     moveArmAbsSimple(40, 160, LIFT);
     moveSimpleNoSettle(-80, -100, 295, RELDEG);
-    turn1MotorNoSettle(100, 121, RIGHT);
-    moveSimpleWallSquare(-40, -40, 900, TIME);
+    turn1MotorNoSettle(100, 124, RIGHT);
+    moveSimpleWallSquare(-60, -60, 900, TIME);
     setSpeed(0, 0);
     resetRelative();
 
@@ -348,7 +348,7 @@ void closeCode()
     defaultkP = 0;
     moveNoSyncParam(-100, -100, 50, 100, 70, 0.4, 0.4, false, RELDEG);
     startTask(liftArmBeforeBlocksDelay);
-    turn1MotorAccMinspeed(100, 100, 100, -160, 0.4, 0.4, false, RIGHT);
+    turn1MotorAccMinspeed(100, 100, 100, -167, 0.4, 0.4, false, RIGHT);
     moveNoSyncParamWallSquare(-100, -100, 100, 100, 750, 0.4, 0.4, false, TIME);
     resetRelative();
     setSpeed(0, 0);
@@ -419,7 +419,7 @@ void closeCode()
     resetRelative();
     setSpeed(0, 0);
 
-    setArmSpeed(CLAW, -100);
+    setArmSpeed(CLAW, -60);
     moveArmAbsSimple(100, armDegreeToPick, LIFT);
     sleep(300);
 
