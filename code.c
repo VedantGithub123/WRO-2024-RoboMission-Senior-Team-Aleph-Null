@@ -113,16 +113,20 @@ void end()
 
     moveNoSyncParam(-100, -100, 50, 100, 200, 0.4, 0.4, false, RELDEG);
     turn1MotorAccMinspeed(100, 100, 100, -95, 0.4, 0.4, false, RIGHT);
+    stopTask(liftArmForFirstBlock);
+    startTask(liftArmBeforeBlocks);
 
-    if (baseColor == BLUE)
+    if (baseColor == GREEN)
     {
         moveNoSyncParam(-100, -100, 100, 100, 150, 0.4, 0.4, false, RELDEG);
     }
+    else
+    {
+        moveNoSyncParam(-100, -100, 100, 100, 350, 0.4, 0.4, false, RELDEG);
+    }
 
-    stopTask(liftArmForFirstBlock);
-    startTask(liftArmBeforeBlocks);
-    moveSenseOneSensorSimple(-100, -100, 100, false, 1, BROWN, COLOR);
-    moveNoSyncParam(-100, -100, 100, 100, 200, 0.4, 0.4, false, RELDEG);
+    moveSenseOneSensorSimple(-100, -100, 100, false, 3, BROWN, COLOR);
+    // moveNoSyncParam(-100, -100, 100, 100, 200, 0.4, 0.4, false, RELDEG);
 
 	turn1MotorAccMinspeed(100, 100, 100, -92, 0.4, 0.4, false, LEFT);
 	moveNoSyncAccParamWallSquare(-100, -100, 100, 100, 400, true, TIME);
