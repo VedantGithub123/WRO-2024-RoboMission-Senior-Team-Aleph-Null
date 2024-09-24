@@ -15,7 +15,7 @@ void end()
     moveSenseOneSensorNoSync(25, 30, 30, false, 3, BROWN, COLOR);
 
     if (startedClose){
-        moveNoSyncAccParamWallSquare(23, 25, 30, 12, 334, false, RELDEG);
+        moveNoSyncAccParamWallSquare(23, 25, 30, 12, 339, false, RELDEG);
     }
     else
     {
@@ -304,7 +304,7 @@ void closeCode()
     turn1MotorNoSettle(100, -52, RIGHT);
 
     // Collects the far yellow blocks
-        moveSenseOneSensorNoSync(20, 20, 20, false, 3, BLACK, COLOR);
+    moveSenseOneSensorNoSync(20, 20, 20, false, 3, BLACK, COLOR);
     resetRelative();
     setSpeed(0, 0);
 
@@ -325,30 +325,6 @@ void closeCode()
     moveSimple(20, 20, 30, RELDEG);
     setArmSpeed(CLAW, -100);
     sleep(200);
-    // moveSenseOneSensorNoSync(30, 30, 30, false, 3, BROWN, COLOR);
-    // moveSenseOneSensorNoSync(30, 30, 30, false, 3, RED, COLOR);
-    // moveNoSyncAccParamWallSquare(20, 20, 30, 20, 250, false, RELDEG);
-    // resetRelative();
-    // setSpeed(0, 0);
-
-    // setArmSpeed(CLAW, -100);
-    // startTask(liftArmBeforeBlocks);
-    // sleep(250);
-
-    // // 2nd Block
-    // moveNoSyncAccParamWallSquare(40, 40, 20, 20, 138, false, RELDEG);
-    // resetRelative();
-    // setSpeed(0, 0);
-
-    // stopTask(liftArmBeforeBlocks);
-    // moveArmAbsSimple(100, armDegreeToDrop, LIFT);
-    // moveArmAbsSimple(100, clawDegreeOpen, CLAW);
-
-    // moveArmAbsSimple(100, armDegreeForFirst-10, LIFT);
-    // startTask(closeClaw);
-    // moveSimple(15, 15, 30, RELDEG);
-    // setArmSpeed(CLAW, -100);
-    // sleep(150);
 
     // Gets the debris
     setArmSpeed(LIFT, 100);
@@ -416,11 +392,11 @@ void closeCode()
     startTask(liftArmBeforeBlocks);
 
     // Puts the yellow stack away
-    moveNoSyncAccParamWallSquare(-60, -100, 100, 20, 420, false, RELDEG);
+    moveNoSyncAccParamWallSquare(-60, -100, 100, 20, 450, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
-    turn1Motor(100, 111, RIGHT);
+    turn1Motor(100, 113, RIGHT);
 
     stopTask(liftArmBeforeBlocks);
     startTask(armDownToPlaceStack);
