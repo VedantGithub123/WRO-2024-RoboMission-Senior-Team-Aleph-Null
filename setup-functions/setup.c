@@ -64,7 +64,7 @@ float defaultArmMinspeed = trueDefaultArmMinspeed;
 const float armDegreeToPick = 240;
 const float armDegreeToDrop = 175;
 const float armDegreeForFirst = 93;
-const float clawDegreeOpen = -245;
+const float clawDegreeOpen = -235;
 
 int stoppingTime = 3000;
 

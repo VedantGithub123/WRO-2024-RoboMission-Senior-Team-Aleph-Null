@@ -61,7 +61,7 @@ void end()
         baseColor = GREEN;
     }
 
-    turn1MotorAccMinspeed(100, 20, 20, -92, 0.2, 0.2, true, LEFT);
+    turn1MotorAccMinspeed(100, 20, 20, -95, 0.2, 0.2, true, LEFT);
     resetRelative();
 	moveSenseOneSensorSimple(60, 60, 40, false, 1, BROWN, COLOR);
 	resetRelative();
@@ -304,7 +304,7 @@ void closeCode()
     turn1MotorNoSettle(100, -52, RIGHT);
 
     // Collects the far yellow blocks
-    moveSenseOneSensorNoSync(20, 20, 20, false, 3, BLACK, COLOR);
+    moveSenseOneSensorNoSync(25, 20, 20, false, 3, BLACK, COLOR);
     resetRelative();
     setSpeed(0, 0);
 
@@ -392,7 +392,7 @@ void closeCode()
     startTask(liftArmBeforeBlocks);
 
     // Puts the yellow stack away
-    moveNoSyncAccParamWallSquare(-60, -100, 100, 20, 450, false, RELDEG);
+    moveNoSyncAccParamWallSquare(-60, -100, 20, 20, 450, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
@@ -455,7 +455,7 @@ void farCode()
 {
     // Goes to the far red blocks
     startTask(armReset);
-    sleep(300);
+    sleep(500);
     moveSimpleNoSettle(30, 30, 90, RELDEG);
     turn1MotorNoSettle(100, -103, RIGHT);
     resetRelative();
@@ -542,7 +542,7 @@ void farCode()
     // Puts the red stack away
     resetRelative();
     moveNoSyncParam(-35, -50, 20, 20, 480, 0.4, 0.4, true, RELDEG);
-    turn1Motor(70, 117, RIGHT);
+    turn1Motor(70, 118, RIGHT);
 
     stopTask(liftArmBeforeBlocks);
     startTask(armDownToPlaceStack);
@@ -627,7 +627,7 @@ void farCode()
 
     // Puts the yellow stack away
     moveSimpleNoSettle(-30, -50, 200, RELDEG);
-    turn1Motor(100, 96, RIGHT);
+    turn1Motor(100, 98, RIGHT);
     stopTask(liftArmBeforeBlocks);
     startTask(armDownToPlaceStack);
     moveSimpleNoSettle(100, 100, 420, RELDEG);
@@ -670,12 +670,12 @@ void farCode()
     // Collects the debris
     moveSenseOneSensor(100, 100, 20, 0.4, 0, 0, false, 2, BLUE, COLOR);
     resetRelative();
-    moveNoSyncAccParamWallSquare(40, 40, 60, 20, 150, true, RELDEG);
+    moveNoSyncAccParamWallSquare(40, 40, 60, 20, 170, true, RELDEG);
     resetRelative();
     setSpeed(0, 0);
     moveArmAbsSimple(40, 160, LIFT);
     moveSimpleNoSettle(-80, -100, 305, RELDEG);
-    turn1MotorNoSettle(100, 126, RIGHT);
+    turn1MotorNoSettle(100, 128, RIGHT);
     moveSimpleWallSquare(-40, -40, 1200, TIME);
     setSpeed(0, 0);
     resetRelative();
