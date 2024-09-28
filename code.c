@@ -150,7 +150,7 @@ void end()
 
     moveNoSyncParam(100, 100, 20, 50, 400, 0.4, 0.4, false, RELDEG);
     turn1MotorAccMinspeed(100, 50, 50, 116, 0.4, 0.4, false, RIGHT);
-    moveNoSyncParam(100, 100, 50, 50, 350, 0.4, 0.4, false, RELDEG);
+    moveNoSyncParam(100, 100, 50, 50, 370, 0.4, 0.4, false, RELDEG);
     turn1MotorAccMinspeed(100, 50, 50, 95, 0.4, 0.4, false, RIGHT);
 	moveSenseOneSensorSimple(100, 100, 50, false, 2, BLACK, COLOR);
     moveNoSyncParam(100, 100, 100, 50, 70, 0.4, 0.4, false, RELDEG);
@@ -627,7 +627,7 @@ void farCode()
 
     // Puts the yellow stack away
     moveSimpleNoSettle(-30, -50, 200, RELDEG);
-    turn1Motor(100, 98, RIGHT);
+    turn1Motor(100, 97, RIGHT);
     stopTask(liftArmBeforeBlocks);
     startTask(armDownToPlaceStack);
     moveSimpleNoSettle(100, 100, 420, RELDEG);
