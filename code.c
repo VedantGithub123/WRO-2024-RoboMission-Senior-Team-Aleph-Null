@@ -122,18 +122,16 @@ void end()
     }
     else
     {
-        moveNoSyncParam(-100, -100, 100, 100, 350, 0.4, 0.4, false, RELDEG);
+        moveNoSyncParam(-100, -100, 100, 100, 380, 0.4, 0.4, false, RELDEG);
     }
 
     moveSenseOneSensorSimple(-100, -100, 100, false, 3, BROWN, COLOR);
-    // moveNoSyncParam(-100, -100, 100, 100, 200, 0.4, 0.4, false, RELDEG);
 
 	turn1MotorAccMinspeed(100, 100, 100, -92, 0.4, 0.4, false, LEFT);
 	moveNoSyncAccParamWallSquare(-100, -100, 100, 100, 400, true, TIME);
     resetRelative();
     setSpeed(0, 0);
     stopTask(liftArmBeforeBlocks);
-
 
     // Does the water connection
     setArmSpeed(LIFT, 100);
@@ -300,8 +298,8 @@ void closeCode()
     resetRelative();
     setSpeed(0, 0);
 
-    turn1MotorNoSettle(100, 45, LEFT);
-    turn1MotorNoSettle(100, -52, RIGHT);
+    turn1MotorNoSettle(100, 50, LEFT);
+    turn1MotorNoSettle(100, -50, RIGHT);
 
     // Collects the far yellow blocks
     moveSenseOneSensorNoSync(25, 20, 20, false, 3, BLACK, COLOR);
@@ -392,15 +390,18 @@ void closeCode()
     startTask(liftArmBeforeBlocks);
 
     // Puts the yellow stack away
-    moveNoSyncAccParamWallSquare(-60, -100, 20, 20, 450, false, RELDEG);
+    moveNoSyncAccParamWallSquare(-60, -100, 20, 20, 470, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
     turn1Motor(100, 113, RIGHT);
+    moveNoSyncAccParamWallSquare(-100, -100, 100, 100, 400, false, TIME);
+    resetRelative();
+    setSpeed(0, 0);
 
     stopTask(liftArmBeforeBlocks);
     startTask(armDownToPlaceStack);
-    moveSimpleNoSettle(100, 100, 370, RELDEG);
+    moveSimpleNoSettle(100, 100, 570, RELDEG);
 
     startTask(openClawForPlacingStacks);
     sleep(200);
@@ -566,7 +567,7 @@ void farCode()
     sleep(150);
 
     // 2nd Block
-    moveNoSyncAccParamWallSquare(30, 30, 15, 15, 140, false, RELDEG);
+    moveNoSyncAccParamWallSquare(30, 30, 15, 15, 145, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 

@@ -12,6 +12,7 @@ bool startedClose = false; // Variable to store which side the robot starts on, 
 
 #include "setup-functions/tasks.c"
 #include "code.c"
+#include "temp_surprise_day.c"
 
 //CODE:
 
@@ -22,7 +23,7 @@ task main()
 	clearTimer(T1);									// Clears the timer for timing the run
 
 	// Runs all the zones here
-    
+
 	//while (1){
 	//	// displayCenteredBigTextLine(5, "G:%d, B:%d, %d", getGreen(4), getBlue(4), (getGreen(4)>=getBlue(4) || getBlue(4)<getGreen(4)+2));
  //       displayCenteredBigTextLine(5, "2:%d, 3:%d", getReflection(2), getReflection(3));

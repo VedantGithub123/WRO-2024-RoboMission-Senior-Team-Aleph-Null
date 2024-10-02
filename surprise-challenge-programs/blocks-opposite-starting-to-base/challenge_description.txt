@@ -1,0 +1,2 @@
+There are two blocks that start opposite of the starting area, we start in the far side. Those blocks
+must be brought back to the starting area.
