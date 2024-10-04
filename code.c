@@ -390,18 +390,18 @@ void closeCode()
     startTask(liftArmBeforeBlocks);
 
     // Puts the yellow stack away
-    moveNoSyncAccParamWallSquare(-60, -100, 20, 20, 470, false, RELDEG);
+    moveNoSyncAccParamWallSquare(-60, -100, 20, 20, 480, false, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
     turn1Motor(100, 113, RIGHT);
-    moveNoSyncAccParamWallSquare(-100, -100, 100, 100, 700, false, TIME);
+    moveNoSyncAccParamWallSquare(-100, -100, 50, 100, 700, false, TIME);
     resetRelative();
     setSpeed(0, 0);
 
     stopTask(liftArmBeforeBlocks);
     startTask(armDownToPlaceStack);
-    moveSimpleNoSettle(100, 100, 6000, RELDEG);
+    moveSimpleNoSettle(100, 100, 600, RELDEG);
 
     startTask(openClawForPlacingStacks);
     sleep(200);
