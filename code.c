@@ -12,10 +12,10 @@ void turnFromWallSquareLeft()
 
 void end()
 {
-    moveSenseOneSensorNoSync(25, 30, 30, false, 3, BROWN, COLOR);
+    moveSenseOneSensorNoSync(25, 30, 30, false, 3, 50, LESSREFL);
 
     if (startedClose){
-        moveNoSyncAccParamWallSquare(23, 25, 30, 12, 339, false, RELDEG);
+        moveNoSyncAccParamWallSquare(23, 25, 30, 12, 334, false, RELDEG);
     }
     else
     {
