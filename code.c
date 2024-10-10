@@ -14,17 +14,18 @@ void end()
 {
     // Goes to the first block
     int baseColor = BLUE;
-    moveSenseOneSensorNoSync(25, 25, 25, false, 3, 50, LESSREFL);
-    moveSenseOneSensorNoSync(25, 25, 25, false, 1, RED, COLOR);
+    moveSenseOneSensorNoSync(22, 25, 25, false, 3, 50, LESSREFL);
+    moveSenseOneSensorNoSync(22, 25, 25, false, 1, RED, COLOR);
 
-    moveNoSyncAccParamWallSquare(25, 25, 25, 12, 113, false, RELDEG);
+    moveNoSyncAccParamWallSquare(22, 25, 25, 12, 102, false, RELDEG);
 
 	resetRelative();
     setSpeed(0, 0);
-	turn1MotorNoSettle(30, 3, LEFT);
+	turn1MotorNoSettle(30, 5, LEFT);
 
     // Senses the green/blue block
-    if (getGreen(4)>=getBlue(4) || getBlue(4)<getGreen(4)+2)
+    getBlue(4);
+    if (getBlue(4) == 0)
     {
         playSound(soundBeepBeep);
         baseColor = GREEN;
@@ -37,30 +38,32 @@ void end()
     moveArmAbsSimple(100, 190, LIFT);
     setArmSpeed(CLAW, -100);
     sleep(400);
+    moveSimple(-15, -15, 15, RELDEG);
     startTask(liftArmForFarGreenBlue);
-    sleep(200);
+    sleep(400);
 
     if (is115)
     {
         // Goes to the second green/blue block
         turn1MotorNoSettle(30, -8, LEFT);
-        moveSenseOneSensorNoSync(-100, -50, 50, false, 1, RED, COLOR);
-        moveNoSyncAccParamWallSquare(-100, -50, 100, 20, 500, false, RELDEG);
+        moveSenseOneSensorNoSync(-100, -80, 50, false, 1, RED, COLOR);
+        moveNoSyncAccParamWallSquare(-100, -80, 100, 20, 500, false, RELDEG);
         resetRelative();
         setSpeed(0, 0);
         turn1MotorNoSettle(100, 109, LEFT);
 
-        moveSimpleWallSquare(-50, -50, 700, TIME);
+        moveSimpleWallSquare(-30, -30, 1300, TIME);
         resetRelative();
         setSpeed(0, 0);
-        moveSimple(20, 20, 70, RELDEG);
-        turn1Motor(50, 92, RIGHT);
+        moveNoSyncMinspeedParam(20, 20, 50, 0.2, 0.2, true, RELDEG);
+        turn1MotorAcc(40, 94, 0.2, 0.2, RIGHT);
         moveSenseOneSensorSimple(20, 20, 20, false, 1, RED, COLOR);
         moveNoSyncAccParam(25, 25, 20, 12, 113, true, RELDEG);
 
         // Senses the last block
         baseColor = BLUE;
-        if (getGreen(4)>=getBlue(4) || getBlue(4)<getGreen(4)+2)
+        getBlue(4);
+        if (getBlue(4) == 0)
         {
             playSound(soundBeepBeep);
             baseColor = GREEN;
@@ -73,6 +76,7 @@ void end()
         moveArmAbsSimple(100, 190, LIFT);
         setArmSpeed(CLAW, -100);
         sleep(400);
+        moveSimple(-15, -15, 15, RELDEG);
         startTask(liftArmForFarGreenBlue);
         sleep(400);
 
@@ -117,14 +121,15 @@ void end()
 
     if (baseColor == GREEN)
     {
-        moveNoSyncParam(-100, -100, 100, 100, 150, 0.4, 0.4, false, RELDEG);
+        // moveNoSyncParam(-100, -100, 100, 100, 150, 0.4, 0.4, false, RELDEG);
     }
     else
     {
-        moveNoSyncParam(-100, -100, 100, 100, 480, 0.4, 0.4, false, RELDEG);
+        moveNoSyncParam(-100, -100, 100, 100, 300, 0.4, 0.4, false, RELDEG);
     }
 
-    moveSenseOneSensorSimple(-100, -100, 100, false, 3, BROWN, COLOR);
+    moveSenseOneSensorSimple(-100, -100, 100, false, 1, RED, COLOR);
+    moveNoSyncParam(-100, -100, 100, 100, 90, 0.4, 0.4, false, RELDEG);
 
 	turn1MotorAccMinspeed(100, 100, 100, -92, 0.4, 0.4, false, LEFT);
 	moveNoSyncAccParamWallSquare(-100, -100, 100, 100, 400, true, TIME);
@@ -146,12 +151,12 @@ void end()
 	turn1MotorNoSettle(100, -61, RIGHT);
 
     // This block of code needs updating
-    moveNoSyncParam(100, 100, 20, 50, 200, 0.4, 0.4, false, RELDEG);
+    moveNoSyncParam(100, 100, 20, 50, 120, 0.4, 0.4, false, RELDEG);
     turn1MotorAccMinspeed(100, 50, 50, 116, 0.4, 0.4, false, RIGHT);
-    moveNoSyncParam(100, 100, 50, 50, 370, 0.4, 0.4, false, RELDEG);
-    turn1MotorAccMinspeed(100, 50, 50, 95, 0.4, 0.4, false, RIGHT);
+    moveNoSyncParam(100, 100, 50, 50, 200, 0.4, 0.4, false, RELDEG);
+    turn1MotorAccMinspeed(100, 50, 50, 90, 0.4, 0.4, false, RIGHT);
 	moveSenseOneSensorSimple(100, 100, 50, false, 2, BLACK, COLOR);
-    moveNoSyncParam(100, 100, 100, 50, 70, 0.4, 0.4, false, RELDEG);
+    moveNoSyncParam(100, 100, 100, 50, 65, 0.4, 0.4, false, RELDEG);
     turn1MotorAccMinspeed(100, 50, 40, 78, 0.4, 0.4, false, LEFT);
 
     resetParameters();
@@ -448,7 +453,7 @@ void closeCode()
     resetRelative();
     setSpeed(0, 0);
     getReflection(3);
-    turn1MotorNoSettle(100, -297, LEFT);
+    turn1MotorNoSettle(100, -300, LEFT);
     end();
 }
 
