@@ -26,7 +26,7 @@ task liftArmForFirstBlock()
 
 task liftArmForFarGreenBlue()
 {
-    moveArmAbsSimple(100, armDegreeToPick-10, LIFT);
+    moveArmAbsSimple(100, armDegreeToPick+15, LIFT);
 }
 
 task liftArmForFarGreenBlue2()
