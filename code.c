@@ -14,11 +14,11 @@ void end()
 {
     // Goes to the first block
     int baseColor = BLUE;
-    moveSenseOneSensorNoSync(22, 25, 25, false, 3, 50, LESSREFL);
-    moveSenseOneSensorNoSync(22, 25, 25, false, 1, RED, COLOR);
+    moveSenseOneSensorNoSync(23, 25, 25, false, 3, 50, LESSREFL);
+    moveSenseOneSensorNoSync(23, 25, 25, false, 1, RED, COLOR);
 
     getColor(4);
-    moveNoSyncAccParamWallSquare(22, 25, 25, 12, 102, false, RELDEG);
+    moveNoSyncAccParamWallSquare(23, 25, 25, 12, 98, false, RELDEG);
 	resetRelative();
     setSpeed(0, 0);
 
@@ -28,17 +28,17 @@ void end()
         playSound(soundBeepBeep);
         baseColor = GREEN;
     }
-	turn1MotorNoSettle(30, 5, LEFT);
+	turn1MotorNoSettle(30, 7, LEFT);
 
 
     // Grabs the first green/blue block
 	moveArmAbsSimple(100, 230, LIFT);
     moveArmAbsSimple(100, clawDegreeOpen, CLAW);
 
-    moveArmAbsSimple(100, 190, LIFT);
+    moveArmAbs(50, 12, 12, 175, 0.3, 0.3, LIFT);
     setArmSpeed(CLAW, -100);
     sleep(400);
-    moveSimple(-15, -15, 5, RELDEG);
+    moveSimple(15, 15, 5, RELDEG);
     startTask(liftArmForFarGreenBlue);
     sleep(400);
 
@@ -55,8 +55,8 @@ void end()
         moveSimpleWallSquare(-30, -30, 1300, TIME);
         resetRelative();
         setSpeed(0, 0);
-        moveNoSyncMinspeedParam(20, 20, 65, 0.2, 0.2, true, RELDEG);
-        turn1MotorAcc(40, 95, 0.2, 0.2, RIGHT);
+        moveNoSyncParam(20, 20, 12, 12, 70, 0.2, 0.2, true, RELDEG);
+        turn1MotorAccMinspeed(40, 12, 12, 95, 0.2, 0.2, true, RIGHT);
         moveSenseOneSensorSimple(20, 20, 12, false, 1, RED, COLOR);
         moveNoSyncAccParam(20, 20, 20, 12, 113, true, RELDEG);
 
@@ -72,10 +72,10 @@ void end()
         moveArmAbsSimple(100, 230, LIFT);
         moveArmAbsSimple(100, clawDegreeOpen, CLAW);
 
-        moveArmAbsSimple(100, 192, LIFT);
+        moveArmAbs(50, 12, 12, 175, 0.3, 0.3, LIFT);
         setArmSpeed(CLAW, -100);
         sleep(400);
-        moveSimple(-15, -15, 5, RELDEG);
+        moveSimple(15, 15, 5, RELDEG);
         startTask(liftArmForFarGreenBlue);
         sleep(400);
 
@@ -149,7 +149,6 @@ void end()
     turn1MotorNoSettle(100, 48, LEFT);
 	turn1MotorNoSettle(100, -61, RIGHT);
 
-    // This block of code needs updating
     moveNoSyncParam(100, 100, 20, 50, 120, 0.4, 0.4, false, RELDEG);
     turn1MotorAccMinspeed(100, 50, 50, 116, 0.4, 0.4, false, RIGHT);
     moveNoSyncParam(100, 100, 50, 50, 200, 0.4, 0.4, false, RELDEG);
@@ -341,7 +340,7 @@ void closeCode()
     moveArmAbsSimple(40, 160, LIFT);
     moveSimpleNoSettle(-80, -100, 295, RELDEG);
     turn1MotorNoSettle(100, 124, RIGHT);
-    moveSimpleWallSquare(-60, -60, 900, TIME);
+    moveSimpleWallSquare(-40, -40, 1200, TIME);
     setSpeed(0, 0);
     resetRelative();
 
@@ -351,8 +350,8 @@ void closeCode()
     defaultkP = 0;
     moveNoSyncParam(-100, -100, 50, 100, 70, 0.4, 0.4, false, RELDEG);
     startTask(liftArmBeforeBlocksDelay);
-    turn1MotorAccMinspeed(100, 100, 100, -164, 0.4, 0.4, false, RIGHT);
-    moveNoSyncParamWallSquare(-100, -100, 100, 100, 750, 0.4, 0.4, false, TIME);
+    turn1MotorAccMinspeed(100, 100, 50, -164, 0.4, 0.4, false, RIGHT);
+    moveNoSyncParamWallSquare(-50, -50, 50, 50, 900, 0.4, 0.4, false, TIME);
     resetRelative();
     setSpeed(0, 0);
     resetParameters();
@@ -394,11 +393,11 @@ void closeCode()
     startTask(liftArmBeforeBlocks);
 
     // Puts the yellow stack away
-    moveNoSyncAccParamWallSquare(-70, -100, 20, 20, 490, true, RELDEG);
+    moveNoSyncAccParamWallSquare(-70, -100, 20, 20, 485, true, RELDEG);
     resetRelative();
     setSpeed(0, 0);
 
-    turn1Motor(100, 100, RIGHT);
+    turn1Motor(100, 110, RIGHT);
     moveNoSyncAccParamWallSquare(-70, -70, 30, 70, 800, false, TIME);
     resetRelative();
     setSpeed(0, 0);
@@ -445,7 +444,7 @@ void closeCode()
 
     // Goes to the last green/blue blocks
     turn1MotorNoSettle(100, 90, RIGHT);
-    moveSimpleWallSquare(-100, -100, 700, TIME);
+    moveSimpleWallSquare(-50, -50, 900, TIME);
     resetRelative();
     setSpeed(0, 0);
     moveNoSyncMinspeedParam(100, 100, 1540, 2, 2, false, RELDEG);
