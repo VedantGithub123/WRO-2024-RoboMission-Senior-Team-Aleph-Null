@@ -26,7 +26,7 @@ task main()
 	// Runs all the zones here
 
 	//while (1){
-	//	 displayCenteredBigTextLine(5, "G:%d, B:%d, %d", getGreen(4), getBlue(4), (getGreen(4)>=getBlue(4) || getBlue(4)<getGreen(4)+2));
+	//	 displayCenteredBigTextLine(5, "G:%d, B:%d", getGreen(4), getBlue(4));
  //       //displayCenteredBigTextLine(5, "2:%d, 3:%d", getReflection(2), getReflection(3));
 	//}
 
