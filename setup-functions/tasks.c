@@ -75,3 +75,8 @@ task blocksLow()
 {
     moveArmAbsSimple(100, 105, LIFT);
 }
+
+task liftHigh()
+{
+    moveArmAbs(100, 100, 30, 400, 0.4, 0.4, LIFT);
+}
