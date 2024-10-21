@@ -29,6 +29,12 @@ task liftArmForFarGreenBlue()
     moveArmAbsSimple(100, armDegreeToPick+15, LIFT);
 }
 
+task liftArmForFarGreenBlueDelayed()
+{
+    sleep(500);
+    moveArmAbsSimple(100, armDegreeToPick+15, LIFT);
+}
+
 task liftArmForFarGreenBlue2()
 {
     moveArmAbsSimple(100, armDegreeToPick+0, LIFT);
