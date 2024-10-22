@@ -79,7 +79,7 @@ void end()
 
         // Collects the final green/blue block
         
-        moveNoSyncAccParam(-12, -12, 8, 8, 10, true, RELDEG);
+        moveNoSyncAccParam(-12, -12, 8, 8, 8, true, RELDEG);
         moveArmAbsSimple(100, 222, LIFT);
         moveArmAbsSimple(100, clawDegreeOpen, CLAW);
 
