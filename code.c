@@ -64,12 +64,12 @@ void end()
         setSpeed(0, 0);
         sleep(200);
         resetRelative();
-        moveNoSyncParam(15, 15, 6, 6, 65.3, 0.2, 0.2, true, RELDEG);
+        moveNoSyncParam(15, 15, 6, 6, 68, 0.4, 0.4, true, RELDEG);
         resetRelative();
-        turn1MotorAccMinspeed(20, 6, 6, 91, 0.2, 0.2, true, RIGHT);
-        resetRelative()
+        turn1MotorAccMinspeed(20, 6, 6, 92, 0.4, 0.4, true, RIGHT);
+        resetRelative();
         moveSenseOneSensorSimple(20, 20, 8, false, 1, RED, COLOR);
-        moveNoSyncAccParam(20, 20, 20, 8, 123, true, RELDEG);
+        moveNoSyncAccParam(20, 20, 20, 8, 114, true, RELDEG);
 
         // Senses the last block
         baseColor = BLUE;
@@ -82,7 +82,7 @@ void end()
 
         // Collects the final green/blue block
 
-        moveNoSyncAccParam(-12, -12, 8, 8, 9, true, RELDEG);
+        // moveNoSyncAccParam(-12, -12, 8, 8, 9, true, RELDEG);
         moveArmAbsSimple(100, 222, LIFT);
         moveArmAbsSimple(100, clawDegreeOpen, CLAW);
 
@@ -205,7 +205,7 @@ void end()
     // setArmSpeed(LIFT, 100);
     startTask(liftHigh);
     moveNoSyncMinspeedParam(60, 60, 860, 0.2, 0.2, true, RELDEG);
-	turn1MotorAcc(40, -94, 0.25, 0.2, RIGHT);
+	turn1MotorAcc(40, -95, 0.25, 0.3, RIGHT);
 	moveNoSyncAccParamWallSquare(-100, -100, 20, 30, 250, false, RELDEG);
     moveSenseOneSensor(-30, -30, 30, 0.3, 0, 0, true, 1, WHITE, COLOR);
     stopTask(liftHigh);
@@ -535,7 +535,7 @@ void farCode()
     // Goes to close red blocks
     moveSimpleNoSettle(-60, -100, 300, RELDEG);
 
-    turn1MotorAccMinspeed(100, 50, 100, 64, 0.4, 0.4, false, RIGHT);
+    turn1MotorAccMinspeed(100, 50, 100, 63, 0.4, 0.4, false, RIGHT);
 
     moveNoSyncParam(100, 100, 100, 100, 1750, 0.25, 0.25, false, RELDEG);
 
@@ -630,7 +630,7 @@ void farCode()
 
     // Goes to the far yellow blocks
     turn1MotorAccMinspeed(100, 50, 50, 94, 0.4, 0.4, false, RIGHT);
-    turn2MotorAccMinspeed(30, 30, 30, -161, 0.4, 0.4, true);
+    turn2MotorAccMinspeed(30, 30, 30, -162, 0.4, 0.4, true);
 
     moveNoSyncAccParam(-100, -100, 50, 50, 1570, false, RELDEG);
     getReflection(3);

@@ -74,3 +74,19 @@ float absoluteLeft = 0;							// Defines the baseline for absolute movement left
 float absoluteRight = 0;						// Defines the baseline for absolute movement right motor
 float relativeBaseClaw = 0;                     // Defines the baseline for relative movement port a
 float relativeBaseLift = 0;                     // Defines the baseline for relative movement port d
+
+
+// Variables to use in 2nd day/surprise arm degrees:
+
+const float armBottom = 130;
+const float armAbove1Block = 180;
+const float armAbove2Block = 230;
+const float armAbove3Block = 280;
+const float armAbove4Block = 350;
+const float armMaxHeight = 400;
+
+const float claw180 = -121;
+const float claw135 = -163;
+const float claw90 = -204;
+const float claw45 = -246;
+const float claw0 = -287;
