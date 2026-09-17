@@ -210,14 +210,24 @@ This function models a speed motion profile depending on the motor position, tim
 ##### Double-Quadratic Acceleration/Deceleration
 In hindsight, I don't know why we did this. Turns out it worked fine (mostly) but it was too annoying to work with if we wanted to continue adding features. The acceleration component of this involved two quadratics, where one was flipped upside-down and stiched together to make an s-shape. The same is done for the deceleration. If the motor starts behind the starting position, then it the speed should be the minimum speed. If it is an an acceleration/deceleration region, it should follow those curves. If it is a cruising region, it should move at the maximum speed. If it crosses the target position, it should move backwards at the minimum speed. If it is within a threshold of the target, the speed is set to zero. The speed-position graph look like so:
 
+<img width="1000" alt="image" src="https://github.com/user-attachments/assets/0cb927b4-5c6d-4521-a102-17800b755fc9" />
+
 ##### Time-based Acceleration
 Having a speed calculated from distance has its own issues. For example, if one motor starts moving first, its speed will be higher which keeps compounding. Additionally, we don't know what the velocity-time graph looks like, making it hard to see if it actually limits acceleration. To solve this, we know we want the acceleration to be constant, so `speed = acceleration*position + minimum speed`. The minimum speed is not completely necessary, but we decided to include it to make sure no motor starts at a later time. Note that using this acceleration means our new speed-position graph looks like the following (Note that the accleration appears to have a square root relationship, this is because the linear relationship is with the speed and time, not position. Integrating, substituting, and isolating for position gives a square root relationship):
+
+<img width="1000" alt="image" src="https://github.com/user-attachments/assets/96c22b8a-62eb-4278-aa03-885ac498539e" />
 
 ##### Linear Deceleration
 We felt that the older deceleration was too annoying, so we made it simpler by keeping the speed proportional to the remaining distance. There wasn't any noticeable change in performance. The new position-distance graph is shown below:
 
+<img width="1000" alt="image" src="https://github.com/user-attachments/assets/4819925c-6565-401f-895f-0f13ca7ddd93" />
+
+
 ##### Settling and Not Settling Parameters
 Sometimes, we want movements to chain together with the next ones to make the run smoother. However, the reversing during an overshoot can't do that. That is why we added another parameter to determine whether or not the robot should move forwards or backwards at the minimum speed after the target. It also determines whether the motors will be set to 0 power. The position-distance graph without settling is shown below:
+
+<img width="1000" alt="image" src="https://github.com/user-attachments/assets/c5890464-0d65-49a0-930b-eedcd0b3e69f" />
+
 
 ##### Variable Starting and Ending Speeds
 This is arguably the biggest iteration for this function as it required a whole redesign. Its not very efficient to slow down to the minimum speed when chaining movements together, we want it to be fast. But the starting and ending speed should be able to differ. What is we want to come in with a slow speed, cruise at a medium speed, and then speed up before chaining into the next movement. Or vice versa, where we start fast and end slow. If we are accelerating without time, we need to consider many different edge cases. However, since we will never do that, I will not write it here (Basically, find the intersection points between three lines: starting line, cruising line, deceleration line. Based on what order these intersection points appear, you have different edge cases). Lets consider the relevant cases:
